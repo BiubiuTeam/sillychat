@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  sillyChat
+
+  Created by haowenliang on 15/3/20.
+  Copyright (c) 2015年 dpsoft. All rights reserved.
+*/
+
+//应用程序名称
+"CFBundleDisplayName" = "无聊";
+"CFBundleName" = "无聊";
+
+//地理位置请求信息

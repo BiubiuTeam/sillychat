@@ -1,0 +1,43 @@
+//
+//  sillyChat-Prefix.pch
+//  sillyChat
+//
+//  Created by haowenliang on 15/3/15.
+//  Copyright (c) 2015年 dpsoft. All rights reserved.
+//
+
+#ifndef sillyChat_sillyChat_Prefix_pch
+#define sillyChat_sillyChat_Prefix_pch
+
+#import "EaseMob.h"
+#import "BiuDevice.h"
+#import "SillyChatUIDefine.h"
+#include "UIScreenEx.h"
+#import "UIViewAdditions.h"
+#import "UIColorAdditions.h"
+#import "UIImageAdditions.h"
+#import "UIViewControllerAdditions.h"
+#import "NSStringAdditions.h"
+#import "DPFont.h"
+
+#if 0
+#define DPTrace(...)
+#else
+#define DPTrace(fmt, ...) NSLog((@"DPTrace :%s : %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#endif
+
+#if ! __has_feature(objc_arc)
+#define _RELEASE( x ) if( nil != (x)){ [(x) release] ;  (x) = nil ; }
+#else
+#define _RELEASE( x ) if( nil != (x)){ (x) = nil ; }
+#endif
+
+#define SC_DEPRECATED_IOS(_sillyIntro, _sillyDep, ...) __attribute__((deprecated("")))
+
+
+
+
+//千万别改这个值哦
+#define GroupSubjectSeperator (@"*+_+*")
+
+#endif
