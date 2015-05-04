@@ -9,6 +9,7 @@
 #import "PostViewController.h"
 #import "UIViewController+HUD.h"
 
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "EMRoundButton.h"
 #import "EMRoundButton+DragEffect.h"
 #import "PostTextView.h"
@@ -17,13 +18,16 @@
 
 #import "CameraSessionView.h"
 
-@interface PostViewController ()<UITextViewDelegate,CACameraSessionDelegate>
+@interface PostViewController ()<UITextViewDelegate,CACameraSessionDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     BOOL switchOperating;
     CGFloat _textViewWidth;
     UIColor* _textViewTintColor;
 }
 
+@property (strong, nonatomic) UIImage* selectedImage; //**从图库选择的图片
+
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) CameraSessionView *cameraView;
 
 @property (nonatomic, strong) EMRoundButton* roundButton;
@@ -47,6 +51,8 @@
         [_cameraView closeCameraWithAnimate:NO];
     }
     self.cameraView = nil;
+    self.imagePicker = nil;
+    self.selectedImage = nil;
     
     self.switchButton = nil;
     self.textView = nil;
@@ -75,7 +81,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.containerView];
-    
+    self.selectedImage = nil;
     // Do any additional setup after loading the view.
     [_containerView addSubview:self.roundButton];
     [_containerView addSubview:self.countLabel];
@@ -94,7 +100,7 @@
     
     [_containerView sendSubviewToBack:_captureView];
     
-//    [self asyncLoadCameraView];
+    [self asyncLoadCameraView];
 }
 
 - (UIView *)containerView
@@ -104,6 +110,17 @@
         _containerView.backgroundColor = APPLICATIONCOLOR;
     }
     return _containerView;
+}
+
+- (UIImagePickerController *)imagePicker
+{
+    if (_imagePicker == nil) {
+        _imagePicker = [[UIImagePickerController alloc] init];
+        _imagePicker.delegate = self;
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    }
+    return _imagePicker;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -138,6 +155,8 @@
     if (nil == _captureView) {
         CGFloat top = STATUSBAR_HEIGHT;// self.switchButton.bottom + 9;
         _captureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, top, SCREEN_WIDTH, SCREEN_HEIGHT - top)];
+        _captureView.contentMode = UIViewContentModeScaleAspectFill;
+        _captureView.layer.masksToBounds = YES;
         _captureView.backgroundColor = [UIColor clearColor];
     }
     return _captureView;
@@ -277,38 +296,33 @@
     switchOperating = YES;
     [_switchButton switchState];
     if (_switchButton.onState) {
-        [self launchCamera];
-    }else{
         [self removeCamera];
+        if (_selectedImage == nil) {
+            [self presentViewController:self.imagePicker animated:YES completion:NULL];
+        }
+    }else{
+        [self launchCamera];
     }
+}
+
+- (UIImage *)imageFromView:(UIView *)view
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0.0);
+    // [view.layer renderInContext:UIGraphicsGetCurrentContext()]; // <- same result...
+    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return img;
 }
 
 - (void)sendOutThisPost
 {
-    if (![_textView.text length] && _switchButton.onState == NO) {
-        return;
-    }
-    
 //    [self showHudInTopWindowWithHint:@"发送中..."];
-    
-    if (_switchButton.onState && _cameraView) {
+    if (!_switchButton.onState && _cameraView) {
         [_cameraView takeAPicture];
-    }else{
-        NSString* textContent = _textView.text;
-        if ([textContent length]) {
-            if (_delegate && [_delegate respondsToSelector:@selector(postOptWithContent:contentType:postType:completion:)]) {
-                __weak PostViewController* weakSelf = self;
-                [_delegate postOptWithContent:textContent contentType:PostContentType_Text postType:_viewType completion:^(BOOL succeed, NSError *error) {
-                    [weakSelf hideHud];
-                    if (succeed) {
-                        [weakSelf dismissPostView];
-                    }else{
-                        [weakSelf showHudInTopWindowWithHint:@"发送失败"];
-                        [weakSelf performSelector:@selector(hideHud) withObject:nil afterDelay:0.3];
-                    }
-                }];
-            }
-        }
+    }else if(_selectedImage){
+        [self didCaptureImage:_selectedImage];
     }
 }
 
@@ -374,7 +388,7 @@
     [animationDurationValue getValue:&animationDuration];
     
     [UIView animateWithDuration:animationDuration animations:^{
-
+        [self updateBottomControlPositionWithKeybordRect:CGRectMake(0, self.view.height, 0, 0)];
     }];
 }
 
@@ -442,7 +456,12 @@
 {
     dispatch_queue_t cameraLoadQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(cameraLoadQueue, ^{
+        switchOperating = YES;
         [self cameraView];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self launchCamera];
+            switchOperating = NO;
+        });
     });
 }
 
@@ -525,6 +544,27 @@
     switchOperating = NO;
 }
 
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        UIImage *orgImage = info[UIImagePickerControllerOriginalImage];
+        self.captureView.image = orgImage;
+        self.selectedImage = orgImage;
+    }
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+    if (_selectedImage == nil) {
+        [self switchCameraState];
+    }
+}
+
 @end
 
 
@@ -556,14 +596,14 @@
         
         _leftLabel = [[UILabel alloc] init];
         _leftLabel.backgroundColor = [UIColor clearColor];
-        _leftLabel.text = @"文字";
+        _leftLabel.text = @"照像";
         _leftLabel.textColor = _normalColor;
         _leftLabel.textAlignment = NSTextAlignmentCenter;
         _leftLabel.font = [DPFont systemFontOfSize:14];
         
         _rightLabel = [[UILabel alloc] init];
         _rightLabel.backgroundColor = [UIColor clearColor];
-        _rightLabel.text = @"照片";
+        _rightLabel.text = @"相库";
         _rightLabel.textColor = _normalColor;
         _rightLabel.textAlignment = NSTextAlignmentCenter;
         _rightLabel.font = [DPFont systemFontOfSize:14];

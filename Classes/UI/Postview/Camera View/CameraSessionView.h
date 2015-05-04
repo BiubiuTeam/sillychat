@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
 
 ///Protocol Definition
 @protocol CACameraSessionDelegate <NSObject>
@@ -20,8 +21,12 @@
 //Delegate Property
 @property (nonatomic, weak) id <CACameraSessionDelegate> delegate;
 
+-(instancetype)initWithFrame:(CGRect)frame withType:(CameraType)type;
+
 - (void)takeAPicture;
 - (void)stopLiveSession;
+- (void)stopRunning;
 - (void)closeCameraWithAnimate:(BOOL)animation;
+- (void)toggleCamera;
 
 @end

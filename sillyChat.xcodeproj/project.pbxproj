@@ -73,7 +73,6 @@
 		5530E85C1AE0E07600044718 /* DXRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530E85B1AE0E07600044718 /* DXRecordView.m */; };
 		5530EF861AB7D68000C08F5F /* EMDragButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF851AB7D68000C08F5F /* EMDragButton.m */; };
 		5530EF891AB8070000C08F5F /* EMRoundButton+DragEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF881AB8070000C08F5F /* EMRoundButton+DragEffect.m */; };
-		5530EF8C1AB8138900C08F5F /* ChatInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF8B1AB8138900C08F5F /* ChatInputViewController.m */; };
 		5530EF921AB8327300C08F5F /* SillyEmojView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF911AB8327300C08F5F /* SillyEmojView.m */; };
 		5530EFBA1AB8545C00C08F5F /* SillyEmojiList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5530EFA11AB8545C00C08F5F /* SillyEmojiList.plist */; };
 		5530EFBB1AB8545C00C08F5F /* 吐舌头@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5530EFA21AB8545C00C08F5F /* 吐舌头@2x.png */; };
@@ -410,8 +409,6 @@
 		5530EF851AB7D68000C08F5F /* EMDragButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMDragButton.m; sourceTree = "<group>"; };
 		5530EF871AB8070000C08F5F /* EMRoundButton+DragEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMRoundButton+DragEffect.h"; sourceTree = "<group>"; };
 		5530EF881AB8070000C08F5F /* EMRoundButton+DragEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMRoundButton+DragEffect.m"; sourceTree = "<group>"; };
-		5530EF8A1AB8138900C08F5F /* ChatInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatInputViewController.h; sourceTree = "<group>"; };
-		5530EF8B1AB8138900C08F5F /* ChatInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatInputViewController.m; sourceTree = "<group>"; };
 		5530EF901AB8327300C08F5F /* SillyEmojView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SillyEmojView.h; sourceTree = "<group>"; };
 		5530EF911AB8327300C08F5F /* SillyEmojView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SillyEmojView.m; sourceTree = "<group>"; };
 		5530EFA11AB8545C00C08F5F /* SillyEmojiList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SillyEmojiList.plist; sourceTree = "<group>"; };
@@ -2251,8 +2248,6 @@
 				55E563001AB57FA300AF0D13 /* PostViewController.m */,
 				55E563021AB5939A00AF0D13 /* PostTextView.h */,
 				55E563031AB5939A00AF0D13 /* PostTextView.m */,
-				5530EF8A1AB8138900C08F5F /* ChatInputViewController.h */,
-				5530EF8B1AB8138900C08F5F /* ChatInputViewController.m */,
 			);
 			path = Postview;
 			sourceTree = "<group>";
@@ -2734,7 +2729,6 @@
 				552FF19C1ABABE6500643CD9 /* JSONHTTPClient.m in Sources */,
 				55E562ED1AB53AD100AF0D13 /* UIViewControllerAdditions.m in Sources */,
 				552FF16A1ABAB91200643CD9 /* SillyRelationshipModel.m in Sources */,
-				5530EF8C1AB8138900C08F5F /* ChatInputViewController.m in Sources */,
 				5534657D1AB468CC0015BF37 /* EMChatVideoBubbleView.m in Sources */,
 				552E4B561ACA6D3A00766CDD /* NSString+Emoji.m in Sources */,
 				5534642C1AB4072D0015BF37 /* BaseViewController.m in Sources */,

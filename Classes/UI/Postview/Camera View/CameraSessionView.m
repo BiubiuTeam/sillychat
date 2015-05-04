@@ -8,7 +8,6 @@
 #import "CameraSessionView.h"
 #import "CaptureSessionManager.h"
 #import <ImageIO/ImageIO.h>
-#import "Constants.h"
 
 @interface CameraSessionView () <CaptureSessionManagerDelegate>
 {
@@ -26,30 +25,45 @@
 
 @implementation CameraSessionView
 
--(instancetype)initWithFrame:(CGRect)frame {
+-(instancetype)initWithFrame:(CGRect)frame withType:(CameraType)type
+{
     self = [super initWithFrame:frame];
     if (self) {
         _animationInProgress = NO;
-        [self setupCaptureManager:RearFacingCamera];
+        [self setupCaptureWithType:type];
+        
         [self setupFocusGesture];
-        cameraBeingUsed = RearFacingCamera;
-
-        [[_captureManager captureSession] startRunning];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+-(instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _animationInProgress = NO;
+        [self setupCaptureWithType:RearFacingCamera];
+        [self setupFocusGesture];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
     if (self) {
         _animationInProgress = NO;
-        [self setupCaptureManager:RearFacingCamera];
+        [self setupCaptureWithType:RearFacingCamera];
         [self setupFocusGesture];
-        cameraBeingUsed = RearFacingCamera;
-
-        [[_captureManager captureSession] startRunning];
     }
     return self;
+}
+
+- (void)setupCaptureWithType:(CameraType)cameraType
+{
+    [self setupCaptureManager:cameraType];
+    cameraBeingUsed = cameraType;
+    [[_captureManager captureSession] startRunning];
 }
 
 #pragma mark - Setup
@@ -128,6 +142,25 @@
 - (void)stopLiveSession
 {
     [_captureManager stop];
+}
+
+- (void)stopRunning
+{
+    if ([_captureManager.captureSession isRunning]) {
+        [[_captureManager captureSession] stopRunning];
+    }
+}
+
+- (void)toggleCamera
+{
+    //这里是否需要增加动画
+    [self stopLiveSession];
+    
+    if (cameraBeingUsed == RearFacingCamera) {
+        [self setupCaptureWithType:FrontFacingCamera];
+    }else if (cameraBeingUsed == FrontFacingCamera){
+        [self setupCaptureWithType:RearFacingCamera];
+    }
 }
 
 #pragma mark - Camera Session Manager Delegate Methods
