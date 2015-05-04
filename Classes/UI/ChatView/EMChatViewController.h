@@ -29,6 +29,9 @@
     NSUInteger _curMessagesCount;
     
     BroadcastContentView* _contentView;
+    
+    NSIndexPath *_longPressIndexPath;
+    NSIndexPath *_showLargeIndexPath;//大图打开位置
 }
 - (instancetype)initWithChatter:(NSString *)chatter;
 

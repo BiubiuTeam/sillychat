@@ -9,14 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface PlazaPhotoBrowser : NSObject
-/**
- *	@brief	浏览图像
- *
- *	@param 	oldImageView 	图像所在的imageView
- */
-+ (void)showImage:(UIImageView*)avatarImageView;
-+ (void)hideImage:(BOOL)animation;
-+ (void)showImage:(UIImageView *)ImageView relativeFrame:(CGRect)frame;
 
-+ (void)browserImage:(UIImage*)avatar fromFrame:(CGRect)frame;
++ (instancetype)shareInstance;
+- (void)showImage:(UIImage *)image;
+- (void)showImage:(UIImage*)image fromFrame:(CGRect)frame;
+- (void)hideBrowserWithAnimate:(BOOL)animation;
+
 @end

@@ -107,12 +107,12 @@
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:{
             CGRect frame = [_imageView convertRect:_imageView.bounds toView:[UIApplication sharedApplication].keyWindow];
-            [PlazaPhotoBrowser showImage:_imageView relativeFrame:frame];
+            [[PlazaPhotoBrowser shareInstance] showImage:_imageView.image fromFrame:frame];
         }break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
         {
-            [PlazaPhotoBrowser hideImage:YES];
+            [[PlazaPhotoBrowser shareInstance] hideBrowserWithAnimate:YES];
         }break;
         default:
             break;

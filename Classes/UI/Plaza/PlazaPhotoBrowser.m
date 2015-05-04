@@ -8,76 +8,115 @@
 
 #import "PlazaPhotoBrowser.h"
 
-static CGRect oldframe;
+#define IMAGE_OFR _size_S(80)
 
-static NSUInteger BackgroundViewTag = 0x9801;
+@interface PlazaPhotoBrowser ()
+
+@property (nonatomic, strong) UIView* backgroundView;
+@property (nonatomic, strong) UIImageView* imageView;
+@property (nonatomic, assign) CGRect originFrame;
+
+@end
 
 @implementation PlazaPhotoBrowser
-+ (void)showImage:(UIImageView *)avatarImageView relativeFrame:(CGRect)frame
+
+- (instancetype)init
 {
-    oldframe = frame;
-    [self browserImageView:avatarImageView];
+    if (self = [super init]) {
+        _originFrame = CGRectMake((SCREEN_WIDTH - IMAGE_OFR)/2, (SCREEN_HEIGHT - IMAGE_OFR)/2, IMAGE_OFR, IMAGE_OFR);
+    }
+    return self;
 }
 
-+ (void)showImage:(UIImageView *)avatarImageView
+- (void)hideBrowserWithAnimate:(BOOL)animation
 {
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    oldframe = [avatarImageView convertRect:avatarImageView.bounds toView:window];
-    [self browserImageView:avatarImageView];
-}
-
-+ (void)hideImage:(BOOL)animation
-{
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    UIImageView *imageView = (UIImageView*)[window viewWithTag:BackgroundViewTag];
     if (animation == NO) {
-        [imageView removeFromSuperview];
+        [_imageView removeFromSuperview];
+        [_backgroundView removeFromSuperview];
+        self.imageView = nil;
+        self.backgroundView = nil;
     }else{
         [UIView animateWithDuration:0.3 animations:^{
-            imageView.frame = oldframe;
+            _imageView.frame = _originFrame;
+            _backgroundView.alpha = .1;
         } completion:^(BOOL finished) {
             if (finished) {
-                [imageView removeFromSuperview];
+                [_imageView removeFromSuperview];
+                [_backgroundView removeFromSuperview];
+                
+                self.imageView = nil;
+                self.backgroundView = nil;
             }
         }];
     }
+    _originFrame = CGRectMake((SCREEN_WIDTH - IMAGE_OFR)/2, (SCREEN_HEIGHT - IMAGE_OFR)/2, IMAGE_OFR, IMAGE_OFR);
 }
 
-#pragma mark - private
-+ (void)browserImageView:(UIImageView*)avatarImageView
+- (void)dealloc
 {
-    UIImage *image = avatarImageView.image;
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    DPTrace("图片大图浏览器销毁");
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:oldframe];
-    imageView.image = image;
-    imageView.tag = BackgroundViewTag;
-    
-    [window addSubview:imageView];
+    [_backgroundView removeFromSuperview];
+    [_imageView removeFromSuperview];
+    self.imageView = nil;
+}
 
+- (void)showImage:(UIImage *)image
+{
+    self.imageView.frame = _originFrame;
+    _imageView.image = image;
+    
+    self.backgroundView.alpha = 0.3;
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:_backgroundView];
+    
+    if (_imageView.superview != _backgroundView) {
+        [_imageView removeFromSuperview];
+        [_backgroundView addSubview:_imageView];
+    }
+    
     [UIView animateWithDuration:0.3 animations:^{
-        imageView.frame = CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+        _backgroundView.alpha = 1;
+        _imageView.frame = CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
     } completion:^(BOOL finished) {
-        
+        if(finished){
+            DPTrace("图片大小：%@",NSStringFromCGRect(_imageView.frame));
+        }
     }];
 }
 
-+ (void)browserImage:(UIImage*)avatar fromFrame:(CGRect)frame
+- (void)showImage:(UIImage*)image fromFrame:(CGRect)frame
 {
-    oldframe = frame;
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:oldframe];
-    imageView.image = avatar;
-    imageView.tag = BackgroundViewTag;
-    
-    [window addSubview:imageView];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        imageView.frame = CGRectMake(0,([UIScreen mainScreen].bounds.size.height-avatar.size.height*[UIScreen mainScreen].bounds.size.width/avatar.size.width)/2, [UIScreen mainScreen].bounds.size.width, avatar.size.height*[UIScreen mainScreen].bounds.size.width/avatar.size.width);
-    } completion:^(BOOL finished) {
-        
-    }];
+    self.originFrame = frame;
+    [self showImage:image];
+}
+
+- (UIImageView *)imageView
+{
+    if (nil == _imageView) {
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _imageView.backgroundColor = [UIColor clearColor];
+    }
+    return _imageView;
+}
+
+- (UIView *)backgroundView
+{
+    if (nil == _backgroundView) {
+        _backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    }
+    return _backgroundView;
+}
+
++ (instancetype)shareInstance
+{
+    static PlazaPhotoBrowser* s_instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_instance = [[PlazaPhotoBrowser alloc] init];
+    });
+    return s_instance;
 }
 
 @end

@@ -70,12 +70,12 @@
         case UIGestureRecognizerStateBegan:{
             [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"LongPress"}];
             CGRect frame = [_kenbunrsView convertRect:_kenbunrsView.bounds toView:[UIApplication sharedApplication].keyWindow];
-            [PlazaPhotoBrowser showImage:_kenbunrsView.imageView relativeFrame:frame];
+            [[PlazaPhotoBrowser shareInstance] showImage:_kenbunrsView.image fromFrame:frame];
         }break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:
         {
-            [PlazaPhotoBrowser hideImage:YES];
+            [[PlazaPhotoBrowser shareInstance] hideBrowserWithAnimate:YES];
         }break;
         default:
             break;

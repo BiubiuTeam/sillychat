@@ -11,6 +11,7 @@
 #import "MessageModel.h"
 #import "EMChatViewCell.h"
 #import "UIViewController+HUD.h"
+#import "PlazaPhotoBrowser.h"
 
 @implementation EMChatViewController (Responder)
 #pragma mark - UIResponder actions
@@ -201,20 +202,33 @@
 // 图片的bubble被点击
 -(void)chatImageDownload:(MessageModel *)model progress:(id<IEMChatProgressDelegate>)progress
 {
-    __weak EMChatViewController *weakSelf = self;
     id <IChatManager> chatManager = [[EaseMob sharedInstance] chatManager];
     if ([model.messageBody messageBodyType] == eMessageBodyType_Image) {
         [chatManager asyncFetchMessage:model.message progress:progress completion:^(EMMessage *aMessage, EMError *error) {
             DPTrace("加载大图请求回调");
             if (!error) {
-                DPTrace("加载大图完成");
-                NSString *localPath = aMessage == nil ? model.localPath : [[aMessage.messageBodies firstObject] localPath];
-                if (localPath && localPath.length > 0) {
-                    NSURL *url = [NSURL fileURLWithPath:localPath];
-                    weakSelf.isScrollToBottom = NO;
-                    [weakSelf.messageReadManager showBrowserWithImages:@[url]];
-                    return ;
+                if (_showLargeIndexPath == nil) {
+                    return;
                 }
+                id object = [self.dataSource objectAtIndex:_showLargeIndexPath.row];
+                if ([object isKindOfClass:[MessageModel class]]) {
+                    EMChatViewCell *cell = (EMChatViewCell *)[self.tableView cellForRowAtIndexPath:_showLargeIndexPath];
+                    NSString *reqMsgId = aMessage == nil ? model.message.messageId : [aMessage messageId];
+                    if([cell.messageModel.message.messageId isEqualToString:reqMsgId])
+                    {
+                        DPTrace("加载大图完成");
+                        NSString *localPath = aMessage == nil ? model.localPath : [[aMessage.messageBodies firstObject] localPath];
+                        if (localPath && localPath.length > 0) {
+                            UIImage *image = [UIImage imageWithContentsOfFile:localPath];
+                            if (image) {
+                                [[PlazaPhotoBrowser shareInstance] showImage:image];
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                }
+                
             }
             DPTrace("请求失败");
         } onQueue:nil];

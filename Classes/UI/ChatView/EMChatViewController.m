@@ -37,11 +37,8 @@
     UIMenuController *_menuController;
     UIMenuItem *_copyMenuItem;
     UIMenuItem *_deleteMenuItem;
-    NSIndexPath *_longPressIndexPath;
     
     CGFloat _footerViewHeight;
-    
-    NSIndexPath *_showLargeIndexPath;//大图打开位置
     
     BOOL _fisrtShowUp;
 }
@@ -253,7 +250,7 @@
         
         _tableView.backgroundColor = APPLICATIONCOLOR;
         UIView* footer = [[UIView alloc] init];
-        _footerViewHeight = SCREEN_HEIGHT - BUBBLE_MARGIN_BOTTOM + EMROUND_RADIUS;
+        _footerViewHeight = _size_S(20);
         footer.height = _footerViewHeight;
         footer.backgroundColor = [UIColor clearColor];
         _tableView.tableFooterView = footer;
@@ -426,15 +423,19 @@
                     
                     //阅后即焚
                     if(cell.messageModel.type == eMessageBodyType_Image){
-                        EMChatImageStillBubbleView* bubble = (EMChatImageStillBubbleView*)cell.bubbleView;
-                        if ([cell.messageModel.localPath length]) {
-                            DPTrace("不需要下载：%@",[cell.messageModel localPath]);
+                        if ([cell.messageModel.localPath length] ) {
                             UIImage *image = [UIImage imageWithContentsOfFile:[cell.messageModel localPath]];
-                            
-                            _showLargeIndexPath = indexPath;
-                            CGRect frame = [bubble.imageView convertRect:bubble.imageView.bounds toView:[UIApplication sharedApplication].keyWindow];
-                            [PlazaPhotoBrowser browserImage:image fromFrame:frame];
+                            if (image) {
+                                DPTrace("不需要下载：%@",[cell.messageModel localPath]);
+                                [[PlazaPhotoBrowser shareInstance] showImage:image];
+                            }else{
+                                _showLargeIndexPath = indexPath;
+                                //需要去下载啊
+                                EMChatImageStillBubbleView* bubble = (EMChatImageStillBubbleView*)cell.bubbleView;
+                                [self chatImageDownload:cell.messageModel progress:bubble];
+                            }
                         }else{
+                            _showLargeIndexPath = indexPath;
                             //需要去下载啊
                             EMChatImageStillBubbleView* bubble = (EMChatImageStillBubbleView*)cell.bubbleView;
                             [self chatImageDownload:cell.messageModel progress:bubble];
@@ -457,21 +458,19 @@
                     
                     //阅后即焚
                     if(cell.messageModel.type == eMessageBodyType_Image){
-                        if (_showLargeIndexPath && _showLargeIndexPath.row == _longPressIndexPath.row) {
-                            [PlazaPhotoBrowser hideImage:NO];
-                            if (_longPressIndexPath && _longPressIndexPath.row > 0) {
-                                MessageModel *model = [self.dataSource objectAtIndex:_longPressIndexPath.row];
-                                NSMutableArray *messages = [NSMutableArray arrayWithObjects:model, nil];
-                                [_conversation removeMessage:model.message];
-                                
-                                NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:_longPressIndexPath, nil];
-                                [self.dataSource removeObjectsInArray:messages];
-                                [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-                            }
+                        [[PlazaPhotoBrowser shareInstance] hideBrowserWithAnimate:NO];
+                        if (_showLargeIndexPath == nil && _longPressIndexPath && _longPressIndexPath.row > 0) {
+                            MessageModel *model = [self.dataSource objectAtIndex:_longPressIndexPath.row];
+                            NSMutableArray *messages = [NSMutableArray arrayWithObjects:model, nil];
+                            [_conversation removeMessage:model.message];
+                            
+                            NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:_longPressIndexPath, nil];
+                            [self.dataSource removeObjectsInArray:messages];
+                            [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
                         }
-                        _showLargeIndexPath = nil;
-                        _longPressIndexPath = nil;
                     }
+                    _showLargeIndexPath = nil;
+                    _longPressIndexPath = nil;
                 }
             }break;
             default:
