@@ -446,6 +446,7 @@
                     [self showMenuViewController:cell.bubbleView andIndexPath:indexPath messageType:cell.messageModel.type];
                 }
             }break;
+            case UIGestureRecognizerStateCancelled:
             case UIGestureRecognizerStateEnded:
             {
                 CGPoint location = [recognizer locationInView:self.tableView];
