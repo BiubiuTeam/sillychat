@@ -146,10 +146,7 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
              [self loginStateChange:YES];
              
              //将旧版的coredata数据导入新的数据库
-             EMError *error = [[EaseMob sharedInstance].chatManager importDataToNewDatabase];
-             if (!error) {
-                 error = [[EaseMob sharedInstance].chatManager loadDataFromDatabase];
-             }
+             [[EaseMob sharedInstance].chatManager loadDataFromDatabase];
          }else {
              _loginProcess = error.errorCode;
              [[NSNotificationCenter defaultCenter] postNotificationName:kEMNotificationLogin object:nil userInfo:nil];

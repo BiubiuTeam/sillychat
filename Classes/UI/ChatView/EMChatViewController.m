@@ -28,7 +28,7 @@
 
 #import "DPSlideInteractor.h"
 #import "UIViewController+HUD.h"
-
+#import "EMChatImageStillBubbleView.h"
 #import "PlazaPhotoBrowser.h"
 #import "RelationShipService.h"
 
@@ -40,6 +40,8 @@
     NSIndexPath *_longPressIndexPath;
     
     CGFloat _footerViewHeight;
+    
+    NSIndexPath *_showLargeIndexPath;//大图打开位置
     
     BOOL _fisrtShowUp;
 }
@@ -66,7 +68,7 @@
     [super viewDidLoad];
     _fisrtShowUp = YES;
     _isScrollToBottom = YES;
-    
+    _showLargeIndexPath = nil;
     [self addNotificationObserver];
     [self addEaseMobDelegate];
     
@@ -375,7 +377,7 @@
             }
             //设置性别
             if (!model.isSender) {
-                cell.gendarIsMale = [_broadcastModel.userConfig integerValue] == 0;
+                cell.gendarIsMale = [_broadcastModel.userConfig integerValue]%2 == 0;
             }
             cell.messageModel = model;
             return cell;
@@ -410,6 +412,8 @@
 - (void)handleLongPress:(UILongPressGestureRecognizer *)recognizer
 {
     if ([self.dataSource count] > 0) {
+        DPTrace("长按状态: %zd",recognizer.state);
+        
         switch (recognizer.state) {
             case UIGestureRecognizerStateBegan:{
                 CGPoint location = [recognizer locationInView:self.tableView];
@@ -422,9 +426,19 @@
                     
                     //阅后即焚
                     if(cell.messageModel.type == eMessageBodyType_Image){
-                        EMChatImageBubbleView* bubble = (EMChatImageBubbleView*)cell.bubbleView;
-                        CGRect frame = [bubble.imageView convertRect:bubble.imageView.bounds toView:[UIApplication sharedApplication].keyWindow];
-                        [PlazaPhotoBrowser showImage:bubble.imageView relativeFrame:frame];
+                        EMChatImageStillBubbleView* bubble = (EMChatImageStillBubbleView*)cell.bubbleView;
+                        if ([cell.messageModel.localPath length]) {
+                            DPTrace("不需要下载：%@",[cell.messageModel localPath]);
+                            UIImage *image = [UIImage imageWithContentsOfFile:[cell.messageModel localPath]];
+                            
+                            _showLargeIndexPath = indexPath;
+                            CGRect frame = [bubble.imageView convertRect:bubble.imageView.bounds toView:[UIApplication sharedApplication].keyWindow];
+                            [PlazaPhotoBrowser browserImage:image fromFrame:frame];
+                        }else{
+                            //需要去下载啊
+                            EMChatImageStillBubbleView* bubble = (EMChatImageStillBubbleView*)cell.bubbleView;
+                            [self chatImageDownload:cell.messageModel progress:bubble];
+                        }
                         return;
                     }
                     
@@ -443,18 +457,19 @@
                     
                     //阅后即焚
                     if(cell.messageModel.type == eMessageBodyType_Image){
-                        [PlazaPhotoBrowser hideImage:NO];
-                        
-                        if (_longPressIndexPath && _longPressIndexPath.row > 0) {
-                            MessageModel *model = [self.dataSource objectAtIndex:_longPressIndexPath.row];
-                            NSMutableArray *messages = [NSMutableArray arrayWithObjects:model, nil];
-                            [_conversation removeMessage:model.message];
-                            
-                            NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:_longPressIndexPath, nil];
-                            [self.dataSource removeObjectsInArray:messages];
-                            [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+                        if (_showLargeIndexPath && _showLargeIndexPath.row == _longPressIndexPath.row) {
+                            [PlazaPhotoBrowser hideImage:NO];
+                            if (_longPressIndexPath && _longPressIndexPath.row > 0) {
+                                MessageModel *model = [self.dataSource objectAtIndex:_longPressIndexPath.row];
+                                NSMutableArray *messages = [NSMutableArray arrayWithObjects:model, nil];
+                                [_conversation removeMessage:model.message];
+                                
+                                NSMutableArray *indexPaths = [NSMutableArray arrayWithObjects:_longPressIndexPath, nil];
+                                [self.dataSource removeObjectsInArray:messages];
+                                [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+                            }
                         }
-                        
+                        _showLargeIndexPath = nil;
                         _longPressIndexPath = nil;
                     }
                 }

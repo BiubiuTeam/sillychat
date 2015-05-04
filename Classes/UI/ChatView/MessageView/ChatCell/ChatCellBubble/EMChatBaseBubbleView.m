@@ -68,6 +68,14 @@ NSString *const kRouterEventChatCellBubbleTapEventName = @"kRouterEventChatCellB
     [_progressView setProgress:progress animated:YES];
 }
 
+- (UIProgressView *)progressView
+{
+    if (nil == _progressView) {
+        _progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
+        [_progressView setProgressViewStyle:UIProgressViewStyleDefault];
+    }
+    return _progressView;
+}
 
 #pragma mark - private
 

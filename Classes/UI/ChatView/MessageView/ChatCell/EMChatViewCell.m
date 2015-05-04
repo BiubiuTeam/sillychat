@@ -13,6 +13,7 @@
 #import "EMChatViewCell.h"
 #import "EMChatVideoBubbleView.h"
 #import "UIResponder+Router.h"
+#import "EMChatImageStillBubbleView.h"
 
 NSString *const kResendButtonTapEventName = @"kResendButtonTapEventName";
 NSString *const kShouldResendCell = @"kShouldResendCell";
@@ -156,7 +157,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             break;
         case eMessageBodyType_Image:
         {
-            return [[EMChatImageBubbleView alloc] init];
+            return [[EMChatImageStillBubbleView alloc] init];
         }
             break;
         case eMessageBodyType_Voice:
@@ -191,7 +192,7 @@ NSString *const kShouldResendCell = @"kShouldResendCell";
             break;
         case eMessageBodyType_Image:
         {
-            return [EMChatImageBubbleView heightForBubbleWithObject:messageModel];
+            return [EMChatImageStillBubbleView heightForBubbleWithObject:messageModel];
         }
             break;
         case eMessageBodyType_Voice:

@@ -62,4 +62,22 @@ static NSUInteger BackgroundViewTag = 0x9801;
     }];
 }
 
++ (void)browserImage:(UIImage*)avatar fromFrame:(CGRect)frame
+{
+    oldframe = frame;
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:oldframe];
+    imageView.image = avatar;
+    imageView.tag = BackgroundViewTag;
+    
+    [window addSubview:imageView];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame = CGRectMake(0,([UIScreen mainScreen].bounds.size.height-avatar.size.height*[UIScreen mainScreen].bounds.size.width/avatar.size.width)/2, [UIScreen mainScreen].bounds.size.width, avatar.size.height*[UIScreen mainScreen].bounds.size.width/avatar.size.width);
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
 @end

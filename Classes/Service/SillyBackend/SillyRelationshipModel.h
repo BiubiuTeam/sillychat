@@ -7,7 +7,7 @@
 //
 
 #import "JSONModel+Encoder.h"
-@class SillyBroacastModel;
+#import "SillyBroacastModel.h"
 
 @protocol SillyRelationshipModel
 @end
@@ -15,25 +15,12 @@
 @interface SillyRelationshipModel : JSONModel
 
 @property (nonatomic, strong) NSNumber* sortId;
-@property (nonatomic, strong) NSNumber* titleId;/*关系链对应的广播id*/
-
-@property (nonatomic, strong) NSString* dvcId;
-@property (nonatomic, strong) NSNumber* userConfig;
-@property (nonatomic, strong) NSString* city;//建立关系城市
-
-@property (nonatomic, strong) NSNumber* latitude;
-@property (nonatomic, strong) NSNumber* longitude;
-
-@property (nonatomic, strong) NSString* titleCont;
-
-@property (nonatomic, strong) NSNumber* titleType;//1文字，2语音，3图片，4表情
-@property (nonatomic, strong) NSNumber* pubTime;
+@property (nonatomic, strong) SillyBroacastModel<Optional,ConvertOnDemand>* broadcastModel;
 
 //本地标志
 @property (nonatomic, strong) NSNumber<Ignore>* localTemp;
-@property (nonatomic, strong) SillyBroacastModel<Ignore>* broadcastModel;
-
 @property (nonatomic, strong) NSNumber<Ignore>* hasUnreadMessage;
+
 + (instancetype)newRelationShipModelWithBroadcast:(SillyBroacastModel*)broadcast;
 @end
 

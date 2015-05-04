@@ -231,7 +231,7 @@ NSString* const RelationShipsDidReload = @"_RelationShipsDidReload_";
         for (SillyRelationshipModel* model in relations) {
             BOOL exsit = NO;
             for (SillyRelationshipModel* tmp in _relationShips) {
-                if ([model.titleId unsignedIntegerValue] == [tmp.titleId unsignedIntegerValue] && [model.dvcId isEqualToString:tmp.dvcId]) {
+                if ([[model.broadcastModel titleId] unsignedIntegerValue] == [[tmp.broadcastModel titleId] unsignedIntegerValue] && [[model.broadcastModel dvcId] isEqualToString:[tmp.broadcastModel dvcId]]) {
                     exsit = YES;
                     break;
                 }
@@ -253,7 +253,7 @@ NSString* const RelationShipsDidReload = @"_RelationShipsDidReload_";
             NSInteger index = 0;
             for (SillyRelationshipModel* tmp in _relationShips)
             {
-                if ([model.titleId unsignedIntegerValue] == [tmp.titleId unsignedIntegerValue] && [model.dvcId isEqualToString:tmp.dvcId])
+                if ([[model.broadcastModel titleId] unsignedIntegerValue] == [[tmp.broadcastModel titleId] unsignedIntegerValue] && [[model.broadcastModel dvcId] isEqualToString:[tmp.broadcastModel dvcId]])
                 {
                     index = [_relationShips indexOfObject:tmp];
                     exsit = YES;

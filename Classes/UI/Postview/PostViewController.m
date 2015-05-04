@@ -117,6 +117,7 @@
     if (_imagePicker == nil) {
         _imagePicker = [[UIImagePickerController alloc] init];
         _imagePicker.delegate = self;
+        _imagePicker.allowsEditing = YES;
         _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     }
@@ -296,9 +297,13 @@
     switchOperating = YES;
     [_switchButton switchState];
     if (_switchButton.onState) {
-        [self removeCamera];
         if (_selectedImage == nil) {
-            [self presentViewController:self.imagePicker animated:YES completion:NULL];
+            __weak PostViewController* weakSelf = self;
+            [self presentViewController:self.imagePicker animated:YES completion:^{
+                [weakSelf removeCamera];
+            }];
+        }else{
+            [self removeCamera];
         }
     }else{
         [self launchCamera];
@@ -408,6 +413,7 @@
 }
 
 #pragma mark -
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {

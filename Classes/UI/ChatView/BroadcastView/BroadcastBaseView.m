@@ -230,6 +230,21 @@
 {
     if(broadcast){
         //用户的状态、地理位置、身份
+        [self updateProcess:[broadcast.pubTime doubleValue]];
+        NSUInteger useConf = [[broadcast userConfig] unsignedIntegerValue];
+        useConf = useConf>>1;
+        BOOL student = useConf%2 == 0;
+        _profileLabel.text = student?@"学生":@"在职";
+        
+        NSString* city = [broadcast city];
+        if ([city length]) {
+            _titleLabel.text = [NSString stringWithFormat:@"对方在%@",city];
+            [_titleLabel sizeToFit];
+            [self centerTopSubviews];
+        }
+        
+//        NSNumber* msgTag = [broadcast msgTag];
+        
     }
 }
 

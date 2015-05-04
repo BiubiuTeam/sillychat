@@ -13,7 +13,6 @@
 #import <UIKit/UIKit.h>
 
 #import "MessageModel.h"
-#import "THProgressView.h"
 #import "UIResponder+Router.h"
 
 extern NSString *const kRouterEventChatCellBubbleTapEventName;
@@ -36,17 +35,17 @@ extern NSString *const kRouterEventChatCellBubbleTapEventName;
 
 @interface EMChatBaseBubbleView : UIView
 {
-    THProgressView *_progressView;
+    UIProgressView *_progressView;
     MessageModel *_model;
 }
 
 @property (nonatomic, strong) MessageModel *model;
 
 @property (nonatomic, strong) UIImageView *backImageView;
-@property (nonatomic, strong) THProgressView *progressView;
+@property (nonatomic, strong) UIProgressView *progressView;
 
 - (void)bubbleViewPressed:(id)sender;
-
+- (void)progress:(CGFloat)progress;
 + (CGFloat)heightForBubbleWithObject:(MessageModel *)object;
 
 @end

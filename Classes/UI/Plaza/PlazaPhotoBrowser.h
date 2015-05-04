@@ -17,4 +17,6 @@
 + (void)showImage:(UIImageView*)avatarImageView;
 + (void)hideImage:(BOOL)animation;
 + (void)showImage:(UIImageView *)ImageView relativeFrame:(CGRect)frame;
+
++ (void)browserImage:(UIImage*)avatar fromFrame:(CGRect)frame;
 @end

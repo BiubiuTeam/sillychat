@@ -198,4 +198,28 @@
     }
 }
 
+// 图片的bubble被点击
+-(void)chatImageDownload:(MessageModel *)model progress:(id<IEMChatProgressDelegate>)progress
+{
+    __weak EMChatViewController *weakSelf = self;
+    id <IChatManager> chatManager = [[EaseMob sharedInstance] chatManager];
+    if ([model.messageBody messageBodyType] == eMessageBodyType_Image) {
+        [chatManager asyncFetchMessage:model.message progress:progress completion:^(EMMessage *aMessage, EMError *error) {
+            DPTrace("加载大图请求回调");
+            if (!error) {
+                DPTrace("加载大图完成");
+                NSString *localPath = aMessage == nil ? model.localPath : [[aMessage.messageBodies firstObject] localPath];
+                if (localPath && localPath.length > 0) {
+                    NSURL *url = [NSURL fileURLWithPath:localPath];
+                    weakSelf.isScrollToBottom = NO;
+                    [weakSelf.messageReadManager showBrowserWithImages:@[url]];
+                    return ;
+                }
+            }
+            DPTrace("请求失败");
+        } onQueue:nil];
+    }
+}
+
+
 @end

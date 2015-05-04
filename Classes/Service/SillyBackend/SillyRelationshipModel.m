@@ -12,28 +12,10 @@
 #import "RelationShipService.h"
 @implementation SillyRelationshipModel
 
-- (NSString *)titleCont
-{
-    return [_titleCont stringByReplacingEmojiCheatCodesWithUnicode];
-}
-
-- (SillyBroacastModel*)broadcastModel
-{
-    if (_broadcastModel == nil) {
-        _broadcastModel = [[SillyBroacastModel alloc] init];
-        _broadcastModel.titleCont = self.titleCont;
-        _broadcastModel.titleType = self.titleType;
-        _broadcastModel.dvcId = self.dvcId;
-        _broadcastModel.pubTime = self.pubTime;
-        _broadcastModel.sortId = self.titleId;
-    }
-    return _broadcastModel;
-}
-
 - (NSNumber<Ignore> *)hasUnreadMessage
 {
-    NSString* from = self.dvcId;
-    NSString* titleid = [NSString stringWithFormat:@"%@",self.titleId];
+    NSString* from = [self.broadcastModel dvcId];
+    NSString* titleid = [NSString stringWithFormat:@"%@",[self.broadcastModel titleId]];
     NSInteger count = [[RelationShipService shareInstance] unreadMessageCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
     if (count > 0) {
         return @YES;
@@ -44,9 +26,18 @@
 + (instancetype)newRelationShipModelWithBroadcast:(SillyBroacastModel*)broadcast
 {
     SillyRelationshipModel* relation = [[SillyRelationshipModel alloc] init];
-    relation.broadcastModel = broadcast;
+    relation.broadcastModel = (SillyBroacastModel<Optional,ConvertOnDemand>*)broadcast;
     return relation;
 }
+
++(JSONKeyMapper*)keyMapper
+{
+    return [[JSONKeyMapper alloc] initWithDictionary:@{
+                                                       @"sortId": @"sortId",
+                                                       @"titleInfo":@"broadcastModel"
+                                                       }];
+}
+
 @end
 
 

@@ -16,6 +16,22 @@
     return [_titleCont stringByReplacingEmojiCheatCodesWithUnicode];
 }
 
+- (NSNumber<Optional> *)titleId
+{
+    if (_titleId == nil) {
+        return _sortId;
+    }
+    return _titleId;
+}
+
+- (NSNumber<Optional> *)sortId
+{
+    if(_sortId == nil){
+        return _titleId;
+    }
+    return _sortId;
+}
+
 @end
 
 

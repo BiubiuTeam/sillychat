@@ -11,5 +11,6 @@
 @interface EMChatViewController (Responder)
 
 -(void)chatImageCellBubblePressed:(MessageModel *)model;
+-(void)chatImageDownload:(MessageModel *)model progress:(id<IEMChatProgressDelegate>)progress;
 
 @end

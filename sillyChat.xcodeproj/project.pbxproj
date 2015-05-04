@@ -232,6 +232,7 @@
 		554CA4051AE8D6C100B94177 /* MetroFooterRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 554CA4041AE8D6C100B94177 /* MetroFooterRefreshView.m */; };
 		557188431ADEC72F00E93272 /* EMChatViewController+Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 557188421ADEC72F00E93272 /* EMChatViewController+Audio.m */; };
 		557E1DA91AD51A62008A1AFB /* DPSlideInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 557E1DA81AD51A62008A1AFB /* DPSlideInteractor.m */; };
+		558BD6AF1AF7798C0073A040 /* EMChatImageStillBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 558BD6AE1AF7798C0073A040 /* EMChatImageStillBubbleView.m */; };
 		55AB604A1AEB308000C66228 /* UmLogEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AB60491AEB308000C66228 /* UmLogEngine.m */; };
 		55C5734F1AED527A00617C74 /* RelationShipService.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C5734E1AED527A00617C74 /* RelationShipService.m */; };
 		55C734EC1AB721D300AF3630 /* ChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C734EB1AB721D300AF3630 /* ChatRoomViewController.m */; };
@@ -787,6 +788,8 @@
 		557188421ADEC72F00E93272 /* EMChatViewController+Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+Audio.m"; sourceTree = "<group>"; };
 		557E1DA71AD51A62008A1AFB /* DPSlideInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPSlideInteractor.h; sourceTree = "<group>"; };
 		557E1DA81AD51A62008A1AFB /* DPSlideInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPSlideInteractor.m; sourceTree = "<group>"; };
+		558BD6AD1AF7798C0073A040 /* EMChatImageStillBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatImageStillBubbleView.h; sourceTree = "<group>"; };
+		558BD6AE1AF7798C0073A040 /* EMChatImageStillBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatImageStillBubbleView.m; sourceTree = "<group>"; };
 		55AB60481AEB308000C66228 /* UmLogEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UmLogEngine.h; sourceTree = "<group>"; };
 		55AB60491AEB308000C66228 /* UmLogEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UmLogEngine.m; sourceTree = "<group>"; };
 		55C5734D1AED527A00617C74 /* RelationShipService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationShipService.h; sourceTree = "<group>"; };
@@ -2083,6 +2086,8 @@
 				553465641AB468CC0015BF37 /* EMChatTextBubbleView.m */,
 				553465651AB468CC0015BF37 /* EMChatVideoBubbleView.h */,
 				553465661AB468CC0015BF37 /* EMChatVideoBubbleView.m */,
+				558BD6AD1AF7798C0073A040 /* EMChatImageStillBubbleView.h */,
+				558BD6AE1AF7798C0073A040 /* EMChatImageStillBubbleView.m */,
 			);
 			path = ChatCellBubble;
 			sourceTree = "<group>";
@@ -2639,6 +2644,7 @@
 				553464D11AB439D70015BF37 /* NSData+EMImageContentType.m in Sources */,
 				553047F21AB6D5AD00DFFDC4 /* TagVoiceView.m in Sources */,
 				552FF1991ABABE6500643CD9 /* JSONModelError.m in Sources */,
+				558BD6AF1AF7798C0073A040 /* EMChatImageStillBubbleView.m in Sources */,
 				553464BF1AB439D70015BF37 /* MBProgressHUD.m in Sources */,
 				55C5734F1AED527A00617C74 /* RelationShipService.m in Sources */,
 				552F14F71ADCEE4D00B43F60 /* SillyVoiceConnection.m in Sources */,

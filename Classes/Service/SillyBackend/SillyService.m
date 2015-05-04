@@ -229,6 +229,28 @@
     }];
 }
 
+- (void)reportContentOptWithId:(NSUInteger)contId
+                   contentType:(ReportType)contType
+                        reason:(ReportReasonType)reason
+                    reasonCont:(NSString*)reasonCont
+                     comletion:(JSONObjectBlock)completion
+{
+    NSMutableDictionary* body = [NSMutableDictionary dictionary];
+    [body setObject:[NSNumber numberWithInteger:0x5001] forKey:@"cmd"];
+    
+    [body setObject:@(contType) forKey:@"contType"];
+    [body setObject:@(reason) forKey:@"reason"];
+    if (reasonCont.length) {
+        [body setObject:reasonCont forKey:@"reasonCont"];
+    }
+    [body setObject:@(contId) forKey:@"contId"];
+    
+    [self postRequestWithBodyDictionary:body completion:^(id json, JSONModelError *err) {
+        if(completion){
+            completion(json,err);
+        }
+    }];
+}
 #pragma mark -private methods
 
 - (void)postRequestWithBody:(NSString*)bodyString

@@ -16,6 +16,18 @@
 #import "SillyResponseModel.h"
 #import "SillyRandomMsgModel.h"
 
+//举报类型：针对广播内容、针对用户
+typedef NS_ENUM(NSUInteger, ReportType) {
+    ReportType_Cont = 1,
+    ReportType_User = 2,
+};
+
+//举报原因：广播内容、聊天骚扰
+typedef NS_ENUM(NSUInteger, ReportReasonType) {
+    ReportReasonType_Content = 0,
+    ReportReasonType_Chat = 1,
+};
+
 //与后台的请求交互
 /**
  case 0x1001:$res = execCmd_1001();break; //用户注册
@@ -26,6 +38,7 @@
  case 0x2003:$res = execCmd_2003();break; //正反向关系链写入
  case 0x2004:$res = execCmd_2004();break; //关系链查询
  case 0x2005:$res = execCmd_2005();break; //预设消息拉取
+ case 0x5001:$res = execCmd_5001();break; //举报
  */
 #define SillChat_CGI (@"http://183.131.76.109/cgi_wl/user_svc.php")
 
@@ -103,4 +116,12 @@
 - (void)fetchRandomMessage:(BroacastType)preType
                  comletion:(JSONObjectBlock)completion;
 
+/**
+ *  举报 ,用户暂时没做逻辑(2无效)
+ */
+- (void)reportContentOptWithId:(NSUInteger)contId //对应的Id
+                   contentType:(ReportType)contType  //举报内容类型  1举报某个title  2举报某个用户
+                        reason:(ReportReasonType)reason //举报原因
+                    reasonCont:(NSString*)reasonCont //举报原因的描述
+                     comletion:(JSONObjectBlock)completion;
 @end
