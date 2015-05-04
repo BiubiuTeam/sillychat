@@ -449,13 +449,10 @@
             case UIGestureRecognizerStateCancelled:
             case UIGestureRecognizerStateEnded:
             {
-                CGPoint location = [recognizer locationInView:self.tableView];
-                NSIndexPath * indexPath = [self.tableView indexPathForRowAtPoint:location];
-                id object = [self.dataSource objectAtIndex:indexPath.row];
+                id object = [self.dataSource objectAtIndex:_longPressIndexPath.row];
                 if ([object isKindOfClass:[MessageModel class]]) {
-                    EMChatViewCell *cell = (EMChatViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    EMChatViewCell *cell = (EMChatViewCell *)[self.tableView cellForRowAtIndexPath:_longPressIndexPath];
                     [cell becomeFirstResponder];
-                    _longPressIndexPath = indexPath;
                     
                     //阅后即焚
                     if(cell.messageModel.type == eMessageBodyType_Image){
