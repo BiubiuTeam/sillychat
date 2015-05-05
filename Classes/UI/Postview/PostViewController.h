@@ -11,7 +11,7 @@
 #define KeyBoardHeight (216)
 #define DEFAUTL_TEXTVIEW_WIDTH (300)
 
-#define TEXTVIEW_FONT [UIFont fontWithName:@"STHeitiSC-Medium" size:FONT_SIZE_SMALL]//([DPFont systemFontOfSize:28])
+#define TEXTVIEW_FONT [UIFont fontWithName:@"STHeitiSC-Medium" size:FONT_SIZE_LARGE]
 #define TEXTVIEW_TINT_COLOR ([UIColor whiteColor])
 
 typedef NS_ENUM(NSUInteger, PostContentType) {
@@ -26,8 +26,6 @@ typedef NS_ENUM(NSUInteger, PostViewType) {
 
 #define MARGIN_CR _size_S(15)
 #define MARGIN_LG _size_S(27)
-
-@class EMRoundButton;
 
 @protocol PostViewControllerDelegate <NSObject>
 
@@ -49,7 +47,6 @@ typedef NS_ENUM(NSUInteger, PostViewType) {
 
 @interface PostViewController : BaseViewController
 {
-    EMRoundButton* _roundButton;
     UIImageView* _captureView;//主要是在照相模式下，绘制成图片
     UIButton* _randomPostButton; //随机Post按钮
     UIView* _containerView;
@@ -64,10 +61,3 @@ typedef NS_ENUM(NSUInteger, PostViewType) {
 
 @end
 
-
-@interface PostSwitchMenu : UIButton
-
-@property (nonatomic, assign, readonly) BOOL onState;
-- (void)switchState;
-
-@end

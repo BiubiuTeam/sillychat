@@ -154,8 +154,7 @@
 - (void)toggleCamera
 {
     //这里是否需要增加动画
-    [self stopLiveSession];
-    
+//    [self stopLiveSession];
     if (cameraBeingUsed == RearFacingCamera) {
         [self setupCaptureWithType:FrontFacingCamera];
     }else if (cameraBeingUsed == FrontFacingCamera){

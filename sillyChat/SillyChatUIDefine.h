@@ -27,4 +27,7 @@
 #define BUBBLE_MARGIN_BOTTOM (SCREEN_HEIGHT - 68)
 
 
+#define ALL_BUBBLE_BOTTOM (SCREEN_HEIGHT - _size_S(25))
+#define ALL_BUBBLE_BOTTOM2 (SCREEN_HEIGHT - _size_S(50))
+
 #endif

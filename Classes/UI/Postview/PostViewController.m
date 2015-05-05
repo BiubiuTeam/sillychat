@@ -10,15 +10,24 @@
 #import "UIViewController+HUD.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "EMRoundButton.h"
-#import "EMRoundButton+DragEffect.h"
 #import "PostTextView.h"
 #import "SillyService.h"
 #import "UIImageAdditions.h"
 
 #import "CameraSessionView.h"
 
-@interface PostViewController ()<UITextViewDelegate,CACameraSessionDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
+    PHOTO_STATE_LIVE = 0,
+    PHOTO_STATE_STILL = 1,
+};
+
+#define TOP_BTN_HOR_MARGIN _size_S(37)
+#define TOP_BTN_MGTOP _size_S(25)
+#define TOP_BTN_WIDTH _size_S(35)
+#define TOP_BTN_HEIGHT _size_S(35)
+#define SEND_BTN_RADIUS _size_S(100)
+
+@interface PostViewController ()<UITextViewDelegate,CACameraSessionDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PostAccessoryViewProtocol>
 {
     BOOL switchOperating;
     CGFloat _textViewWidth;
@@ -30,17 +39,16 @@
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic, strong) CameraSessionView *cameraView;
 
-@property (nonatomic, strong) EMRoundButton* roundButton;
-
 @property (nonatomic, strong) PostTextView* textView;
+@property (nonatomic, strong) PostTextViewAccessoryView* accessoryView;
 
-@property (nonatomic, strong) UILabel* countLabel;
+@property (nonatomic) PHOTO_STATE currentState; //live for default
+@property (nonatomic, strong) UIButton* cancelButton;//取消按钮
+@property (nonatomic, strong) UIButton* photoLibaryButton;//图库按钮，唤起图库
+@property (nonatomic, strong) UIButton* switchButton;//如果是摄像状态，切换前后摄像头，若是静态图片，切换相机模式
 
-@property (nonatomic, strong) PostSwitchMenu* switchButton;
-
-@property (nonatomic, strong) UIImageView* captureView;//主要是在照相模式下，绘制成图片
-@property (nonatomic, strong) UIImageView* dotLightView;
-@property (nonatomic, strong) UIButton* randomPostButton; //随机Post按钮
+@property (nonatomic, strong) UIImageView* captureView;//
+@property (nonatomic, strong) UIButton* confirmButton;
 @end
 
 @implementation PostViewController
@@ -56,8 +64,6 @@
     
     self.switchButton = nil;
     self.textView = nil;
-    self.roundButton = nil;
-    self.countLabel = nil;
     self.captureView = nil;
 }
 
@@ -83,65 +89,44 @@
     [self.view addSubview:self.containerView];
     self.selectedImage = nil;
     // Do any additional setup after loading the view.
-    [_containerView addSubview:self.roundButton];
-    [_containerView addSubview:self.countLabel];
-    [_containerView addSubview:self.randomPostButton];
+
+    [_containerView addSubview:self.cancelButton];
+    [_containerView addSubview:self.photoLibaryButton];
     [_containerView addSubview:self.switchButton];
+    _cancelButton.top = _photoLibaryButton.top = _switchButton.top = TOP_BTN_MGTOP;
     
     [_containerView addSubview:self.captureView];
     
-    [_captureView addSubview:self.textView];
-    
-    [_containerView addSubview:self.dotLightView];
-    _dotLightView.centerX = _roundButton.centerX;
-    _dotLightView.top = _roundButton.bottom + _size_S(4);
-    
-    [self addKeyboardNotification];
-    
+    [_containerView addSubview:self.textView];
     [_containerView sendSubviewToBack:_captureView];
     
+    [_containerView addSubview:self.confirmButton];
+    
+    [self addKeyboardNotification];
     [self asyncLoadCameraView];
-}
-
-- (UIView *)containerView
-{
-    if (nil == _containerView) {
-        _containerView = [[UIView alloc] initWithFrame:self.view.bounds];
-        _containerView.backgroundColor = APPLICATIONCOLOR;
-    }
-    return _containerView;
-}
-
-- (UIImagePickerController *)imagePicker
-{
-    if (_imagePicker == nil) {
-        _imagePicker = [[UIImagePickerController alloc] init];
-        _imagePicker.delegate = self;
-        _imagePicker.allowsEditing = YES;
-        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
-    }
-    return _imagePicker;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    _textViewTintColor = [[UITextView appearance] tintColor];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     
+    _textViewTintColor = [[UITextView appearance] tintColor];
     [[UITextView appearance] setTintColor:TEXTVIEW_TINT_COLOR];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+    
     [[UITextView appearance] setTintColor:_textViewTintColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [_textView becomeFirstResponder];
+//    [_textView becomeFirstResponder];
 }
 
 - (void)addKeyboardNotification
@@ -151,47 +136,46 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+#pragma mark - getter
+- (UIView *)containerView
+{
+    if (nil == _containerView) {
+        _containerView = [[UIView alloc] initWithFrame:self.view.bounds];
+        _containerView.backgroundColor = APPLICATIONCOLOR;
+    }
+    return _containerView;
+}
+
+- (PostTextViewAccessoryView *)accessoryView
+{
+    if (nil == _accessoryView) {
+        _accessoryView = [[PostTextViewAccessoryView alloc] initWithFrame:CGRectZero];
+        _accessoryView.delegate = self;
+    }
+    return _accessoryView;
+}
+
+- (UIImagePickerController *)imagePicker
+{
+    if (_imagePicker == nil) {
+        _imagePicker = [[UIImagePickerController alloc] init];
+        _imagePicker.delegate = self;
+//        _imagePicker.allowsEditing = YES;
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        _imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    }
+    return _imagePicker;
+}
+
 - (UIImageView *)captureView
 {
     if (nil == _captureView) {
-        CGFloat top = STATUSBAR_HEIGHT;// self.switchButton.bottom + 9;
-        _captureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, top, SCREEN_WIDTH, SCREEN_HEIGHT - top)];
+        _captureView = [[UIImageView alloc] initWithFrame:_containerView.frame];
         _captureView.contentMode = UIViewContentModeScaleAspectFill;
         _captureView.layer.masksToBounds = YES;
         _captureView.backgroundColor = [UIColor clearColor];
     }
     return _captureView;
-}
-
-- (UILabel *)countLabel
-{
-    if (_countLabel == nil && _viewType == PostViewType_Plaza) {
-        _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _countLabel.textColor = [UIColor whiteColor];
-        _countLabel.textAlignment = NSTextAlignmentCenter;
-        _countLabel.backgroundColor = [UIColor clearColor];
-        _countLabel.font = [DPFont systemFontOfSize:20];
-        
-        _countLabel.text = @"100/100";
-        [_countLabel sizeToFit];
-        _countLabel.text = @"";
-        
-        _countLabel.right = SCREEN_WIDTH - MARGIN_LG;
-        _countLabel.bottom = SCREEN_HEIGHT - MARGIN_CR;
-    }
-    return _countLabel;
-}
-
-- (UIImageView *)dotLightView
-{
-    if (nil == _dotLightView) {
-        _dotLightView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _dotLightView.backgroundColor = [UIColor clearColor];
-        _dotLightView.image = LOAD_ICON_USE_POOL_CACHE(@"private/silly_arrow_highlight.png");
-        _dotLightView.frame = CGRectMake(0, 0, 20, 25);
-        _dotLightView.contentMode = UIViewContentModeCenter;
-    }
-    return _dotLightView;
 }
 
 - (PostTextView *)textView
@@ -211,69 +195,122 @@
         _textView.centerX = SCREEN_WIDTH/2;
         _textView.centerY = SCREEN_HEIGHT/2;
         
-        _textView.countLabel = self.countLabel;
+        _textView.inputAccessoryView = self.accessoryView;
+        _textView.countLabel = _accessoryView.countLabel;
         if (_viewType == PostViewType_Chat) {
             _textView.maxCount = NSIntegerMax;
         }
+        
+        _textView.defaultPlaceholder = @"点击添加文字";
     }
     return _textView;
 }
 
-- (UIButton *)randomPostButton
-{
-    if (nil == _randomPostButton && _viewType == PostViewType_Plaza) {
-        
-        UIImage* random = LOAD_ICON_USE_POOL_CACHE(@"silly_random_button.png");
-        _randomPostButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, random.size.width, random.size.height)];
-        _randomPostButton.backgroundColor = [UIColor clearColor];
-        [_randomPostButton addTarget:self action:@selector(getRandomPost) forControlEvents:UIControlEventTouchUpInside];
-        
-        [_randomPostButton setImage:random forState:UIControlStateNormal];
-        [_randomPostButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_random_button_pressed.png") forState:UIControlStateHighlighted];
-        [_randomPostButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_random_button_pressed.png") forState:UIControlStateSelected];
-        
-        _randomPostButton.left = MARGIN_LG;
-        _randomPostButton.bottom = SCREEN_HEIGHT - MARGIN_LG;
-    }
-    return _randomPostButton;
-}
-
-- (EMRoundButton *)roundButton
-{
-    if (nil == _roundButton) {
-        _roundButton = [[EMRoundButton alloc] initWithFrame:CGRectZero];
-        [_roundButton addTarget:self action:@selector(sendOutThisPost) forControlEvents:UIControlEventTouchUpInside];
-        _roundButton.topActionViewController = self;
-        _roundButton.centerX = BUBBLE_CENTERX;
-        _roundButton.bottom = BUBBLE_MARGIN_BOTTOM;
-        
-        [_roundButton setTitle:@"发" forState:UIControlStateNormal];
-        [_roundButton addDragEffectAbility];
-    }
-    return _roundButton;
-}
-
-- (PostSwitchMenu *)switchButton
+- (UIButton *)switchButton
 {
     if (nil == _switchButton) {
-        _switchButton = [[PostSwitchMenu alloc] initWithFrame:CGRectZero];
-        _switchButton.top = 29;
-        _switchButton.centerX = SCREEN_WIDTH/2;
-        [_switchButton addTarget:self action:@selector(switchCameraState) forControlEvents:UIControlEventTouchUpInside];
+        _switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _switchButton.size = CGSizeMake(TOP_BTN_WIDTH, TOP_BTN_HEIGHT);
+        _switchButton.backgroundColor = [UIColor clearColor];
+        _switchButton.contentMode = UIViewContentModeScaleAspectFit;
+        _switchButton.right = SCREEN_WIDTH - TOP_BTN_HOR_MARGIN;
+        [_switchButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_switch.png") forState:UIControlStateNormal];
+        [_switchButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_switch.png") forState:UIControlStateHighlighted];
+        [_switchButton addTarget:self action:@selector(switchLiveSessionState) forControlEvents:UIControlEventTouchUpInside];
     }
     return _switchButton;
 }
 
+- (UIButton *)photoLibaryButton
+{
+    if (nil == _photoLibaryButton) {
+        _photoLibaryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _photoLibaryButton.size = CGSizeMake(TOP_BTN_WIDTH, TOP_BTN_HEIGHT);
+        _photoLibaryButton.backgroundColor = [UIColor clearColor];
+        _photoLibaryButton.contentMode = UIViewContentModeScaleAspectFit;
+        _photoLibaryButton.centerX = SCREEN_WIDTH/2;
+        
+        [_photoLibaryButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_library.png") forState:UIControlStateNormal];
+        [_photoLibaryButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_library.png") forState:UIControlStateHighlighted];
+        [_photoLibaryButton addTarget:self action:@selector(openPhotoLibrary) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _photoLibaryButton;
+}
+
+- (UIButton *)cancelButton
+{
+    if (nil == _cancelButton) {
+        _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _cancelButton.size = CGSizeMake(TOP_BTN_WIDTH, TOP_BTN_HEIGHT);
+        _cancelButton.left = TOP_BTN_HOR_MARGIN;
+        _cancelButton.backgroundColor = [UIColor clearColor];
+        _cancelButton.contentMode = UIViewContentModeScaleAspectFit;
+        
+        [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateNormal];
+        [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateHighlighted];
+        [_cancelButton addTarget:self action:@selector(dismissPostView) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _cancelButton;
+}
+
+- (UIButton *)confirmButton
+{
+    if (nil == _confirmButton) {
+        _confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _confirmButton.size = CGSizeMake(SEND_BTN_RADIUS, SEND_BTN_RADIUS);
+        _confirmButton.centerX = SCREEN_WIDTH/2;
+        _confirmButton.bottom = ALL_BUBBLE_BOTTOM;
+        _confirmButton.backgroundColor = [UIColor clearColor];
+    
+        [_confirmButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_send.png") forState:UIControlStateNormal];
+        [_confirmButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_send.png") forState:UIControlStateHighlighted];
+        
+        _confirmButton.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
+        [_confirmButton setTitle:@"发送" forState:UIControlStateNormal];
+        [_confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_confirmButton addTarget:self action:@selector(sendOutThisPost) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _confirmButton;
+}
 #pragma mark - actions
+
+- (void)switchLiveSessionState
+{
+    if (switchOperating) {
+        return;
+    }
+    switchOperating = YES;
+    if (_currentState == PHOTO_STATE_STILL) {
+        _currentState = PHOTO_STATE_LIVE;
+        [self launchCamera];
+        self.selectedImage = nil;
+    }else{
+        [_cameraView toggleCamera];
+        switchOperating = NO;
+    }
+}
+
+- (void)openPhotoLibrary
+{
+    __weak PostViewController* weakSelf = self;
+    [self presentViewController:self.imagePicker animated:YES completion:^{
+        if (_currentState == PHOTO_STATE_LIVE) {
+            [weakSelf removeCamera];
+        }
+        _currentState = PHOTO_STATE_STILL;
+    }];
+}
 
 - (void)getRandomPost
 {
-    if (_randomPostButton.selected) {
+    static BOOL RandomPostOpting = NO;
+    if (RandomPostOpting) {
         return;
     }
-    _randomPostButton.selected = YES;
+    RandomPostOpting = YES;
     __weak PostViewController* weakSelf = self;
     [[SillyService shareInstance] fetchRandomMessage:BroacastType_Text comletion:^(id json, JSONModelError *err) {
+        RandomPostOpting = NO;
         if (nil == err) {
             SillyRandomMsgModel* msgModel = [[SillyRandomMsgModel alloc] initWithDictionary:json error:&err];
             if (nil == err) {
@@ -285,29 +322,12 @@
                 }
             }
         }
-        [weakSelf.randomPostButton setSelected:NO];
     }];
 }
 
-- (void)switchCameraState
+- (void)endTextViewEditting
 {
-    if (switchOperating) {
-        return;
-    }
-    switchOperating = YES;
-    [_switchButton switchState];
-    if (_switchButton.onState) {
-        if (_selectedImage == nil) {
-            __weak PostViewController* weakSelf = self;
-            [self presentViewController:self.imagePicker animated:YES completion:^{
-                [weakSelf removeCamera];
-            }];
-        }else{
-            [self removeCamera];
-        }
-    }else{
-        [self launchCamera];
-    }
+    [self.textView resignAllFirstResponder];
 }
 
 - (UIImage *)imageFromView:(UIView *)view
@@ -323,11 +343,10 @@
 
 - (void)sendOutThisPost
 {
-//    [self showHudInTopWindowWithHint:@"发送中..."];
-    if (!_switchButton.onState && _cameraView) {
-        [_cameraView takeAPicture];
-    }else if(_selectedImage){
+    if(_selectedImage){
         [self didCaptureImage:_selectedImage];
+    }else if (_cameraView) {
+        [_cameraView takeAPicture];
     }
 }
 
@@ -343,18 +362,12 @@
 - (void)dismissPostView
 {
     [_textView resignAllFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)operationRespondsWhenTouchEdges
-{
-    [self dismissPostView];
 }
 
 #pragma mark - helper
@@ -399,17 +412,9 @@
 
 - (void)updateBottomControlPositionWithKeybordRect:(CGRect)keyboardRect
 {
-    _containerView.height = keyboardRect.origin.y;
-    
-    _captureView.height = _containerView.height - _captureView.origin.y;
-    _textView.defaultCenterY = _textView.centerY = _captureView.height/2 - MARGIN_LG;
-    
+    //改变textView的大小
+    _textView.defaultCenterY = _textView.centerY = keyboardRect.origin.y/2;
     [_textView dpTextDidChanged:nil];
-    _roundButton.bottom = _containerView.height - MARGIN_LG;
-    _randomPostButton.bottom = _countLabel.bottom = _containerView.height - MARGIN_CR;
-
-    _dotLightView.centerX = _roundButton.centerX;
-    _dotLightView.top = _roundButton.bottom + _size_S(4);
 }
 
 #pragma mark -
@@ -440,7 +445,6 @@
     }
     return YES;
 }
-
 
 - (void)textViewDidChange:(UITextView *)textView
 {
@@ -475,7 +479,7 @@
 {
     if (nil == _cameraView) {
         //Instantiate the camera view & assign its frame
-        _cameraView = [[CameraSessionView alloc] initWithFrame:_captureView.bounds];
+        _cameraView = [[CameraSessionView alloc] initWithFrame:_containerView.bounds];
         //Set the camera view's delegate and add it as a subview
         _cameraView.delegate = self;
     }
@@ -493,8 +497,9 @@
     [[self.cameraView layer] addAnimation:applicationLoadViewIn forKey:kCATransitionReveal];
     
     _cameraView.alpha = 1;
-    [_captureView addSubview:_cameraView];
-    [_captureView sendSubviewToBack:_cameraView];
+    [_containerView addSubview:_cameraView];
+    
+    [_containerView insertSubview:_cameraView aboveSubview:_captureView];
 }
 
 -(void)didCaptureImage:(UIImage *)image {
@@ -567,125 +572,7 @@
 {
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
     if (_selectedImage == nil) {
-        [self switchCameraState];
-    }
-}
-
-@end
-
-
-@interface PostSwitchMenu ()
-{
-    CGFloat _innerInset;
-    CGFloat _innerVertical;
-    
-    UIColor* _normalColor;
-    UIColor* _highlightColor;
-}
-@property (nonatomic, strong) UILabel* leftLabel;
-@property (nonatomic, strong) UILabel* rightLabel;
-
-@property (nonatomic, strong) CALayer* knockLayer;
-@end
-
-@implementation PostSwitchMenu
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor clearColor];
-        _normalColor = [UIColor colorWithWhite:0.4 alpha:1];
-        _highlightColor = [UIColor colorWithWhite:0.7 alpha:1];
-        
-        _innerInset = 10;
-        _innerVertical = 5;
-        
-        _leftLabel = [[UILabel alloc] init];
-        _leftLabel.backgroundColor = [UIColor clearColor];
-        _leftLabel.text = @"照像";
-        _leftLabel.textColor = _normalColor;
-        _leftLabel.textAlignment = NSTextAlignmentCenter;
-        _leftLabel.font = [DPFont systemFontOfSize:14];
-        
-        _rightLabel = [[UILabel alloc] init];
-        _rightLabel.backgroundColor = [UIColor clearColor];
-        _rightLabel.text = @"相库";
-        _rightLabel.textColor = _normalColor;
-        _rightLabel.textAlignment = NSTextAlignmentCenter;
-        _rightLabel.font = [DPFont systemFontOfSize:14];
-        _rightLabel.right = self.width;
-        
-        [_leftLabel sizeToFit];
-        [_rightLabel sizeToFit];
-        
-        _leftLabel.width = _rightLabel.width = _rightLabel.width + 2*_innerInset;
-        _leftLabel.height = _rightLabel.height = _rightLabel.height + 2*_innerVertical;
-        
-        self.layer.borderWidth = 2.f;
-        self.layer.borderColor = RGBACOLOR(0x00, 0x00, 0x00, 1).CGColor;
-        
-        _knockLayer = [CALayer layer];
-        _knockLayer.backgroundColor = RGBACOLOR(0x00, 0x00, 0x00, 1).CGColor;
-        
-        self.width = _leftLabel.width + _rightLabel.width + 2*_innerInset;
-        self.height = _leftLabel.height + 2*_innerVertical;
-        
-        
-        _knockLayer.frame = CGRectMake(0, 0, _leftLabel.width + (_innerInset - _innerVertical)*2, _leftLabel.height);
-        _knockLayer.cornerRadius = _knockLayer.frame.size.height/2;
-        [self.layer addSublayer:_knockLayer];
-        
-        [self addSubview:_leftLabel];
-        [self addSubview:_rightLabel];
-    }
-    return self;
-}
-
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-    
-    self.layer.cornerRadius = self.height/2;
-    self.layer.masksToBounds = YES;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    _leftLabel.centerY = _rightLabel.centerY = self.height/2;
-    
-    _leftLabel.left = _innerInset;
-    _rightLabel.right = self.width - _innerInset;
-    
-    [self layoutLayerBaseOnState];
-}
-
-- (void)switchState
-{
-    _onState = !_onState;
-    [UIView animateWithDuration:0.3 animations:^{
-        [self layoutLayerBaseOnState];
-    }];
-}
-
-- (void)layoutLayerBaseOnState
-{
-    if (NO == _onState) {
-        CGRect frame = _knockLayer.frame;
-        frame.origin.x = _leftLabel.centerX - frame.size.width/2;
-        frame.origin.y = _leftLabel.centerY - frame.size.height/2;
-        _knockLayer.frame = frame;
-        
-        _leftLabel.textColor = _highlightColor;
-        _rightLabel.textColor = _normalColor;
-    }else {
-        CGRect frame = _knockLayer.frame;
-        frame.origin.x = _rightLabel.centerX - frame.size.width/2;
-        frame.origin.y = _rightLabel.centerY - frame.size.height/2;
-        _knockLayer.frame = frame;
-        
-        _leftLabel.textColor = _normalColor;
-        _rightLabel.textColor = _highlightColor;
+        [self switchLiveSessionState];
     }
 }
 
