@@ -437,7 +437,6 @@ static NSUInteger NumberOfRow = 5;
     [chatView setBroadcastModel:datasource];
     chatView.modalPresentationStyle = UIModalPresentationCustom;
     CGRect frame = bubble.absoluteFrame;
-    frame.origin.y = frame.origin.y - (bubble.height + _tableView.top)/2;
     chatView.originFrame = frame;
     [self presentViewController:chatView animated:NO completion:nil];
 }

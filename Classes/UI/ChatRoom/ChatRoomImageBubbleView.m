@@ -93,7 +93,7 @@
 - (CGRect)absoluteFrame
 {
     CGRect frame = [_imageView convertRect:_imageView.bounds toView:[UIApplication sharedApplication].keyWindow];
-    frame.origin.y = frame.origin.y - BUBBLE_VIEW_PADDING/2 - 1;
+    frame.origin.y = frame.origin.y - _imageView.height;
     return frame;
 }
 
