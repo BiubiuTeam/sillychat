@@ -73,6 +73,8 @@ NSString *const kRouterEventChatCellBubbleTapEventName = @"kRouterEventChatCellB
     if (nil == _progressView) {
         _progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
         [_progressView setProgressViewStyle:UIProgressViewStyleDefault];
+        _progressView.progressTintColor = [UIColor whiteColor];
+        _progressView.trackTintColor = [UIColor grayColor];
     }
     return _progressView;
 }

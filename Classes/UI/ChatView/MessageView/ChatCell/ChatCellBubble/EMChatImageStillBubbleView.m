@@ -52,7 +52,7 @@
 
 - (void)progress:(CGFloat)progress;
 {
-    self.progressView.hidden = NO;
+    self.progressView.hidden = (abs(progress) >=0.99);
     [super progress:progress];
 }
 

@@ -210,7 +210,7 @@
 {
     id <IChatManager> chatManager = [[EaseMob sharedInstance] chatManager];
     if ([model.messageBody messageBodyType] == eMessageBodyType_Image) {
-        [chatManager asyncFetchMessage:model.message progress:progress completion:^(EMMessage *aMessage, EMError *error) {
+        [chatManager asyncFetchMessage:model.message progress:nil completion:^(EMMessage *aMessage, EMError *error) {
             DPTrace("加载大图请求回调");
             if (!error) {
                 if (_showLargeIndexPath == nil) {
@@ -222,6 +222,7 @@
                     NSString *reqMsgId = aMessage == nil ? model.message.messageId : [aMessage messageId];
                     if([cell.messageModel.message.messageId isEqualToString:reqMsgId])
                     {
+                        _showLargeIndexPath = nil;
                         DPTrace("加载大图完成");
                         NSString *localPath = aMessage == nil ? model.localPath : [[aMessage.messageBodies firstObject] localPath];
                         if (localPath && localPath.length > 0) {
@@ -229,9 +230,7 @@
                             if (image) {
                                 [[PlazaPhotoBrowser shareInstance] showImage:image];
                             }
-                            return;
                         }
-                        return;
                     }
                 }
                 
