@@ -32,6 +32,8 @@
 
 @property (nonatomic, strong) NSDictionary<Optional>* extension;//字典数据，字符串格式
 @property (nonatomic, strong) NSNumber<Optional>* blockLen; //数据长度，UI展示用
+
+@property (nonatomic, strong) NSNumber<Ignore>* isLocalTmp; //只有在本地创建的时候才会设置为YES
 @end
 
 

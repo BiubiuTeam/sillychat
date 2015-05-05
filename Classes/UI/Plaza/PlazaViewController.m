@@ -120,9 +120,9 @@
     if (self = [super init]) {
         if ([array count]) {
             [self.broadcastArray addObjectsFromArray:array];
+        }else{
+            [self forceToUpdatePlazaSillyMessage];
         }
-        
-        [RelationShipService shareInstance];
     }
     return self;
 }
@@ -144,7 +144,6 @@
     
     [self adjustControlsPosition];
     self.postOptComletionCallback = nil;
-//    [self addSwipGesture];
     [self registerEaseMobNotification];
     
     [_metroView setDatasource:self.broadcastArray];
@@ -154,33 +153,9 @@
     [self registLocationNotification];
 }
 
-- (void)swipToLoadNewPage:(UISwipeGestureRecognizer*)gesture
-{
-    if (gesture.state == UIGestureRecognizerStateBegan) {
-        
-    }else if (gesture.state == UIGestureRecognizerStateChanged){
-        
-    }else if (gesture.state == UIGestureRecognizerStateEnded) {
-        DPTrace("换一页");
-        [self forceToUpdatePlazaSillyMessage];
-    }else if (gesture.state == UIGestureRecognizerStateCancelled){
-        
-    }else{
-        
-    }
-}
-
 - (void)registUploadManager
 {
     [[DPBaseUploadMgr shareInstance] setDelegate:self];
-}
-
-- (void)addSwipGesture
-{
-    //左右滑手势，更新和拉取。这里，应该推动后台处理，没有所谓的刷新更多，而是拉取下一页
-    UISwipeGestureRecognizer* swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self  action:@selector(swipToLoadNewPage:)];
-    swip.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:swip];
 }
 
 - (void)didReceiveMemoryWarning {

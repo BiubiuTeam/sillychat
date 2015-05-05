@@ -10,6 +10,8 @@
 #import "UIViewController+Front.h"
 #import "EMChatViewController.h"
 #import "SillyBroacastModel.h"
+#import "HomePageViewController.h"
+#import "RelationShipService.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 5.0;
@@ -132,12 +134,26 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     //SDK方法调用
     [[EaseMob sharedInstance] application:application didReceiveLocalNotification:notification];
     
-    DPTrace("本地通知唤起对应的页面");
     NSDictionary* userInfo = notification.userInfo;
-    NSString* from = [userInfo objectForKey:@"MessageFrom"];
-    //Open Chat View
-    DPTrace("打开与%@的会话",from);
+    NSString* from = [userInfo objectForKey:@"from"];
+    NSString* sortid = [userInfo objectForKey:@"broadcast"];
     
+    //Open Chat View
+    if([self.window.rootViewController isKindOfClass:[HomePageViewController class]]){
+        [self changeToPlazaViewControllerWithDatasource:nil];
+    }
+    
+    EMChatViewController* chat = [[EMChatViewController alloc] initWithChatter:from];
+    NSNumber* titleId = [NSNumber numberWithInteger:[sortid integerValue]];
+    SillyBroacastModel* model = [[RelationShipService shareInstance] getBroadcastOf:from titleId:titleId];
+    if (model == nil) {
+        model = [[SillyBroacastModel alloc] init];
+        model.sortId = titleId;
+        model.isLocalTmp = @YES;
+    }
+    chat.broadcastModel = model;
+    [[(UIViewController*)_plazaViewController frontViewController] presentViewController:chat animated:NO completion:^{
+    }];
 }
 
 #pragma mark - registerEaseMobNotification
@@ -181,20 +197,19 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 // 打印收到的apns信息
 -(void)didReiveceRemoteNotificatison:(NSDictionary *)userInfo
 {
+    [[RelationShipService shareInstance] setHasUnhandleMessage:YES];
+#if DEBUG
     NSError *parseError = nil;
     NSData  *jsonData = [NSJSONSerialization dataWithJSONObject:userInfo
                                                         options:NSJSONWritingPrettyPrinted error:&parseError];
     NSString *str =  [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-//    NSString* from = [userInfo objectForKey:@"g"];
-    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"推送内容"
                                                     message:str
                                                    delegate:nil
                                           cancelButtonTitle:NSLocalizedString(@"ok", @"OK")
                                           otherButtonTitles:nil];
     [alert show];
-    
+#endif
 }
 
 #pragma mark -系统生命周期

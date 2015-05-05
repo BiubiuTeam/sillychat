@@ -30,4 +30,6 @@ extern NSString* const RelationShipsDidReload;
 
 
 - (void)reloadRelationShipsWithSequence;
+
+- (SillyBroacastModel*)getBroadcastOf:(NSString*)dvcId titleId:(NSNumber*)titleId;
 @end

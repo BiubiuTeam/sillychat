@@ -124,7 +124,7 @@
 {
     [super viewWillAppear:animated];
 
-    if (_fisrtShowUp) {
+    if (_fisrtShowUp && (!CGRectIsNull(_originFrame) && !CGRectEqualToRect(_originFrame, CGRectZero))) {
         [self showUpWithAnimation];
     }else{
         if (_isScrollToBottom) {
@@ -183,6 +183,18 @@
 - (void)addNotificationObserver
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:@"applicationDidEnterBackground" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(relationshipDidReload) name:RelationShipsDidReload object:nil];
+}
+
+- (void)relationshipDidReload
+{
+    if ([self.broadcastModel.isLocalTmp boolValue]) {
+        SillyBroacastModel* model = [[RelationShipService shareInstance] getBroadcastOf:_chatter titleId:self.broadcastModel.titleId];
+        if (model) {
+            self.broadcastModel = model;
+        }
+    }
 }
 
 #pragma mark - getter
@@ -308,18 +320,25 @@
 - (void)setBroadcastModel:(SillyBroacastModel *)broadcastModel
 {
     _broadcastModel = broadcastModel;
-    [self.broadcastView setBroadcastModel:broadcastModel];
-    [self.contentView setContentViewWithDatasource:broadcastModel];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.broadcastView setBroadcastModel:broadcastModel];
+        [self.contentView setContentViewWithDatasource:broadcastModel];
+    });
 }
 
 - (void)dismissChatViewController
 {
     _tableView.hidden = YES;
-    
     [UIView animateWithDuration:.3 animations:^{
         _broadcastView.bottom = 0;
         _chatToolBar.top = _chatToolBar.superview.height;
-        _containerView.frame = _contentView.frame = _originFrame;
+        if (CGRectIsNull(_originFrame) || CGRectEqualToRect(_originFrame, CGRectZero)) {
+            //这里做些什么才做比较好呢？
+            _contentView.alpha = 0;
+        }else{
+            _contentView.frame = _originFrame;
+        }
     } completion:^(BOOL finished) {
         if (finished) {
             [self dismissViewControllerAnimated:NO completion:nil];

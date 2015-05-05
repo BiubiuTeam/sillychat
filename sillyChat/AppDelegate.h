@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BMapKit.h"
-
+@class PlazaViewController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,BMKGeneralDelegate>
 {
     EMConnectionState _connectionState;
     BMKMapManager* _mapManager;
+
+    PlazaViewController* _plazaViewController;
 }
 
 @property (strong, nonatomic) NSDate *lastPlaySoundDate;

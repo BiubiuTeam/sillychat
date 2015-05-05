@@ -15,14 +15,13 @@
 
 #import "EMAccountService.h"
 #import "MobClick.h"
+#import "RelationShipService.h"
+
 @interface AppDelegate ()
 
 @end
 
 @interface AppDelegate ()
-{
-    PlazaViewController* _plazaViewController;
-}
 
 @property (nonatomic, strong) HomePageViewController* homePageViewController;
 
@@ -34,6 +33,8 @@
     // Override point for customization after application launch.
     [self registBaiduMap];
     [self registUmeng];
+    
+    [RelationShipService shareInstance];
 //    [[EMAccountService shareInstance] updateSettingAccountInfo:NO];
     self.lastPlaySoundDate = [NSDate date];
     

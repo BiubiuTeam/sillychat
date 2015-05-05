@@ -41,6 +41,20 @@ NSString* const RelationShipsDidReload = @"_RelationShipsDidReload_";
     return s_instance;
 }
 
+#pragma mark -
+- (SillyBroacastModel *)getBroadcastOf:(NSString *)dvcId titleId:(NSNumber *)titleId
+{
+    for (SillyRelationshipModel* model in _relationShips) {
+        if ([model.broadcastModel.dvcId isEqualToString:dvcId]) {
+            if ([model.broadcastModel.titleId unsignedIntegerValue] == [titleId unsignedIntegerValue]) {
+                return model.broadcastModel;
+            }
+        }
+    }
+    [self reloadRelationShips:0];
+    return nil;
+}
+
 - (instancetype)init
 {
     if (self = [super init]) {
