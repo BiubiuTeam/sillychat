@@ -210,7 +210,8 @@
 {
     id <IChatManager> chatManager = [[EaseMob sharedInstance] chatManager];
     if ([model.messageBody messageBodyType] == eMessageBodyType_Image) {
-        [chatManager asyncFetchMessage:model.message progress:nil completion:^(EMMessage *aMessage, EMError *error) {
+        [progress setProgress:.01 forMessage:model.message forMessageBody:model.messageBody];
+        [chatManager asyncFetchMessage:model.message progress:progress completion:^(EMMessage *aMessage, EMError *error) {
             DPTrace("加载大图请求回调");
             if (!error) {
                 if (_showLargeIndexPath == nil) {

@@ -52,7 +52,7 @@
 
 - (void)progress:(CGFloat)progress;
 {
-    self.progressView.hidden = (abs(progress) >=0.99);
+    self.progressView.hidden = (abs(progress) > 0.99);
     [super progress:progress];
 }
 
@@ -69,6 +69,7 @@
 - (void)setModel:(MessageModel *)model
 {
     [super setModel:model];
+    self.progressView.hidden = YES;
     UIImage *image = [UIImage imageWithColor:RGBACOLOR(0x97, 0x97, 0x97, 1) size:CGSizeMake(IMAGE_DEFAULT_WIDTH, IMAGE_DEFAULT_HEIGHT)];
     self.imageView.image = image;
 }
