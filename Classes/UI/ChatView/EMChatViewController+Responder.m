@@ -160,37 +160,7 @@
 {
     __weak EMChatViewController *weakSelf = self;
     id <IChatManager> chatManager = [[EaseMob sharedInstance] chatManager];
-    if ([model.messageBody messageBodyType] == eMessageBodyType_Image) {
-        EMImageMessageBody *imageBody = (EMImageMessageBody *)model.messageBody;
-        
-        if (imageBody.thumbnailDownloadStatus == EMAttachmentDownloadSuccessed) {
-            [weakSelf showHudInView:weakSelf.view hint:NSLocalizedString(@"message.downloadingImage", @"downloading a image...")];
-            [chatManager asyncFetchMessage:model.message progress:nil completion:^(EMMessage *aMessage, EMError *error) {
-                [weakSelf hideHud];
-                if (!error) {
-                    NSString *localPath = aMessage == nil ? model.localPath : [[aMessage.messageBodies firstObject] localPath];
-                    if (localPath && localPath.length > 0) {
-                        NSURL *url = [NSURL fileURLWithPath:localPath];
-                        weakSelf.isScrollToBottom = NO;
-                        [weakSelf.messageReadManager showBrowserWithImages:@[url]];
-                        return ;
-                    }
-                }
-                [weakSelf showHint:NSLocalizedString(@"message.imageFail", @"image for failure!")];
-            } onQueue:nil];
-        }
-        else{
-            //获取缩略图
-            [chatManager asyncFetchMessageThumbnail:model.message progress:nil completion:^(EMMessage *aMessage, EMError *error) {
-                if (!error) {
-                    [weakSelf reloadTableViewDataWithMessage:model.message];
-                }else{
-                    [weakSelf showHint:NSLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
-                }
-                
-            } onQueue:nil];
-        }
-    }else if ([model.messageBody messageBodyType] == eMessageBodyType_Video) {
+    if ([model.messageBody messageBodyType] == eMessageBodyType_Video) {
         //获取缩略图
         EMVideoMessageBody *videoBody = (EMVideoMessageBody *)model.messageBody;
         if (videoBody.thumbnailDownloadStatus != EMAttachmentDownloadSuccessed) {
