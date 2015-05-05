@@ -191,4 +191,19 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
     }
 }
 
+- (void)checkUserInfo:(NSString*)dvcId
+{
+    DPTrace("检查用户信息");
+    [[SillyService shareInstance] fetchSillyUserInformation:dvcId comletion:^(id json, JSONModelError *err) {
+        if (err == nil) {
+            SillyUserModel* user = [[SillyUserModel alloc] initWithDictionary:json error:&err];
+            if (user) {
+                DPTrace("用户数据：%@",user);
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:[user toJSONString] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                [alert show];
+            }
+        }
+    }];
+}
+
 @end

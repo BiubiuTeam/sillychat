@@ -7,6 +7,7 @@
 //
 
 #import "PlazaStateSelectedView.h"
+#import "SCStateService.h"
 
 #define StateImageRadius _size_S(70)
 
@@ -81,7 +82,7 @@
     UIView* _maskView;
 }
 @property (nonatomic, strong) UILabel* messageLabel;
-@property (nonatomic ,strong) NSMutableArray* stateArray;
+@property (nonatomic ,strong) NSArray* stateArray;
 @end
 
 @implementation PlazaStateSelectedView
@@ -149,13 +150,10 @@
     return _messageLabel;
 }
 
-- (NSMutableArray *)stateArray
+- (NSArray *)stateArray
 {
     if (nil == _stateArray) {
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PropertyList" ofType:@"plist"];
-        NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-        NSArray* array = [data objectForKey:@"StateList"];
-        _stateArray = [[NSMutableArray alloc] initWithArray:array];
+        _stateArray = [[[SCStateService shareInstance] stateStillList] copy];
     }
     return _stateArray;
 }

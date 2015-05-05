@@ -8,6 +8,7 @@
 
 #import "BroadcastBaseView.h"
 #import "NSDate+Category.h"
+#import "SCStateService.h"
 
 #define BBV_HOR_INSET _size_S(8)
 #define BBV_VER_INSET _size_S(18)
@@ -118,7 +119,7 @@
         CGRect frame = self.timerLayer.frame;
         frame.size.width = frame.size.width - _size_S(3);
         _textLabel = [[UILabel alloc] initWithFrame:frame];
-        [_textLabel setFont:[DPFont boldSystemFontOfSize:FONT_SIZE_SMALL]];
+        [_textLabel setFont:[DPFont boldSystemFontOfSize:FONT_SIZE_SMALL-2]];
         [_textLabel setBackgroundColor:[UIColor clearColor]];
         [_textLabel setTextAlignment:NSTextAlignmentRight];
         [_textLabel setTextColor:[UIColor whiteColor]];
@@ -142,7 +143,7 @@
     if (nil == _profileLabel) {
         _profileLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, BBV_PRO_WIDTH, BBV_PRO_HEIGHT)];
         _profileLabel.backgroundColor = BBV_STU_COLOR;
-        _profileLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL];
+        _profileLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL-2];
         _profileLabel.textColor = [UIColor whiteColor];
         _profileLabel.text = @"学生";
         _profileLabel.textAlignment = NSTextAlignmentCenter;
@@ -155,7 +156,7 @@
     if (nil == _titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+        _titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.text = @"对方在某处";
         _titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -235,6 +236,7 @@
         useConf = useConf>>1;
         BOOL student = useConf%2 == 0;
         _profileLabel.text = student?@"学生":@"在职";
+        _profileLabel.backgroundColor = student?BBV_STU_COLOR:BBV_EMP_COLOR;
         
         NSString* city = [broadcast city];
         if ([city length]) {
@@ -243,8 +245,12 @@
             [self centerTopSubviews];
         }
         
-//        NSNumber* msgTag = [broadcast msgTag];
-        
+        NSNumber* msgTag = [broadcast msgTag];
+        NSDictionary* dict = [[SCStateService shareInstance] getStateInfoOfId:[msgTag unsignedIntegerValue]];
+        NSString* imgName = [dict objectForKey:@"image"];
+        if (imgName.length) {
+            _stateIconLayer.contents = (id)LOAD_ICON_USE_POOL_CACHE(imgName).CGImage;
+        }
     }
 }
 

@@ -10,6 +10,7 @@
 #import "MobClick.h"
 
 #import "PlazaFilterView.h"
+#import "SCStateService.h"
 
 NSString* const EventPublishStatus = @"PublishStatus";/*发布状态被点击的次数和独立用户数*/
 NSString* const EventPickStatus = @"PickStatus";/*筛选状态被发起的次数和独立用户数*/
@@ -33,7 +34,7 @@ NSString* const EventPressureMode = @"PressureMode";/*进入宣泄模式的次�
 
 + (void)logEventWithFilterAutoly:(NSString*)event
 {
-    NSUInteger fnum = [PlazaFilterView selectedFilter];
+    NSUInteger fnum = [[SCStateService shareInstance] selectedFilter];
     NSString* location = @"";
     NSString* user = @"";
     if (fnum%2 == 1) {
@@ -48,7 +49,7 @@ NSString* const EventPressureMode = @"PressureMode";/*进入宣泄模式的次�
     }else{
         user = @"female";
     }
-    [UmLogEngine logEvent:event attribute:@{@"StatusType":[PlazaFilterView selectedMsgWording],@"LocationType":location,@"UserType":user}];
+    [UmLogEngine logEvent:event attribute:@{@"StatusType":[[SCStateService shareInstance] selectedMsgWording],@"LocationType":location,@"UserType":user}];
 }
 
 @end

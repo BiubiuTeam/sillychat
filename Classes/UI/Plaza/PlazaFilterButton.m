@@ -8,7 +8,7 @@
 
 #import "PlazaFilterButton.h"
 #import "PlazaFilterView.h"
-
+#import "SCStateService.h"
 @interface PlazaFilterButton ()
 @property (nonatomic, strong) UIImageView* eyeImgView;
 @property (nonatomic, strong) UILabel* filterLabel;
@@ -110,7 +110,7 @@
 - (BOOL)setNeedUpdateContent
 {
     NSString* lastMsg = _filterLabel.text;
-    [self setFilterLabelContent:[PlazaFilterView filterMessage]];
+    [self setFilterLabelContent:[[SCStateService shareInstance] filterMessage]];
     NSString* newMsg = _filterLabel.text;
     return ![lastMsg isEqualToString:newMsg];
 }

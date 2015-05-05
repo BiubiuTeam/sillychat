@@ -31,6 +31,7 @@
 #import "PlazaFilterButton.h"
 #import "PlazaStateSelectedView.h"
 #import "PlazaFilterView.h"
+#import "SCStateService.h"
 #import "PlazaMetroView.h"
 
 #import "UmLogEngine.h"
@@ -416,7 +417,7 @@
 
 - (void)openPostViewController
 {
-    [PlazaFilterView setSelectedStateTag:_msgTag];
+    [[SCStateService shareInstance] setSelectedStateTag:_msgTag];
     _filterButton.selected = YES;
     [self closeFilterSelectView];
     
@@ -504,7 +505,7 @@
     isForceUpdating = YES;
 //    [self showHudInView:self.view hint:@"正在更新数据"];
     [UmLogEngine logEventWithFilterAutoly:EventBrowse];
-    [[SillyService shareInstance] fetchNearbySillyBroacast:[PlazaFilterView selectedFilter] msgTag:[PlazaFilterView selectedMsgTag] comletion:^(id json, JSONModelError *err) {
+    [[SillyService shareInstance] fetchNearbySillyBroacast:[[SCStateService shareInstance] selectedFilter] msgTag:[[SCStateService shareInstance] selectedMsgTag] comletion:^(id json, JSONModelError *err) {
         PlazaViewController* tmpself = (PlazaViewController*)_weakSelf;
         NSArray* broacasts = nil;
         if (err == nil) {

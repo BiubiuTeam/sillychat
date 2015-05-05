@@ -101,6 +101,7 @@
 		5530EFE01AB8590200C08F5F /* Emoji-Duang~@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5530EFD31AB8590200C08F5F /* Emoji-Duang~@2x.png */; };
 		5530EFE31AB859AA00C08F5F /* EmojiItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EFE21AB859AA00C08F5F /* EmojiItem.m */; };
 		55313CF41ADCBF8A00828A71 /* SillyVoiceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 55313CF31ADCBF8A00828A71 /* SillyVoiceCache.m */; };
+		5531C3361AF86926008C61A7 /* SCStateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5531C3351AF86926008C61A7 /* SCStateService.m */; };
 		553340AC1AE5FD330070E1AA /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 553340A91AE5FD330070E1AA /* libMobClickLibrary.a */; };
 		553340AF1AE5FF400070E1AA /* AppDelegate+UMeng.m in Sources */ = {isa = PBXBuildFile; fileRef = 553340AE1AE5FF400070E1AA /* AppDelegate+UMeng.m */; };
 		5533D8FC1AD8F8F300DA905F /* DPAudioUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5533D8FB1AD8F8F300DA905F /* DPAudioUploader.m */; };
@@ -442,6 +443,8 @@
 		5530EFE41AB85A2200C08F5F /* EmojiConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmojiConstants.h; sourceTree = "<group>"; };
 		55313CF21ADCBF8A00828A71 /* SillyVoiceCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SillyVoiceCache.h; sourceTree = "<group>"; };
 		55313CF31ADCBF8A00828A71 /* SillyVoiceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SillyVoiceCache.m; sourceTree = "<group>"; };
+		5531C3341AF86926008C61A7 /* SCStateService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCStateService.h; sourceTree = "<group>"; };
+		5531C3351AF86926008C61A7 /* SCStateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCStateService.m; sourceTree = "<group>"; };
 		553340A61AE5FAE40070E1AA /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = Pods/UMengAnalytics/Analytics_iOS_SDK_2.2.1.OpenUDID/UMAnalytics_Sdk_2.2.1.OpenUDID/libMobClickLibrary.a; sourceTree = "<group>"; };
 		553340A91AE5FD330070E1AA /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		553340AA1AE5FD330070E1AA /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -1697,6 +1700,8 @@
 				55AB60491AEB308000C66228 /* UmLogEngine.m */,
 				55C5734D1AED527A00617C74 /* RelationShipService.h */,
 				55C5734E1AED527A00617C74 /* RelationShipService.m */,
+				5531C3341AF86926008C61A7 /* SCStateService.h */,
+				5531C3351AF86926008C61A7 /* SCStateService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -2669,6 +2674,7 @@
 				553464C61AB439D70015BF37 /* MWTapDetectingView.m in Sources */,
 				553047E11AB6810A00DFFDC4 /* CaptureSessionManager.m in Sources */,
 				553465471AB45CA20015BF37 /* UIViewController+DismissKeyboard.m in Sources */,
+				5531C3361AF86926008C61A7 /* SCStateService.m in Sources */,
 				553464D21AB439D70015BF37 /* UIButton+EMWebCache.m in Sources */,
 				55CAC2B71AB9539300B00A1C /* EmojiAnimationView.m in Sources */,
 				552FF15D1ABAAE3100643CD9 /* SillyService.m in Sources */,

@@ -26,6 +26,7 @@ extern NSString* const kEMNotificationRegist;
 - (BOOL)loginProcessFail;
 - (void)loginStateChange:(BOOL)loginSuccess;
 
+- (void)checkUserInfo:(NSString*)dvcId;
 
 - (BOOL)hasSettingAccountInfo;
 - (void)updateSettingAccountInfo:(BOOL)value;

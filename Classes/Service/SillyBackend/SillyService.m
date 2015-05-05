@@ -62,7 +62,9 @@
 {
     NSMutableDictionary* body = [NSMutableDictionary dictionary];
     [body setObject:[NSNumber numberWithInteger:0x1002] forKey:@"cmd"];
-
+    if (identifier.length) {
+        [body setObject:identifier forKey:@"dvcId"];
+    }
     [self postRequestWithBodyDictionary:body completion:^(id json, JSONModelError *err) {
         if(completion){
             completion(json,err);
@@ -269,8 +271,9 @@
 {
     NSMutableDictionary* body = [NSMutableDictionary dictionaryWithDictionary:bodyDict];
     //自动填充：device identifier , latitude, logitude , city
-    [body setObject:[SillyService sillyDeviceIdentifier] forKey:@"dvcId"];
-    
+    if(![body objectForKey:@"dvcId"]){
+        [body setObject:[SillyService sillyDeviceIdentifier] forKey:@"dvcId"];
+    }
     CLLocationCoordinate2D locationCorrrdinate = [[DPLbsServerEngine shareInstance] userLocation].location.coordinate;
     if (CLLocationCoordinate2DIsValid(locationCorrrdinate)) {
         [body setObject:@(abs(locationCorrrdinate.latitude*1000000)) forKey:@"latitude"];

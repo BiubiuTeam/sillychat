@@ -13,6 +13,8 @@
 #import "UIViewController+HUD.h"
 #import "PlazaPhotoBrowser.h"
 
+#import "EMAccountService.h"
+
 @implementation EMChatViewController (Responder)
 #pragma mark - UIResponder actions
 
@@ -45,6 +47,10 @@
         [chatManager asyncResendMessage:messageModel.message progress:nil];
     }else if([eventName isEqualToString:kRouterEventChatCellVideoTapEventName]){
         [self chatVideoCellPressed:model];
+    }else if ([eventName isEqualToString:kRouterEventChatHeadImageTapEventName]){
+#if DEBUG
+        [[EMAccountService shareInstance] checkUserInfo:model.message.from];
+#endif
     }
 }
 
