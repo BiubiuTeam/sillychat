@@ -8,7 +8,6 @@
 #import "UIViewController+HUD.h"
 #import "PlazaViewController+Uploader.h"
 #import "PlazaViewController+Service.h"
-#import "DPShortNoticeView.h"
 #import "DPPhotoUploader.h"
 #import "DPAudioUploader.h"
 #import <SDWebImage/SDImageCache.h>

@@ -207,10 +207,7 @@
 		55E2E3351ADA443D007B9B56 /* UIViewController+Front.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2E3341ADA443D007B9B56 /* UIViewController+Front.m */; };
 		55E5622C1AB525FF00AF0D13 /* EMAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E5622B1AB525FF00AF0D13 /* EMAnimationButton.m */; };
 		55E562E01AB53AD100AF0D13 /* BiuUtilFun.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		55E562E11AB53AD100AF0D13 /* DPDeviceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562C61AB53AD100AF0D13 /* DPDeviceHelper.m */; };
 		55E562E21AB53AD100AF0D13 /* DPFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562C81AB53AD100AF0D13 /* DPFont.m */; };
-		55E562E31AB53AD100AF0D13 /* DPShortNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562CA1AB53AD100AF0D13 /* DPShortNoticeView.m */; };
-		55E562E41AB53AD100AF0D13 /* DPTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562CC1AB53AD100AF0D13 /* DPTabBarController.m */; };
 		55E562E51AB53AD100AF0D13 /* NSDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562CE1AB53AD100AF0D13 /* NSDateAdditions.m */; };
 		55E562E61AB53AD100AF0D13 /* NSDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562D01AB53AD100AF0D13 /* NSDictionaryAdditions.m */; };
 		55E562E71AB53AD100AF0D13 /* NSKeyedUnarchiverAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562D21AB53AD100AF0D13 /* NSKeyedUnarchiverAdditions.m */; };
@@ -694,14 +691,8 @@
 		55E5622E1AB52C6400AF0D13 /* SillyChatUIDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SillyChatUIDefine.h; sourceTree = "<group>"; };
 		55E562C31AB53AD100AF0D13 /* BiuUtilFun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiuUtilFun.h; sourceTree = "<group>"; };
 		55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiuUtilFun.m; sourceTree = "<group>"; };
-		55E562C51AB53AD100AF0D13 /* DPDeviceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDeviceHelper.h; sourceTree = "<group>"; };
-		55E562C61AB53AD100AF0D13 /* DPDeviceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDeviceHelper.m; sourceTree = "<group>"; };
 		55E562C71AB53AD100AF0D13 /* DPFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPFont.h; sourceTree = "<group>"; };
 		55E562C81AB53AD100AF0D13 /* DPFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPFont.m; sourceTree = "<group>"; };
-		55E562C91AB53AD100AF0D13 /* DPShortNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPShortNoticeView.h; sourceTree = "<group>"; };
-		55E562CA1AB53AD100AF0D13 /* DPShortNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPShortNoticeView.m; sourceTree = "<group>"; };
-		55E562CB1AB53AD100AF0D13 /* DPTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTabBarController.h; sourceTree = "<group>"; };
-		55E562CC1AB53AD100AF0D13 /* DPTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTabBarController.m; sourceTree = "<group>"; };
 		55E562CD1AB53AD100AF0D13 /* NSDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDateAdditions.h; sourceTree = "<group>"; };
 		55E562CE1AB53AD100AF0D13 /* NSDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateAdditions.m; sourceTree = "<group>"; };
 		55E562CF1AB53AD100AF0D13 /* NSDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionaryAdditions.h; sourceTree = "<group>"; };
@@ -1923,14 +1914,8 @@
 				552FF1AD1ABAE3C500643CD9 /* BiuDevice.mm */,
 				55E562C31AB53AD100AF0D13 /* BiuUtilFun.h */,
 				55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */,
-				55E562C51AB53AD100AF0D13 /* DPDeviceHelper.h */,
-				55E562C61AB53AD100AF0D13 /* DPDeviceHelper.m */,
 				55E562C71AB53AD100AF0D13 /* DPFont.h */,
 				55E562C81AB53AD100AF0D13 /* DPFont.m */,
-				55E562C91AB53AD100AF0D13 /* DPShortNoticeView.h */,
-				55E562CA1AB53AD100AF0D13 /* DPShortNoticeView.m */,
-				55E562CB1AB53AD100AF0D13 /* DPTabBarController.h */,
-				55E562CC1AB53AD100AF0D13 /* DPTabBarController.m */,
 				55E562CD1AB53AD100AF0D13 /* NSDateAdditions.h */,
 				55E562CE1AB53AD100AF0D13 /* NSDateAdditions.m */,
 				55E562CF1AB53AD100AF0D13 /* NSDictionaryAdditions.h */,
@@ -2311,7 +2296,6 @@
 				553048071AB6DEDE00DFFDC4 /* CPKenburnsView.m in Sources */,
 				552FF1671ABAB8EF00643CD9 /* SillyBroacastModel.m in Sources */,
 				55F3DFF51AE7C8E3006E66E8 /* MetroCollectionViewCell.m in Sources */,
-				55E562E11AB53AD100AF0D13 /* DPDeviceHelper.m in Sources */,
 				55D085541AEF482900173996 /* BroadcastContentView.m in Sources */,
 				557E1DA91AD51A62008A1AFB /* DPSlideInteractor.m in Sources */,
 				55357C521AC93F7B004BA079 /* DPBaseUploadMgr.m in Sources */,
@@ -2363,7 +2347,6 @@
 				553464F01AB43A740015BF37 /* EMChatViewController.m in Sources */,
 				552FF1641ABAB89700643CD9 /* SillyUserModel.m in Sources */,
 				551B53F61AE9E37E0096C02C /* ChatRoomImageBubbleView.m in Sources */,
-				55E562E41AB53AD100AF0D13 /* DPTabBarController.m in Sources */,
 				552FF19A1ABABE6500643CD9 /* NSArray+JSONModel.m in Sources */,
 				553465351AB45C240015BF37 /* EMChatViewController+Message.m in Sources */,
 				553047E11AB6810A00DFFDC4 /* CaptureSessionManager.m in Sources */,
@@ -2409,7 +2392,6 @@
 				552E4B621ACA88C400766CDD /* BBTableView.m in Sources */,
 				55CC87B81AF1D730005ADD5B /* BlockBackground.m in Sources */,
 				55E562E61AB53AD100AF0D13 /* NSDictionaryAdditions.m in Sources */,
-				55E562E31AB53AD100AF0D13 /* DPShortNoticeView.m in Sources */,
 				55CC87B71AF1D730005ADD5B /* BlockActionSheet.m in Sources */,
 				552FF19F1ABABE6500643CD9 /* JSONValueTransformer.m in Sources */,
 				55E2E3351ADA443D007B9B56 /* UIViewController+Front.m in Sources */,

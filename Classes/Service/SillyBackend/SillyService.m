@@ -7,7 +7,7 @@
 //
 
 #import "SillyService.h"
-#import "DPDeviceHelper.h"
+
 #import "SvUDIDTools.h"
 #import "NSStringAdditions.h"
 #import "NSDictionaryAdditions.h"
