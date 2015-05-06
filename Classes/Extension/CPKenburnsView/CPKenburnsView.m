@@ -29,13 +29,13 @@
 
 - (void)setImage:(UIImage *)image
 {
-    if (self.image == nil) {
-        [UIView animateWithDuration:.7f delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.alpha = 0;
-            self.alpha = 1.f;
-        } completion:^(BOOL finished) {
-        }];
-    };
+//    if (self.image == nil) {
+//        [UIView animateWithDuration:.7f delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//            self.alpha = 0;
+//            self.alpha = 1.f;
+//        } completion:^(BOOL finished) {
+//        }];
+//    };
     [super setImage:image];
 }
 

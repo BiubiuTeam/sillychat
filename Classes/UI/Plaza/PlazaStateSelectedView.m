@@ -75,6 +75,7 @@
 
 @end
 
+#define MSG_COLLECTION_INSET _size_S(10)
 //////////////////////////////////////////
 //////////////////////////////////////////
 @interface PlazaStateSelectedView ()
@@ -124,7 +125,7 @@
         self.backgroundColor = [UIColor clearColor];
         _maskView = [[UIView alloc] initWithFrame:self.bounds];
         _maskView.backgroundColor = APPLIGHTCOLOR;
-        _maskView.alpha = 0.7;
+        _maskView.alpha = 0.9;
         [self addSubview:_maskView];
         
         [self addSubview:self.messageLabel];
@@ -176,9 +177,11 @@
     [super layoutSubviews];
     _maskView.frame = self.bounds;
     
+    CGFloat height = _messageLabel.height + 3*(_size_S(96) + 10) + MSG_COLLECTION_INSET;
+    
     _messageLabel.centerX = self.width/2;
-    _messageLabel.top = 2*STATUSBAR_HEIGHT;
-    _collectionView.top = _messageLabel.bottom;
+    _messageLabel.top = (self.height - ALL_BUBBLE_BOTTOM2 - SMALL_BUBBLE_RADIUS - height)/2;
+    _collectionView.top = _messageLabel.bottom + MSG_COLLECTION_INSET;
 }
 
 #pragma mark -datasource

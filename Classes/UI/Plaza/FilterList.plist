@@ -67,7 +67,7 @@
 			</dict>
 			<dict>
 				<key>title</key>
-				<string>等车</string>
+				<string>在路上</string>
 				<key>fid</key>
 				<integer>5</integer>
 				<key>isSelected</key>
@@ -78,14 +78,6 @@
 				<string>上班ing</string>
 				<key>fid</key>
 				<integer>6</integer>
-				<key>isSelected</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>title</key>
-				<string>看b站</string>
-				<key>fid</key>
-				<integer>7</integer>
 				<key>isSelected</key>
 				<false/>
 			</dict>
@@ -110,14 +102,6 @@
 				<string>在自拍</string>
 				<key>fid</key>
 				<integer>10</integer>
-				<key>isSelected</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>title</key>
-				<string>拉粑粑</string>
-				<key>fid</key>
-				<integer>11</integer>
 				<key>isSelected</key>
 				<false/>
 			</dict>
