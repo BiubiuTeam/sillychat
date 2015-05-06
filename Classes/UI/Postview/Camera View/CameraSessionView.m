@@ -116,6 +116,11 @@
 }
 #pragma mark - User Interaction
 
+- (void)startCamera
+{
+    [_captureManager addStillImageOutput];
+}
+
 - (void)closeCameraWithAnimate:(BOOL)animation
 {
     if (animation == NO) {

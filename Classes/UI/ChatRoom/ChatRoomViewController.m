@@ -162,7 +162,7 @@
         
         _roundButton.backgroundColor = [UIColor clearColor];
         [_roundButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_state_cancel.png") forState:UIControlStateNormal];
-        [_roundButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_state_cancel.png") forState:UIControlStateSelected];
+        [_roundButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_state_cancel.png") forState:UIControlStateHighlighted];
         [_roundButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
     }
     return _roundButton;

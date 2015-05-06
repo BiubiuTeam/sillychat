@@ -216,7 +216,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         _switchButton.contentMode = UIViewContentModeScaleAspectFit;
         _switchButton.right = SCREEN_WIDTH - TOP_BTN_HOR_MARGIN;
         [_switchButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_switch.png") forState:UIControlStateNormal];
-        [_switchButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_switch.png") forState:UIControlStateHighlighted];
+        [_switchButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_switch.png") forState:UIControlStateSelected];
         [_switchButton addTarget:self action:@selector(switchLiveSessionState) forControlEvents:UIControlEventTouchUpInside];
     }
     return _switchButton;
@@ -232,7 +232,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         _photoLibaryButton.centerX = SCREEN_WIDTH/2;
         
         [_photoLibaryButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_library.png") forState:UIControlStateNormal];
-        [_photoLibaryButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_library.png") forState:UIControlStateHighlighted];
+        [_photoLibaryButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_library.png") forState:UIControlStateSelected];
         [_photoLibaryButton addTarget:self action:@selector(openPhotoLibrary) forControlEvents:UIControlEventTouchUpInside];
     }
     return _photoLibaryButton;
@@ -248,7 +248,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         _cancelButton.contentMode = UIViewContentModeScaleAspectFit;
         
         [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateNormal];
-        [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateHighlighted];
+        [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateSelected];
         [_cancelButton addTarget:self action:@selector(dismissPostView) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cancelButton;
@@ -277,6 +277,13 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)switchLiveSessionState
 {
+    [self performSelector:@selector(swithOptWithDelay) withObject:nil afterDelay:.2];
+}
+
+- (void)swithOptWithDelay
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(swithOptWithDelay) object:nil];
+    
     if (switchOperating) {
         return;
     }
@@ -564,15 +571,12 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 {
     //do what you need to do when animation ends...
     if ([[theAnimation valueForKey:@"CATransitionName"] isEqualToString:@"applicationLoadViewOut"]) {
-//        [_cameraView closeCameraWithAnimate:NO];
         if (_dismissOpt) {
             [self dismissViewControllerAnimated:NO completion:nil];
         }
     }
     
-    if (flag) {
-        switchOperating = NO;
-    }
+    switchOperating = NO;
 }
 
 #pragma mark - UIImagePickerControllerDelegate

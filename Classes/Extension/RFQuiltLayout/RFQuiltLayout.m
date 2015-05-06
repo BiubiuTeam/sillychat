@@ -410,20 +410,20 @@
 }
 
 
-// Note: name of method changed
-// Also this gets called for all visible cells (not just the inserted ones) and
-// even gets called when deleting cells!
-- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
-{
-    // Must call super
-    UICollectionViewLayoutAttributes *attributes = [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
-    
-    attributes.center = CGPointMake(CGRectGetMaxX(self.collectionView.bounds) + attributes.frame.size.width/2, attributes.center.y);
-    
-//   attributes.transform3D = CATransform3DMakeScale(5.0, 0.2, 1.0);
-    
-    return attributes;
-}
+//// Note: name of method changed
+//// Also this gets called for all visible cells (not just the inserted ones) and
+//// even gets called when deleting cells!
+//- (UICollectionViewLayoutAttributes *)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath *)itemIndexPath
+//{
+//    // Must call super
+//    UICollectionViewLayoutAttributes *attributes = [super initialLayoutAttributesForAppearingItemAtIndexPath:itemIndexPath];
+//    
+//    attributes.center = CGPointMake(CGRectGetMaxX(self.collectionView.bounds) + attributes.frame.size.width/2, attributes.center.y);
+//    
+////   attributes.transform3D = CATransform3DMakeScale(5.0, 0.2, 1.0);
+//    
+//    return attributes;
+//}
 
 // Note: name of method changed
 // Also this gets called for all visible cells (not just the deleted ones) and

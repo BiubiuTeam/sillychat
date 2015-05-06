@@ -236,7 +236,7 @@
         _shuffleButton.contentMode = UIViewContentModeScaleAspectFit;
         
         [_shuffleButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_shuffle.png") forState:UIControlStateNormal];
-        [_shuffleButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_shuffle.png") forState:UIControlStateHighlighted];
+        [_shuffleButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_shuffle2.png") forState:UIControlStateHighlighted];
         [_shuffleButton addTarget:self action:@selector(shufflePostOpt) forControlEvents:UIControlEventTouchUpInside];
     }
     return _shuffleButton;
@@ -252,7 +252,7 @@
         _closeButton.contentMode = UIViewContentModeScaleAspectFit;
         _closeButton.bottom = self.height;
         [_closeButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_arrow.png") forState:UIControlStateNormal];
-        [_closeButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_arrow.png") forState:UIControlStateHighlighted];
+        [_closeButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_arrow2.png") forState:UIControlStateHighlighted];
         [_closeButton addTarget:self action:@selector(endEdittingOpt) forControlEvents:UIControlEventTouchUpInside];
     }
     return _closeButton;
