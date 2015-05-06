@@ -144,9 +144,6 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
              //发送自动登陆状态通知
              [[NSNotificationCenter defaultCenter] postNotificationName:kEMNotificationLogin object:nil userInfo:nil];
              [self loginStateChange:YES];
-             
-             //将旧版的coredata数据导入新的数据库
-             [[EaseMob sharedInstance].chatManager loadDataFromDatabase];
          }else {
              _loginProcess = error.errorCode;
              [[NSNotificationCenter defaultCenter] postNotificationName:kEMNotificationLogin object:nil userInfo:nil];
@@ -178,16 +175,6 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
         _loginProcess = 0;
     }else{
         [self registerAccount];
-        
-        [[SillyService shareInstance] fetchSillyUserInformation:nil comletion:^(id json, JSONModelError *err) {
-            if (err == nil) {
-                SillyUserModel* user = [[SillyUserModel alloc] initWithDictionary:json error:&err];
-                if (user) {
-                    [[EMAccountService shareInstance] setAccountGendar:[user.userConfig integerValue]];
-                    [[EMAccountService shareInstance] updateSettingAccountInfo:YES];
-                }
-            }
-        }];
     }
 }
 

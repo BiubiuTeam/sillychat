@@ -70,7 +70,11 @@
     [mutFilter replaceObjectAtIndex:indexPath.row withObject:select];
     
     [[[SCStateService shareInstance] filterDatasource] setValue:mutFilter forKey:[NSString stringWithFormat:@"section%zd",indexPath.section]];
-    [self.collectionView reloadItemsAtIndexPaths:@[indexPath,oldPosition]];
+    if (oldPosition) {
+        [self.collectionView reloadItemsAtIndexPaths:@[indexPath,oldPosition]];
+    }else{
+        [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    }
 }
 
 - (UICollectionView *)collectionView

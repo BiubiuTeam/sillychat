@@ -139,9 +139,8 @@
     CGRect tar_rect = CGRectMake(rect.origin.x, rect.origin.y ,rect.size.width, rect.size.height);
     
     CGImageRef imageRefRect = CGImageCreateWithImageInRect(imageRef, tar_rect);
-    
     UIImage *imageRect = [[UIImage alloc] initWithCGImage:imageRefRect];
-    
+    CGImageRelease(imageRefRect);
     return imageRect;
 }
 

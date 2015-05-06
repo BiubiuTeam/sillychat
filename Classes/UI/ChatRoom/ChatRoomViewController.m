@@ -310,6 +310,11 @@ static NSUInteger NumberOfRow = 5;
 
 - (void)centerTableView
 {
+    //
+    if (![_buddyList count]) {
+        return;
+    }
+    
     NSLog(@"********************centerTableView*******************************");
     
     NSInteger pageIndex;

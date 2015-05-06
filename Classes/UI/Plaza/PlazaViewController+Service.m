@@ -75,13 +75,11 @@
 {
     [[SillyService shareInstance] sendBroacastToPlaza:BroacastType_Voice titleContent:audioPath  msgTag:_msgTag extension:extension comletion:^(id json, JSONModelError *err) {
         PlazaViewController* tmpself = (PlazaViewController*)_weakSelf;
-        BOOL succeed = NO;
         if (err == nil) {
             SillyResponseModel* response = [[SillyResponseModel alloc] initWithDictionary:json error:&err];
             if (response && [response.statusCode integerValue] == 0) {
                 DPTrace("语音广播成功");
                 [tmpself forceToUpdatePlazaSillyMessage];
-                succeed = YES;
             }else {
                 DPTrace("广播无聊语音消息失败");
             }

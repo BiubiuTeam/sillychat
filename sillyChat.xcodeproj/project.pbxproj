@@ -55,7 +55,6 @@
 		552FF19E1ABABE6500643CD9 /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1911ABABE6500643CD9 /* JSONKeyMapper.m */; };
 		552FF19F1ABABE6500643CD9 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1931ABABE6500643CD9 /* JSONValueTransformer.m */; };
 		552FF1A01ABABE6500643CD9 /* LICENSE_jsonmodel.txt in Resources */ = {isa = PBXBuildFile; fileRef = 552FF1941ABABE6500643CD9 /* LICENSE_jsonmodel.txt */; };
-		552FF1A11ABABE6500643CD9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1951ABABE6500643CD9 /* README.md */; };
 		552FF1A41ABABE8C00643CD9 /* JSONModel+Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1A31ABABE8C00643CD9 /* JSONModel+Encoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		552FF1A71ABAC10500643CD9 /* SillyResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1A61ABAC10500643CD9 /* SillyResponseModel.m */; };
 		552FF1AE1ABAE3C500643CD9 /* BiuDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1AD1ABAE3C500643CD9 /* BiuDevice.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -223,7 +222,6 @@
 		55EA44DC1AC81B85004EE1B9 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EA44D71AC81B85004EE1B9 /* libbaidumapapi.a */; };
 		55EA44DD1AC81B85004EE1B9 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55EA44D91AC81B85004EE1B9 /* libbaidumapapi.a */; };
 		55EA44DE1AC81B85004EE1B9 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 55EA44DA1AC81B85004EE1B9 /* mapapi.bundle */; };
-		55EA44DF1AC81B85004EE1B9 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 55EA44DB1AC81B85004EE1B9 /* readme.txt */; };
 		55EA44E21AC81CDD004EE1B9 /* AppDelegate+BMap.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55EA44E11AC81CDD004EE1B9 /* AppDelegate+BMap.mm */; };
 		55EA44F81AC82729004EE1B9 /* DPLbsServerEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55EA44F51AC82729004EE1B9 /* DPLbsServerEngine.mm */; };
 		55EA44F91AC82729004EE1B9 /* NSObject+Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 55EA44F71AC82729004EE1B9 /* NSObject+Encoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -330,7 +328,6 @@
 		552FF1921ABABE6500643CD9 /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
 		552FF1931ABABE6500643CD9 /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
 		552FF1941ABABE6500643CD9 /* LICENSE_jsonmodel.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_jsonmodel.txt; sourceTree = "<group>"; };
-		552FF1951ABABE6500643CD9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		552FF1A21ABABE8C00643CD9 /* JSONModel+Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JSONModel+Encoder.h"; path = "Classes/Service/SillyBackend/JSONModel+Encoder.h"; sourceTree = SOURCE_ROOT; };
 		552FF1A31ABABE8C00643CD9 /* JSONModel+Encoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "JSONModel+Encoder.m"; path = "Classes/Service/SillyBackend/JSONModel+Encoder.m"; sourceTree = SOURCE_ROOT; };
 		552FF1A51ABAC10500643CD9 /* SillyResponseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SillyResponseModel.h; sourceTree = "<group>"; };
@@ -771,7 +768,6 @@
 		55EA44D71AC81B85004EE1B9 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
 		55EA44D91AC81B85004EE1B9 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
 		55EA44DA1AC81B85004EE1B9 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
-		55EA44DB1AC81B85004EE1B9 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		55EA44E01AC81CDD004EE1B9 /* AppDelegate+BMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+BMap.h"; sourceTree = "<group>"; };
 		55EA44E11AC81CDD004EE1B9 /* AppDelegate+BMap.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "AppDelegate+BMap.mm"; sourceTree = "<group>"; };
 		55EA44F41AC82729004EE1B9 /* DPLbsServerEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPLbsServerEngine.h; sourceTree = "<group>"; };
@@ -930,7 +926,6 @@
 				552FF1A31ABABE8C00643CD9 /* JSONModel+Encoder.m */,
 				552FF17A1ABABE6500643CD9 /* JSONModel */,
 				552FF1941ABABE6500643CD9 /* LICENSE_jsonmodel.txt */,
-				552FF1951ABABE6500643CD9 /* README.md */,
 			);
 			path = JSONModel;
 			sourceTree = "<group>";
@@ -1951,7 +1946,6 @@
 				55EA449E1AC81B85004EE1B9 /* inc */,
 				55EA44D51AC81B85004EE1B9 /* libs */,
 				55EA44DA1AC81B85004EE1B9 /* mapapi.bundle */,
-				55EA44DB1AC81B85004EE1B9 /* readme.txt */,
 			);
 			path = BaiduMapLib;
 			sourceTree = "<group>";
@@ -2184,7 +2178,6 @@
 				5530EFD81AB8590200C08F5F /* Emoji-抠鼻@2x.png in Resources */,
 				5530EFC31AB8545C00C08F5F /* 笑@2x.png in Resources */,
 				5530EFDC1AB8590200C08F5F /* Emoji-笑@2x.png in Resources */,
-				55EA44DF1AC81B85004EE1B9 /* readme.txt in Resources */,
 				552E379F1AC23D5B002702F8 /* AppIcon40@2x.png in Resources */,
 				552E37AC1AC24119002702F8 /* Localizable.strings in Resources */,
 				5530EFC21AB8545C00C08F5F /* 窒息@2x.png in Resources */,
@@ -2371,7 +2364,6 @@
 				553464BE1AB439D70015BF37 /* MBProgressHUD+Add.m in Sources */,
 				553047EF1AB6D59F00DFFDC4 /* TagImageView.m in Sources */,
 				552FF1601ABAAE3D00643CD9 /* SillyDataMgr.m in Sources */,
-				552FF1A11ABABE6500643CD9 /* README.md in Sources */,
 				553465441AB45CA20015BF37 /* NSDateFormatter+Category.m in Sources */,
 				5534643A1AB40FC60015BF37 /* BaseInfoSettingView.m in Sources */,
 				553465811AB468CC0015BF37 /* MessageModel.m in Sources */,

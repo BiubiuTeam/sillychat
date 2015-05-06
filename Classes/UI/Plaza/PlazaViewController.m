@@ -166,6 +166,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@YES];
+    
     if ([[RelationShipService shareInstance] hasUnhandleMessage]) {
         [_chatRoomButton setSelected:YES];
         [_chatRoomButton startAnimation];
@@ -175,6 +177,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@NO];
 }
 
 - (void)registLocationNotification
@@ -406,10 +409,6 @@
 
 - (void)openPostViewController
 {
-    [[SCStateService shareInstance] setSelectedStateTag:_msgTag];
-    _filterButton.selected = YES;
-    [self closeFilterSelectView];
-    
     PostViewController* postview = [[PostViewController alloc] init];
     postview.delegate = self;
 //    postview.modalPresentationStyle = UIModalPresentationCustom;
@@ -473,6 +472,10 @@
     if (ptype != PostViewType_Plaza) {
         return;
     }
+    
+    [[SCStateService shareInstance] setSelectedStateTag:_msgTag];
+    _filterButton.selected = YES;
+    [self closeFilterSelectView];
     
     if (ctype == PostContentType_Text) {
         [self postTextBroadcast:content];

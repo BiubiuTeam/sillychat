@@ -33,8 +33,16 @@
 {
     if (self = [super initWithFrame:frame]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restartMotion) name:UIApplicationDidBecomeActiveNotification object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optActionWhenReceiveNotification:) name:@"KenburnsImageViewStateSet" object:nil];
     }
     return self;
+}
+
+- (void)optActionWhenReceiveNotification:(NSNotification*)notification
+{
+    NSNumber* bvalue = notification.object;
+    [self setState:([bvalue boolValue])?CPKenburnsImageViewStateAnimating:CPKenburnsImageViewStatePausing];
 }
 
 - (void)setImage:(UIImage *)image

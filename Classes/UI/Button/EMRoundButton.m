@@ -101,6 +101,8 @@
     maskLayer.path = maskPath;
     maskLayer.fillColor = [UIColor blackColor].CGColor;
     
+    CGPathRelease(maskPath);
+    
     CGPoint point = CGPointMake(maskBounds.size.width/2, maskBounds.size.height/2);
     maskLayer.position = point;
     

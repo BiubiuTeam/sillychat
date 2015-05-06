@@ -127,8 +127,8 @@
     if (videoConnection) {
         [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:
          ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
-    
-             if (error) {
+             //imageSampleBuffer could be null
+             if (error || !imageSampleBuffer) {
                  DPTrace("摄像出错%@",error);
                  return ;
              }

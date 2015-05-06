@@ -64,7 +64,6 @@ void UncaughtExceptionHandler(NSException *exception) {
     
     _connectionState = eEMConnectionConnected;
     [self easemobApplication:application withOptions:launchOptions];
-    [[EMAccountService shareInstance] loginStateChange:NO];
 
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _window.backgroundColor = APPLICATIONCOLOR;
@@ -75,7 +74,8 @@ void UncaughtExceptionHandler(NSException *exception) {
     }
     _window.rootViewController = _homePageViewController;
     [_window makeKeyAndVisible];
-    
+
+    [[EMAccountService shareInstance] loginStateChange:NO];
     return YES;
 }
 
