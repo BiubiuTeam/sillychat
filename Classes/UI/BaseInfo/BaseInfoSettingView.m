@@ -286,7 +286,7 @@
 - (SillyDragImageView *)roundButton
 {
     if (nil == _roundButton) {
-        _roundButton = [[SillyDragImageView alloc] initWithFrame:CGRectMake(0, 0, EMROUND_RADIUS, EMROUND_RADIUS)];
+        _roundButton = [[SillyDragImageView alloc] initWithFrame:CGRectMake(0, 0, BIG_BUBBLE_RADIUS, BIG_BUBBLE_RADIUS)];
         _roundButton.backgroundColor = [UIColor clearColor];
         _roundButton.image = LOAD_ICON_USE_POOL_CACHE(@"regist/silly_regist_dark.png");
         _roundButton.animationImages = @[LOAD_ICON_USE_POOL_CACHE(@"regist/silly_regist_dark.png"),LOAD_ICON_USE_POOL_CACHE(@"regist/silly_regist_light.png")];

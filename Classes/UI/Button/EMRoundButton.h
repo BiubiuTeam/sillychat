@@ -28,6 +28,4 @@
 
 - (void)blink;
 
-- (CGPoint)defaultCenterPoint;
-
 @end

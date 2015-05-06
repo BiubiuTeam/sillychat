@@ -19,15 +19,4 @@
 
 #define APPBLACKCOLOR RGBACOLOR(0x39, 0x38, 0x32, 1)
 
-//对于那个泡泡的一些基本属性
-#define EMROUND_RADIUS (99.0)
-//水平居中
-#define BUBBLE_CENTERX (SCREEN_WIDTH/2)
-//距离底部
-#define BUBBLE_MARGIN_BOTTOM (SCREEN_HEIGHT - 68)
-
-
-#define ALL_BUBBLE_BOTTOM (SCREEN_HEIGHT - _size_S(25))
-#define ALL_BUBBLE_BOTTOM2 (SCREEN_HEIGHT - _size_S(50))
-
 #endif

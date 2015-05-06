@@ -8,8 +8,6 @@
 
 #import "ChatRoomViewController.h"
 #import "EMChatViewController.h"
-#import "EMRoundButton.h"
-#import "EMRoundButton+DragEffect.h"
 
 #import "SillyService.h"
 #import "SillyRelationshipModel.h"
@@ -39,12 +37,10 @@
 @property (nonatomic, strong) NSMutableArray* buddyList;
 @property (nonatomic, strong) UIView* containerView;
 @property (nonatomic, strong) BBTableView* tableView;
-@property (nonatomic, strong) EMRoundButton* roundButton;
+
+@property (nonatomic, strong) UIButton* roundButton;
 
 @property (nonatomic, strong) ChatRoomBubbleView* bubbleView;
-
-@property (nonatomic, strong) UIImageView* dotLightView;
-@property (nonatomic, strong) UILabel* msgLabel;
 
 @end
 
@@ -60,16 +56,7 @@
     [_containerView addSubview:self.tableView];
     
     [_containerView addSubview:self.roundButton];
-    [_containerView addSubview:self.dotLightView];
-    [_containerView addSubview:self.msgLabel];
-    
-    [_containerView bringSubviewToFront:_dotLightView];
-    [_containerView bringSubviewToFront:_msgLabel];
     [_containerView bringSubviewToFront:_roundButton];
-    
-    _dotLightView.centerX = _msgLabel.centerX = _roundButton.centerX = BUBBLE_CENTERX;
-    _dotLightView.top = _roundButton.bottom + _size_S(4);
-    _msgLabel.top = _dotLightView.bottom + _size_S(4);
     
     [self registerEaseMobNotification];
     
@@ -165,35 +152,27 @@
     return _buddyList;
 }
 
-- (EMRoundButton *)roundButton
+- (UIButton *)roundButton
 {
     if (nil == _roundButton) {
-        _roundButton = [[EMRoundButton alloc] initWithFrame:CGRectZero];
-        _roundButton.centerX = BUBBLE_CENTERX;
-        _roundButton.bottom = BUBBLE_MARGIN_BOTTOM;
-        _roundButton.topActionViewController = self;
-        [_roundButton addDragEffectAbility];
+        _roundButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _roundButton.size = CGSizeMake(SMALL_BUBBLE_RADIUS, SMALL_BUBBLE_RADIUS);
+        _roundButton.centerX = self.view.width/2;
+        _roundButton.bottom = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM2;
+        
+        _roundButton.backgroundColor = [UIColor clearColor];
+        [_roundButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_state_cancel.png") forState:UIControlStateNormal];
+        [_roundButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_state_cancel.png") forState:UIControlStateSelected];
+        [_roundButton addTarget:self action:@selector(didClickBackButton) forControlEvents:UIControlEventTouchUpInside];
     }
     return _roundButton;
 }
 
-- (void)operationRespondsWhenTouchEdges
+- (void)didClickBackButton
 {
     _dismissingVC = YES;
-    [self moveRoundButtonToOldPlace];
     [_bubbleView removeFromSuperview];
     [_tableView setContentOffset:CGPointMake(0, (_tableView.contentSize.height + _tableView.height)) animated:YES];
-}
-
-- (void)moveRoundButtonToOldPlace
-{
-    _roundButton.highlighted = NO;
-    [UIView beginAnimations:@"dismissAnimation" context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:0.25];
-    // View changes go here
-    _roundButton.bottom = BUBBLE_MARGIN_BOTTOM;
-    [UIView commitAnimations];
 }
 
 - (void)dismissChatRoomView
@@ -202,7 +181,6 @@
 }
 
 static NSUInteger NumberOfRow = 5;
-
 - (UITableView *)tableView
 {
     if (nil == _tableView) {
@@ -210,7 +188,7 @@ static NSUInteger NumberOfRow = 5;
         frame.origin.y = STATUSBAR_HEIGHT;
         frame.origin.x = 2*SCREEN_WIDTH/3;
         frame.size.width = abs(SCREEN_WIDTH - frame.origin.x);
-        CGFloat height = BUBBLE_MARGIN_BOTTOM - STATUSBAR_HEIGHT;
+        CGFloat height = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM2 - STATUSBAR_HEIGHT;
         frame.size.height = NumberOfRow*abs(height/NumberOfRow);
         
         _tableView = [[BBTableView alloc] initWithFrame:frame];
@@ -225,31 +203,6 @@ static NSUInteger NumberOfRow = 5;
         [_tableView setEnableInfiniteScrolling:NO];
     }
     return _tableView;
-}
-
-- (UIImageView *)dotLightView
-{
-    if (nil == _dotLightView) {
-        _dotLightView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _dotLightView.backgroundColor = [UIColor clearColor];
-        _dotLightView.image = LOAD_ICON_USE_POOL_CACHE(@"private/silly_arrow_highlight.png");
-        _dotLightView.frame = CGRectMake(0, 0, 20, 25);
-        _dotLightView.contentMode = UIViewContentModeCenter;
-    }
-    return _dotLightView;
-}
-
-- (UILabel *)msgLabel
-{
-    if (nil == _msgLabel) {
-        _msgLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _msgLabel.backgroundColor = [UIColor clearColor];
-        _msgLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
-        _msgLabel.textColor = [UIColor whiteColor];
-        _msgLabel.text = @"下滑返回";
-        [_msgLabel sizeToFit];
-    }
-    return _msgLabel;
 }
 
 - (void)updateRelationshipsList:(NSArray*)shiplist

@@ -11,8 +11,7 @@
 @implementation EMRoundButton
 
 - (id)initWithFrame:(CGRect)frame {
-    
-    frame.size = CGSizeMake(EMROUND_RADIUS, EMROUND_RADIUS);
+    frame.size = CGSizeMake(BIG_BUBBLE_RADIUS, BIG_BUBBLE_RADIUS);
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         [self setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_round_button.png")];
@@ -148,8 +147,4 @@
     [circleShape addAnimation:animation forKey:nil];
 }
 
-- (CGPoint)defaultCenterPoint
-{
-    return CGPointMake(BUBBLE_CENTERX, BUBBLE_MARGIN_BOTTOM - EMROUND_RADIUS/2);
-}
 @end

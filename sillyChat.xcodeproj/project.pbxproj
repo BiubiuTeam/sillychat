@@ -71,8 +71,6 @@
 		553047F21AB6D5AD00DFFDC4 /* TagVoiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553047F11AB6D5AD00DFFDC4 /* TagVoiceView.m */; };
 		553048071AB6DEDE00DFFDC4 /* CPKenburnsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553048061AB6DEDE00DFFDC4 /* CPKenburnsView.m */; };
 		5530E85C1AE0E07600044718 /* DXRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530E85B1AE0E07600044718 /* DXRecordView.m */; };
-		5530EF861AB7D68000C08F5F /* EMDragButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF851AB7D68000C08F5F /* EMDragButton.m */; };
-		5530EF891AB8070000C08F5F /* EMRoundButton+DragEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF881AB8070000C08F5F /* EMRoundButton+DragEffect.m */; };
 		5530EF921AB8327300C08F5F /* SillyEmojView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EF911AB8327300C08F5F /* SillyEmojView.m */; };
 		5530EFBA1AB8545C00C08F5F /* SillyEmojiList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5530EFA11AB8545C00C08F5F /* SillyEmojiList.plist */; };
 		5530EFBB1AB8545C00C08F5F /* 吐舌头@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5530EFA21AB8545C00C08F5F /* 吐舌头@2x.png */; };
@@ -362,10 +360,6 @@
 		553048061AB6DEDE00DFFDC4 /* CPKenburnsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPKenburnsView.m; sourceTree = "<group>"; };
 		5530E85A1AE0E07600044718 /* DXRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXRecordView.h; sourceTree = "<group>"; };
 		5530E85B1AE0E07600044718 /* DXRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXRecordView.m; sourceTree = "<group>"; };
-		5530EF841AB7D68000C08F5F /* EMDragButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMDragButton.h; sourceTree = "<group>"; };
-		5530EF851AB7D68000C08F5F /* EMDragButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMDragButton.m; sourceTree = "<group>"; };
-		5530EF871AB8070000C08F5F /* EMRoundButton+DragEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMRoundButton+DragEffect.h"; sourceTree = "<group>"; };
-		5530EF881AB8070000C08F5F /* EMRoundButton+DragEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMRoundButton+DragEffect.m"; sourceTree = "<group>"; };
 		5530EF901AB8327300C08F5F /* SillyEmojView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SillyEmojView.h; sourceTree = "<group>"; };
 		5530EF911AB8327300C08F5F /* SillyEmojView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SillyEmojView.m; sourceTree = "<group>"; };
 		5530EFA11AB8545C00C08F5F /* SillyEmojiList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SillyEmojiList.plist; sourceTree = "<group>"; };
@@ -1727,10 +1721,6 @@
 				553465311AB443B50015BF37 /* EMRoundButton.m */,
 				55E5622A1AB525FF00AF0D13 /* EMAnimationButton.h */,
 				55E5622B1AB525FF00AF0D13 /* EMAnimationButton.m */,
-				5530EF841AB7D68000C08F5F /* EMDragButton.h */,
-				5530EF851AB7D68000C08F5F /* EMDragButton.m */,
-				5530EF871AB8070000C08F5F /* EMRoundButton+DragEffect.h */,
-				5530EF881AB8070000C08F5F /* EMRoundButton+DragEffect.m */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -2269,7 +2259,6 @@
 			files = (
 				552E4B611ACA88C400766CDD /* BBCell.m in Sources */,
 				553465991AB469B30015BF37 /* BaseTableViewCell.m in Sources */,
-				5530EF891AB8070000C08F5F /* EMRoundButton+DragEffect.m in Sources */,
 				5534659B1AB469B30015BF37 /* EMTextView.m in Sources */,
 				55E562E01AB53AD100AF0D13 /* BiuUtilFun.m in Sources */,
 				5530EF921AB8327300C08F5F /* SillyEmojView.m in Sources */,
@@ -2339,7 +2328,6 @@
 				55CAC2B41AB9240300B00A1C /* SillyEmojiMgr.m in Sources */,
 				5534644C1AB42B500015BF37 /* Emoji.m in Sources */,
 				5534641D1AB3E27E0015BF37 /* EMAccountService.m in Sources */,
-				5530EF861AB7D68000C08F5F /* EMDragButton.m in Sources */,
 				55E562EB1AB53AD100AF0D13 /* UIScreenEx.mm in Sources */,
 				553464451AB42B050015BF37 /* ChatSendHelper.m in Sources */,
 				55CAC2BE1AB96DF800B00A1C /* UIImage+BoxBlur.m in Sources */,

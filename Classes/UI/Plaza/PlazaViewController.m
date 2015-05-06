@@ -276,7 +276,7 @@
         [_roundButton addGestureRecognizer:longGes];
     }
     _roundButton.centerX = self.view.width/2;
-    _roundButton.bottom = BUBBLE_MARGIN_BOTTOM;
+    _roundButton.bottom = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM;
     return _roundButton;
 }
 
@@ -372,22 +372,36 @@
 
 - (void)removeStateSelectedView
 {
+    [self removeStateSelectedViewWithAnimate:YES];
+}
+
+- (void)removeStateSelectedViewWithAnimate:(BOOL)animate
+{
     PlazaStateSelectedView* stateSelectedView = (PlazaStateSelectedView*)[self.view findSubview:@"PlazaStateSelectedView" resursion:YES];
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        stateSelectedView.top = SCREEN_HEIGHT;
-        _removeStateButton.transform = CGAffineTransformMakeRotation(-45 *M_PI / 180.0);
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [stateSelectedView removeFromSuperview];
-            _removeStateButton.transform = CGAffineTransformMakeRotation(0);
-            [_removeStateButton removeTarget:self action:@selector(removeStateSelectedView) forControlEvents:UIControlEventTouchUpInside];
-            [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateSelected];
-            [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateNormal];
-            [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateHighlighted];
-            [self.view insertSubview:_removeStateButton belowSubview:_roundButton];
-        }
-    }];
+    if (animate) {
+        [UIView animateWithDuration:0.3 animations:^{
+            stateSelectedView.top = SCREEN_HEIGHT;
+            _removeStateButton.transform = CGAffineTransformMakeRotation(-45 *M_PI / 180.0);
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [stateSelectedView removeFromSuperview];
+                _removeStateButton.transform = CGAffineTransformMakeRotation(0);
+                [_removeStateButton removeTarget:self action:@selector(removeStateSelectedView) forControlEvents:UIControlEventTouchUpInside];
+                [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateSelected];
+                [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateNormal];
+                [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateHighlighted];
+                [self.view insertSubview:_removeStateButton belowSubview:_roundButton];
+            }
+        }];
+    }else{
+        [stateSelectedView removeFromSuperview];
+        _removeStateButton.transform = CGAffineTransformMakeRotation(0);
+        [_removeStateButton removeTarget:self action:@selector(removeStateSelectedView) forControlEvents:UIControlEventTouchUpInside];
+        [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateSelected];
+        [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateNormal];
+        [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateHighlighted];
+        [self.view insertSubview:_removeStateButton belowSubview:_roundButton];
+    }
 }
 
 - (void)openPostViewController
@@ -551,7 +565,7 @@
     _wording4Tag = [datasource objectForKey:@"title"];
     
     [self openPostViewController];
-    [self removeStateSelectedView];
+    [self removeStateSelectedViewWithAnimate:NO];
 }
 
 @end

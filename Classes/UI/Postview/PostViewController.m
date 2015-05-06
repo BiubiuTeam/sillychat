@@ -25,7 +25,6 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 #define TOP_BTN_MGTOP _size_S(25)
 #define TOP_BTN_WIDTH _size_S(35)
 #define TOP_BTN_HEIGHT _size_S(35)
-#define SEND_BTN_RADIUS _size_S(100)
 
 @interface PostViewController ()<UITextViewDelegate,CACameraSessionDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PostAccessoryViewProtocol>
 {
@@ -259,9 +258,9 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 {
     if (nil == _confirmButton) {
         _confirmButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _confirmButton.size = CGSizeMake(SEND_BTN_RADIUS, SEND_BTN_RADIUS);
+        _confirmButton.size = CGSizeMake(BIG_BUBBLE_RADIUS, BIG_BUBBLE_RADIUS);
         _confirmButton.centerX = SCREEN_WIDTH/2;
-        _confirmButton.bottom = ALL_BUBBLE_BOTTOM;
+        _confirmButton.bottom = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM;
         _confirmButton.backgroundColor = [UIColor clearColor];
     
         [_confirmButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_send.png") forState:UIControlStateNormal];

@@ -169,7 +169,7 @@
         [_roundButton addTarget:self action:@selector(clickButton) forControlEvents:UIControlEventTouchUpInside];
     }
     _roundButton.centerX = self.view.width/2;
-    _roundButton.bottom = BUBBLE_MARGIN_BOTTOM;
+    _roundButton.bottom = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM;
     return _roundButton;
 }
 

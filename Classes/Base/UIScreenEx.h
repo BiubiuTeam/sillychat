@@ -58,6 +58,11 @@ extern "C" {
 
 #define APPLICATION_HEIGHT      (SCREEN_HEIGHT - STATUSBAR_HEIGHT)
 
+#define BIG_BUBBLE_RADIUS (100)
+#define SMALL_BUBBLE_RADIUS (50)
+#define ALL_BUBBLE_BOTTOM ((25))
+#define ALL_BUBBLE_BOTTOM2 ((50))
+
 #endif /* defined(__baseUI__UIScreenEx__) */
 
 
