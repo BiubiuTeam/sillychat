@@ -45,6 +45,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUserLocationEndUpdate:) name:DPLocationDidEndUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGeoReverseResultUpdate:) name:DPLocationGetReverseGeoCodeResult object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLocationFailedUpdate:) name:DPLocationDidFailedUpdate object:nil];
+    
     _searchOptHolding = NO;
     [self addSubControls];
 }
@@ -270,6 +272,12 @@
 //    }
 }
 
+- (void)didLocationFailedUpdate:(NSNotification*)notification
+{
+    [_roundButton stopAnimation];
+    [self showHint:@"定位失败，请检查您当前的网络"];
+}
+
 - (void)didGeoReverseResultUpdate:(NSNotification*)notification
 {
     DPTrace("GEO检索完成: %@",[[DPLbsServerEngine shareInstance] city]);
@@ -277,9 +285,6 @@
         if (_searchOptHolding) {
             [self searchSillyMessageRequest];
         }
-    }else{
-        [_roundButton stopAnimation];
-        [self showHint:@"定位失败，请检查您当前的网络"];
     }
 }
 

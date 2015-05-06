@@ -32,6 +32,8 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     BOOL switchOperating;
     CGFloat _textViewWidth;
     UIColor* _textViewTintColor;
+    
+    BOOL _dismissOpt;
 }
 
 @property (strong, nonatomic) UIImage* selectedImage; //**从图库选择的图片
@@ -346,7 +348,16 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     if(_selectedImage){
         [self didCaptureImage:_selectedImage];
     }else if (_cameraView) {
-        [_cameraView takeAPicture];
+        @try {
+//            [_cameraView stopRunning];
+            [_cameraView takeAPicture];
+        }
+        @catch (NSException *exception) {
+            DPTrace("这个操作有异常");
+        }
+        @finally {
+            DPTrace("完成了这个操作");
+        }
     }
 }
 
@@ -362,7 +373,8 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (void)dismissPostView
 {
     [_textView resignAllFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    _dismissOpt = YES;
+    [self removeCamera];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -537,8 +549,11 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         return;
     }
     
-    CATransition *applicationLoadViewOut =[CATransition animation];
+    CATransition *applicationLoadViewOut = [CATransition animation];
     applicationLoadViewOut.delegate = self;
+    
+    [applicationLoadViewOut setValue:@"applicationLoadViewOut" forKey:@"CATransitionName"];
+    
     [applicationLoadViewOut setDuration:0.3];
     [applicationLoadViewOut setType:kCATransitionFade];
     [applicationLoadViewOut setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
@@ -549,10 +564,16 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
     //do what you need to do when animation ends...
-    if (theAnimation == [[_cameraView layer] animationForKey:@"applicationLoadViewOut"]) {
-        [_cameraView closeCameraWithAnimate:NO];
+    if ([[theAnimation valueForKey:@"CATransitionName"] isEqualToString:@"applicationLoadViewOut"]) {
+//        [_cameraView closeCameraWithAnimate:NO];
+        if (_dismissOpt) {
+            [self dismissViewControllerAnimated:NO completion:nil];
+        }
     }
-    switchOperating = NO;
+    
+    if (flag) {
+        switchOperating = NO;
+    }
 }
 
 #pragma mark - UIImagePickerControllerDelegate

@@ -10,6 +10,9 @@
 #import <ImageIO/ImageIO.h>
 
 @implementation CaptureSessionManager
+{
+    CameraType usingCameraType;
+}
 
 #pragma mark Capture Session Configuration
 
@@ -39,7 +42,7 @@
             }
         }
     }
-    
+    usingCameraType = cameraType;
     NSError *error          = nil;
     BOOL deviceAvailability = YES;
     
@@ -53,6 +56,31 @@
     if (self.delegate) [self.delegate cameraSessionManagerDidReportAvailability:deviceAvailability forCameraType:cameraType];
     
     [self initiateStatisticsReportWithInterval:.125];
+}
+
+- (void)switchCameras
+{
+    AVCaptureDevicePosition desiredPosition;
+    if (usingCameraType == FrontFacingCamera){
+        desiredPosition = AVCaptureDevicePositionBack;
+        usingCameraType = RearFacingCamera;
+    }else{
+        desiredPosition = AVCaptureDevicePositionFront;
+        usingCameraType = FrontFacingCamera;
+    }
+    
+    for (AVCaptureDevice *d in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
+        if ([d position] == desiredPosition) {
+            [[[self previewLayer] session] beginConfiguration];
+            AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:d error:nil];
+            for (AVCaptureInput *oldInput in [[[self previewLayer] session] inputs]) {
+                [[[self previewLayer] session] removeInput:oldInput];
+            }
+            [[[self previewLayer] session] addInput:input];
+            [[[self previewLayer] session] commitConfiguration];
+            break;
+        }
+    }
 }
 
 -(void)initiateStatisticsReportWithInterval:(CGFloat)interval {
@@ -100,6 +128,10 @@
         [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:
          ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
     
+             if (error) {
+                 DPTrace("摄像出错%@",error);
+                 return ;
+             }
              CFDictionaryRef exifAttachments = CMGetAttachment(imageSampleBuffer, kCGImagePropertyExifDictionary, NULL);
              if (exifAttachments) {
                  //Attachements Found

@@ -29,4 +29,5 @@
 - (void)closeCameraWithAnimate:(BOOL)animation;
 - (void)toggleCamera;
 
+- (UIImage *)imageFromLayer;
 @end

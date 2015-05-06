@@ -398,8 +398,7 @@
     
     PostViewController* postview = [[PostViewController alloc] init];
     postview.delegate = self;
-    postview.transitioningDelegate = [DPSlideInteractor shareInstance];
-    postview.modalPresentationStyle = UIModalPresentationCustom;
+//    postview.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:postview animated:NO completion:nil];
 }
 

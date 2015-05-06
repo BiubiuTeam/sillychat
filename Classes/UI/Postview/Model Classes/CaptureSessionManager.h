@@ -42,4 +42,5 @@
 - (void)initiateCaptureSessionForCamera:(CameraType)cameraType;
 - (void)stop;
 
+- (void)switchCameras;
 @end

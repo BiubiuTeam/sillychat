@@ -25,6 +25,18 @@
 
 @implementation CameraSessionView
 
+- (UIImage *)imageFromLayer
+{
+    UIGraphicsBeginImageContext([_captureManager.previewLayer frame].size);
+    
+    [_captureManager.previewLayer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return outputImage;
+}
+
 -(instancetype)initWithFrame:(CGRect)frame withType:(CameraType)type
 {
     self = [super initWithFrame:frame];
@@ -153,13 +165,9 @@
 
 - (void)toggleCamera
 {
-    //这里是否需要增加动画
-//    [self stopLiveSession];
-    if (cameraBeingUsed == RearFacingCamera) {
-        [self setupCaptureWithType:FrontFacingCamera];
-    }else if (cameraBeingUsed == FrontFacingCamera){
-        [self setupCaptureWithType:RearFacingCamera];
-    }
+    [[_captureManager captureSession] stopRunning];
+    [_captureManager switchCameras];
+    [[_captureManager captureSession] startRunning];
 }
 
 #pragma mark - Camera Session Manager Delegate Methods

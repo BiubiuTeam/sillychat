@@ -93,7 +93,7 @@
         
         if (text) {
             _isPlaceholderDisplayed = YES;
-            [RGBACOLOR(0x99, 0x99, 0x99, 1) set];
+            [RGBACOLOR(0xee, 0xee, 0xee, 1) set];
             [text drawInRect:self.bounds withFont:self.font lineBreakMode:NSLineBreakByWordWrapping alignment:self.textAlignment];
         }else{
             _isPlaceholderDisplayed = NO;
