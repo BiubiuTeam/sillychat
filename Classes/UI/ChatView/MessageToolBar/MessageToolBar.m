@@ -84,6 +84,8 @@
     _delegate = nil;
     _inputTextView.delegate = nil;
     _inputTextView = nil;
+    
+    DPTrace("\n--------------聊天页面消息输入框销毁完成--------------");
 }
 
 #pragma mark - getter

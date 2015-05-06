@@ -59,6 +59,11 @@
     [self.layer addSublayer:bottomBorder];
 }
 
+- (void)dealloc
+{
+    DPTrace("\n--------------表情输入面板销毁完成--------------");
+}
+
 - (void)setup
 {
     self.backgroundColor = [UIColor clearColor];

@@ -108,4 +108,9 @@ NSString *const kRouterEventChatCellBubbleTapEventName = @"kRouterEventChatCellB
     
     return [image stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];
 }
+
+- (void)dealloc
+{
+    DPTrace("\n----------会话内容单元销毁----------");
+}
 @end

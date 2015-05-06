@@ -95,6 +95,8 @@
     _slimeView.delegate = nil;
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
+    self.tableView = nil;
+    self.slimeView = nil;
     
     [[EaseMob sharedInstance].chatManager stopPlayingAudio];
     
@@ -104,15 +106,15 @@
     _messageQueue = nil;
     
     self.messages = nil;
-    self.slimeView = nil;
-    self.tableView = nil;
     self.dataSource = nil;
     self.chatter = nil;
     self.messageReadManager = nil;
     self.conversation = nil;
     
     _chatToolBar.delegate = nil;
-    _chatToolBar = nil;
+    self.chatToolBar = nil;
+    
+    DPTrace("\n--------------聊天页面销毁完成--------------");
 }
 
 - (void)didReceiveMemoryWarning {

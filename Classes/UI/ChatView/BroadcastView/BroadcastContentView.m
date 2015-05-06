@@ -93,4 +93,8 @@
     return [[DPAsyncImageLoader sharedLoader] URLForTarget:self action:@selector(setWebImage:)];
 }
 
+- (void)dealloc
+{
+    DPTrace("\n--------------私聊图片销毁完成--------------");
+}
 @end

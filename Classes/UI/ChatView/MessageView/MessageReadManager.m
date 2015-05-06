@@ -38,6 +38,15 @@ static MessageReadManager *detailInstance = nil;
 
 #pragma mark - getter
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        DPTrace("\n--------------ReadManager创建完成--------------");
+    }
+    return self;
+}
+
+
 - (UIWindow *)keyWindow
 {
     if(_keyWindow == nil)
@@ -49,7 +58,10 @@ static MessageReadManager *detailInstance = nil;
 }
 
 #pragma mark - private
-
+- (void)dealloc
+{
+    DPTrace("\n--------------ReadManager销毁完成--------------");
+}
 
 #pragma mark - public
 

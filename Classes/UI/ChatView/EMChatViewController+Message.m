@@ -29,7 +29,7 @@
 
 - (NSArray *)formatMessages:(NSArray *)messagesArray
 {
-    NSMutableArray *formatArray = [[NSMutableArray alloc] init];
+    NSMutableArray *formatArray = [NSMutableArray array];
     if ([messagesArray count] > 0) {
         for (EMMessage *message in messagesArray) {
             NSDate *createDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.timestamp];
@@ -50,7 +50,7 @@
 
 - (NSMutableArray *)formatMessage:(EMMessage *)message
 {
-    NSMutableArray *ret = [[NSMutableArray alloc] init];
+    NSMutableArray *ret = [NSMutableArray array];
     NSDate *createDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.timestamp];
     NSTimeInterval tempDate = [createDate timeIntervalSinceDate:self.chatTagDate];
     if (tempDate > 60 || tempDate < -60 || (self.chatTagDate == nil)) {
@@ -67,34 +67,36 @@
 
 - (void)loadMoreMessages
 {
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(_messageQueue, ^{
-        long long timestamp = [[NSDate date] timeIntervalSince1970] * 1000 + 1;
-        
-        NSArray *messages = [weakSelf.conversation loadNumbersOfMessages:(_curMessagesCount + KPageCount) before:timestamp];
-        _curMessagesCount = [messages count];
-        if ([messages count] > 0) {
-            [weakSelf.messages removeAllObjects];
-            for (EMMessage *message in messages)
-            {
-                if (message.ext && [message.ext count]) {
-                    NSString* sort = [message.ext objectForKey:@"broadcast"];
-                    if ([sort integerValue] == [[self.broadcastModel sortId] integerValue]) {
-                        [weakSelf.messages addObject:message];
+    @autoreleasepool {
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(_messageQueue, ^{
+            long long timestamp = [[NSDate date] timeIntervalSince1970] * 1000 + 1;
+            
+            NSArray *messages = [weakSelf.conversation loadNumbersOfMessages:(_curMessagesCount + KPageCount) before:timestamp];
+            _curMessagesCount = [messages count];
+            if ([messages count] > 0) {
+                [weakSelf.messages removeAllObjects];
+                for (EMMessage *message in messages)
+                {
+                    if (message.ext && [message.ext count]) {
+                        NSString* sort = [message.ext objectForKey:@"broadcast"];
+                        if ([sort integerValue] == [[self.broadcastModel sortId] integerValue]) {
+                            [weakSelf.messages addObject:message];
+                        }
                     }
                 }
+                NSInteger currentCount = [weakSelf.dataSource count];
+                weakSelf.dataSource = [[weakSelf formatMessages:[weakSelf.messages copy]] mutableCopy];
+                if (weakSelf.dataSource.count) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.tableView reloadData];
+                        
+                        [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:MAX(0, [weakSelf.dataSource count] - currentCount - 1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    });
+                }
             }
-            NSInteger currentCount = [weakSelf.dataSource count];
-            weakSelf.dataSource = [[weakSelf formatMessages:[weakSelf.messages copy]] mutableCopy];
-            if (weakSelf.dataSource.count) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.tableView reloadData];
-                    
-                    [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:MAX(0, [weakSelf.dataSource count] - currentCount - 1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                });
-            }
-        }
-    });
+        });
+    }
 }
 
 -(void)addMessage:(EMMessage *)message

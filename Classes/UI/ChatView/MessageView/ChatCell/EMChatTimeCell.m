@@ -43,4 +43,9 @@
     [super layoutSubviews];
     
 }
+
+- (void)dealloc
+{
+    DPTrace("\n---------聊天时间label销毁---------");
+}
 @end

@@ -66,6 +66,8 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     self.switchButton = nil;
     self.textView = nil;
     self.captureView = nil;
+    
+    DPTrace("\n------------发表页面销毁----------");
 }
 
 - (instancetype)initWithViewType:(PostViewType)type

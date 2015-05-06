@@ -126,6 +126,7 @@
 - (void)dealloc
 {
     [self stopAnimation];
+    DPTrace("\n--------------飘过来的表情销毁完成--------------");
 }
 
 @end

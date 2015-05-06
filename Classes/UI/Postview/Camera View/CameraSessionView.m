@@ -259,6 +259,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    DPTrace("\n------------视频页面销毁----------");
 }
 
 @end

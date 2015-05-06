@@ -41,7 +41,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.countLabel = nil;
-    
+    DPTrace("\n------------输入框销毁----------");
 }
 
 - (void)dpTextDidChanged:(NSNotification*)notification
@@ -293,4 +293,8 @@
     }
 }
 
+- (void)dealloc
+{
+    DPTrace("\n------------输入框accessoryview销毁----------");
+}
 @end

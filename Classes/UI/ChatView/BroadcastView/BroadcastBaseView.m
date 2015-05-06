@@ -259,4 +259,8 @@
     return STATUSBAR_HEIGHT + BBV_VER_MARGIN*2 + BBV_VER_INSET + BBV_STATE_RADIUS + BBV_PROGRESS_HEIGHT;
 }
 
+- (void)dealloc
+{
+    DPTrace("\n--------------私聊信息详情销毁完成--------------");
+}
 @end

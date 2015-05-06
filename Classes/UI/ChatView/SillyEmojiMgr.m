@@ -10,8 +10,6 @@
 
 @implementation SillyEmojiMgr
 
-static NSArray* _emojiArray = nil;
-
 + (BOOL)isEmojiMessage:(NSString*)content
 {
     if ([content length]) {
@@ -24,11 +22,8 @@ static NSArray* _emojiArray = nil;
 
 + (NSArray*)emojiArray
 {
-    if (nil == _emojiArray) {
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"SillyEmojiList" ofType:@"plist"];
-        _emojiArray =  [NSArray arrayWithContentsOfFile:plistPath];
-    }
-    return _emojiArray;
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"SillyEmojiList" ofType:@"plist"];
+    return [NSArray arrayWithContentsOfFile:plistPath];
 }
 
 @end

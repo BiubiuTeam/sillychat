@@ -21,13 +21,15 @@
     if (self)
     {
         //code
+        DPTrace("\n--------------聊天数据源有创建--------------");
     }
     
     return self;
 }
 
-- (void)dealloc{
-    
+- (void)dealloc
+{
+    DPTrace("\n--------------聊天数据源销毁完成--------------");
 }
 
 @end

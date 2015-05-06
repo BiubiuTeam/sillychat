@@ -48,6 +48,11 @@ NSString *const kRouterEventChatHeadImageTapEventName = @"kRouterEventChatHeadIm
     return self;
 }
 
+- (void)dealloc
+{
+    DPTrace("\n--------------会话单元销毁完成--------------");
+}
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];
