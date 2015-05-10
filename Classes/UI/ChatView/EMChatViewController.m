@@ -86,6 +86,8 @@
     [self.view bringSubviewToFront:_broadcastView];
     [_containerView bringSubviewToFront:_contentView];
     [_containerView bringSubviewToFront:_chatToolBar];
+    
+    _mainVCtrColor = APPBLACKCOLOR;
 }
 
 - (void)dealloc

@@ -99,6 +99,8 @@
 		5530EFE31AB859AA00C08F5F /* EmojiItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530EFE21AB859AA00C08F5F /* EmojiItem.m */; };
 		55313CF41ADCBF8A00828A71 /* SillyVoiceCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 55313CF31ADCBF8A00828A71 /* SillyVoiceCache.m */; };
 		5531C3361AF86926008C61A7 /* SCStateService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5531C3351AF86926008C61A7 /* SCStateService.m */; };
+		5532C5D51AFF78B700891EBB /* UIImageResize.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5532C5D11AFF78B700891EBB /* UIImageResize.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5532C5D61AFF78B700891EBB /* UIImageRoundedCorner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5532C5D31AFF78B700891EBB /* UIImageRoundedCorner.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		553340AC1AE5FD330070E1AA /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 553340A91AE5FD330070E1AA /* libMobClickLibrary.a */; };
 		553340AF1AE5FF400070E1AA /* AppDelegate+UMeng.m in Sources */ = {isa = PBXBuildFile; fileRef = 553340AE1AE5FF400070E1AA /* AppDelegate+UMeng.m */; };
 		5533D8FC1AD8F8F300DA905F /* DPAudioUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5533D8FB1AD8F8F300DA905F /* DPAudioUploader.m */; };
@@ -392,6 +394,10 @@
 		55313CF31ADCBF8A00828A71 /* SillyVoiceCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SillyVoiceCache.m; sourceTree = "<group>"; };
 		5531C3341AF86926008C61A7 /* SCStateService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCStateService.h; sourceTree = "<group>"; };
 		5531C3351AF86926008C61A7 /* SCStateService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCStateService.m; sourceTree = "<group>"; };
+		5532C5D01AFF78B700891EBB /* UIImageResize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageResize.h; sourceTree = "<group>"; };
+		5532C5D11AFF78B700891EBB /* UIImageResize.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIImageResize.mm; sourceTree = "<group>"; };
+		5532C5D21AFF78B700891EBB /* UIImageRoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageRoundedCorner.h; sourceTree = "<group>"; };
+		5532C5D31AFF78B700891EBB /* UIImageRoundedCorner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIImageRoundedCorner.mm; sourceTree = "<group>"; };
 		553340A61AE5FAE40070E1AA /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = Pods/UMengAnalytics/Analytics_iOS_SDK_2.2.1.OpenUDID/UMAnalytics_Sdk_2.2.1.OpenUDID/libMobClickLibrary.a; sourceTree = "<group>"; };
 		553340A91AE5FD330070E1AA /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		553340AA1AE5FD330070E1AA /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -1125,6 +1131,17 @@
 			path = VoiceEngine;
 			sourceTree = "<group>";
 		};
+		5532C5CD1AFF78B700891EBB /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				5532C5D01AFF78B700891EBB /* UIImageResize.h */,
+				5532C5D11AFF78B700891EBB /* UIImageResize.mm */,
+				5532C5D21AFF78B700891EBB /* UIImageRoundedCorner.h */,
+				5532C5D31AFF78B700891EBB /* UIImageRoundedCorner.mm */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
 		553340A81AE5FD330070E1AA /* UMAnalytics_Sdk_3.4.7 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1587,6 +1604,7 @@
 		553464281AB4068A0015BF37 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5532C5CD1AFF78B700891EBB /* UIImage */,
 				557C6E0A1AF12D8E008F8A81 /* BounceSheet */,
 				55357C451AC9273E004BA079 /* HomePage */,
 				55C734E91AB721A700AF3630 /* ChatRoom */,
@@ -2274,6 +2292,7 @@
 				552E4B501ACA3CC500766CDD /* CPKenburnsView+AsyncImage.m in Sources */,
 				553464EA1AB439D70015BF37 /* SRSlimeView.m in Sources */,
 				55313CF41ADCBF8A00828A71 /* SillyVoiceCache.m in Sources */,
+				5532C5D51AFF78B700891EBB /* UIImageResize.mm in Sources */,
 				553465A11AB469B30015BF37 /* XHMessageTextView.m in Sources */,
 				553465A41AB4786B0015BF37 /* EMChatViewController+Responder.m in Sources */,
 				552D80D21ADD4CDD00E96868 /* SillyVoiceEngine.m in Sources */,
@@ -2377,6 +2396,7 @@
 				55301B841AD622CA005C8680 /* PlazaPhotoBrowser.m in Sources */,
 				553464BE1AB439D70015BF37 /* MBProgressHUD+Add.m in Sources */,
 				553047EF1AB6D59F00DFFDC4 /* TagImageView.m in Sources */,
+				5532C5D61AFF78B700891EBB /* UIImageRoundedCorner.mm in Sources */,
 				552FF1601ABAAE3D00643CD9 /* SillyDataMgr.m in Sources */,
 				553465441AB45CA20015BF37 /* NSDateFormatter+Category.m in Sources */,
 				5534643A1AB40FC60015BF37 /* BaseInfoSettingView.m in Sources */,

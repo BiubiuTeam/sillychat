@@ -120,6 +120,10 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     
     _textViewTintColor = [[UITextView appearance] tintColor];
     [[UITextView appearance] setTintColor:TEXTVIEW_TINT_COLOR];
+    
+    if (_dismissOpt == NO && [self isCameraAuthorized] == NO && _selectedImage == nil) {
+        [self openPhotoLibrary];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -133,7 +137,6 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [_textView becomeFirstResponder];
 }
 
 - (void)addKeyboardNotification
@@ -255,7 +258,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         
         [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateNormal];
         [_cancelButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_cancel.png") forState:UIControlStateSelected];
-        [_cancelButton addTarget:self action:@selector(dismissPostView) forControlEvents:UIControlEventTouchUpInside];
+        [_cancelButton addTarget:self action:@selector(closePostView) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cancelButton;
 }
@@ -388,30 +391,38 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)dismissPostView
 {
-    [_textView resignAllFirstResponder];
     _dismissOpt = YES;
-    _textView.hidden = YES;
-    _photoLibaryButton.hidden = _cancelButton.hidden = _switchButton.hidden = YES;
-    _confirmButton.hidden = YES;
-    _cameraView.hidden = YES;
-    
+    [_textView resignAllFirstResponder];
     /*动画移动图片*/
-    [UIView animateWithDuration:.5 animations:^{
+    [UIView animateWithDuration:.3 animations:^{
+        _textView.hidden = YES;
+        _photoLibaryButton.hidden = _cancelButton.hidden = _switchButton.hidden = YES;
+        _confirmButton.hidden = YES;
+        _cameraView.hidden = YES;
+        
         _captureView.frame = CGRectMake(CRAP_IMAGE_LEFT, CRAP_IMAGE_TOP, CRAP_IMAGE_RADIUS, CRAP_IMAGE_RADIUS);
         _captureView.layer.cornerRadius = CRAP_IMAGE_RADIUS/2;
         _captureView.layer.masksToBounds = YES;
     } completion:^(BOOL finished) {
         if (finished) {
-            [self dismissViewControllerAnimated:NO completion:nil];
+            [self dismissViewController];
         }
     }];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//cancel button event
+- (void)closePostView
+{
+    _dismissOpt = YES;
+    [_textView resignAllFirstResponder];
+    [self removeCamera];
 }
 
+- (void)dismissViewController
+{
+    [self dismissViewControllerAnimated:NO completion:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@YES];
+    }];
+}
 #pragma mark - helper
 
 - (void)uploadImageAndDismissView
@@ -607,7 +618,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     //do what you need to do when animation ends...
     if ([[theAnimation valueForKey:@"CATransitionName"] isEqualToString:@"applicationLoadViewOut"]) {
         if (_dismissOpt) {
-            [self dismissViewControllerAnimated:NO completion:nil];
+            [self dismissViewController];
         }
     }
     
@@ -629,9 +640,19 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
-    if (_selectedImage == nil) {
-        [self switchLiveSessionState];
+    if ([self isCameraAuthorized]) {
+        [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+        if (_selectedImage == nil) {
+            [self switchLiveSessionState];
+        }
+        self.imagePicker = nil;
+    }else{
+        _dismissOpt = YES;
+        [self.imagePicker dismissViewControllerAnimated:YES completion:^{
+            if (_selectedImage == nil) {
+                [self closePostView];
+            }
+        }];
     }
 }
 

@@ -11,7 +11,9 @@
 @interface BaseViewController : UIViewController
 {
     __weak BaseViewController* _weakSelf;
+    UIColor* _mainVCtrColor;
 }
 @property (nonatomic, weak) BaseViewController* weakSelf;
 
+- (BOOL) isCameraAuthorized;
 @end

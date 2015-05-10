@@ -410,7 +410,10 @@
     PostViewController* postview = [[PostViewController alloc] init];
     postview.delegate = self;
     postview.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:postview animated:NO completion:nil];
+    [self presentViewController:postview animated:NO completion:^{
+        //这里是因为UIModalPresentationCustom 是不会触发viewwilldisappear的
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@NO];
+    }];
 }
 
 - (void)didPressOpenChatRoomButton
