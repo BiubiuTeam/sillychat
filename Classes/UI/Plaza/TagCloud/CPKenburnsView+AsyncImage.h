@@ -7,6 +7,9 @@
 //
 
 #import "CPKenburnsView.h"
+#import "UIImageView+AsyncImage.h"
+
+#define REMOVE_ANIMOTION (0)
 
 @interface CPKenburnsView (AsyncImage)
 
@@ -17,6 +20,10 @@
 /**
  *  由后台进入前台，重新视图的动画
  */
+#if REMOVE_ANIMOTION
+@interface DPKenburnsView : UIImageView
+#else
 @interface DPKenburnsView : CPKenburnsView
+#endif
 
 @end

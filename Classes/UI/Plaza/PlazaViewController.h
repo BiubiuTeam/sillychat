@@ -13,6 +13,7 @@
 
 #import "EMRoundButton.h"
 
+@class PlazaFilterButton;
 @interface PlazaViewController : BaseViewController<DPBaseUploadMgrProtocol>
 {
     NSUInteger _curUploadTaskTag;
@@ -21,11 +22,12 @@
     EMRoundButton* _roundButton;
     UIButton* _chatRoomButton;
     NSUInteger _msgTag; //选择发布广播所处的状态
-    
+    PlazaFilterButton * _filterButton;
     NSString* _wording4Tag;
 }
 @property (nonatomic, strong) DXRecordView* recordView;
 
+@property (nonatomic, strong) PlazaFilterButton * filterButton;
 @property (nonatomic, copy) void (^postOptComletionCallback)(BOOL, NSError *);
 
 - (instancetype)initWithTagsArray:(NSArray*)array;

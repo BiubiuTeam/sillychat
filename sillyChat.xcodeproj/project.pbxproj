@@ -201,6 +201,7 @@
 		55CC87B81AF1D730005ADD5B /* BlockBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 55CC87B61AF1D730005ADD5B /* BlockBackground.m */; };
 		55CCBF441AECC87E00720E2E /* UIImage+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55CCBF431AECC87E00720E2E /* UIImage+Helper.m */; };
 		55D085541AEF482900173996 /* BroadcastContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D085531AEF482900173996 /* BroadcastContentView.m */; };
+		55D67AEA1AFF598C00C95B38 /* CircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D67AE91AFF598C00C95B38 /* CircularProgressView.m */; };
 		55E2E3351ADA443D007B9B56 /* UIViewController+Front.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2E3341ADA443D007B9B56 /* UIViewController+Front.m */; };
 		55E5622C1AB525FF00AF0D13 /* EMAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E5622B1AB525FF00AF0D13 /* EMAnimationButton.m */; };
 		55E562E01AB53AD100AF0D13 /* BiuUtilFun.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -674,6 +675,8 @@
 		55CCBF431AECC87E00720E2E /* UIImage+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helper.m"; sourceTree = "<group>"; };
 		55D085521AEF482900173996 /* BroadcastContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastContentView.h; sourceTree = "<group>"; };
 		55D085531AEF482900173996 /* BroadcastContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastContentView.m; sourceTree = "<group>"; };
+		55D67AE81AFF598C00C95B38 /* CircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularProgressView.h; sourceTree = "<group>"; };
+		55D67AE91AFF598C00C95B38 /* CircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularProgressView.m; sourceTree = "<group>"; };
 		55E2E3331ADA443D007B9B56 /* UIViewController+Front.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Front.h"; sourceTree = "<group>"; };
 		55E2E3341ADA443D007B9B56 /* UIViewController+Front.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Front.m"; sourceTree = "<group>"; };
 		55E5622A1AB525FF00AF0D13 /* EMAnimationButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAnimationButton.h; sourceTree = "<group>"; };
@@ -1610,6 +1613,7 @@
 		553464301AB408530015BF37 /* Plaza */ = {
 			isa = PBXGroup;
 			children = (
+				55D67AE71AFF598C00C95B38 /* CircleProgress */,
 				55F3DFEF1AE7BB1E006E66E8 /* MetroView */,
 				553047E31AB6D13F00DFFDC4 /* TagCloud */,
 				553464311AB4086A0015BF37 /* PlazaViewController.h */,
@@ -1890,6 +1894,15 @@
 				55CAC2BC1AB96DF800B00A1C /* UIImage+BoxBlur.m */,
 			);
 			path = RealTimeBlur;
+			sourceTree = "<group>";
+		};
+		55D67AE71AFF598C00C95B38 /* CircleProgress */ = {
+			isa = PBXGroup;
+			children = (
+				55D67AE81AFF598C00C95B38 /* CircularProgressView.h */,
+				55D67AE91AFF598C00C95B38 /* CircularProgressView.m */,
+			);
+			path = CircleProgress;
 			sourceTree = "<group>";
 		};
 		55E562C01AB53AD100AF0D13 /* Base */ = {
@@ -2290,6 +2303,7 @@
 				552FF1961ABABE6500643CD9 /* JSONModel.m in Sources */,
 				553465781AB468CC0015BF37 /* EMChatAudioBubbleView.m in Sources */,
 				552FF1A71ABAC10500643CD9 /* SillyResponseModel.m in Sources */,
+				55D67AEA1AFF598C00C95B38 /* CircularProgressView.m in Sources */,
 				55E562E21AB53AD100AF0D13 /* DPFont.m in Sources */,
 				5534659E1AB469B30015BF37 /* EMChooseViewController.m in Sources */,
 				553465461AB45CA20015BF37 /* UIResponder+Router.m in Sources */,

@@ -9,8 +9,10 @@
 #import "PlazaFilterButton.h"
 #import "PlazaFilterView.h"
 #import "SCStateService.h"
+#import "CircleProgress/CircularProgressView.h"
+
 @interface PlazaFilterButton ()
-@property (nonatomic, strong) UIImageView* eyeImgView;
+@property (nonatomic, strong) CircularProgressView* eyeImgView;
 @property (nonatomic, strong) UILabel* filterLabel;
 @property (nonatomic, strong) UIImageView* arrowImgView;
 @end
@@ -24,18 +26,86 @@
         [self addSubview:self.filterLabel];
         [self addSubview:self.arrowImgView];
         [self setNeedUpdateContent];
+        self.uploadImage = nil;
+        _uploaderTag = 0;
+        [self setEyeType:EyeType_Black];
     }
     return self;
 }
 
-- (UIImageView *)eyeImgView
+- (CircularProgressView *)eyeImgView
 {
     if (nil == _eyeImgView) {
-        _eyeImgView = [[UIImageView alloc] initWithImage:LOAD_ICON_USE_POOL_CACHE(@"filter_eye_black.png")];
+        _eyeImgView = [[CircularProgressView alloc] initWithFrame:CGRectMake(0, 0, _size_S(25), _size_S(25)) backColor:[UIColor whiteColor] progressColor:RGBACOLOR(0x65, 0x9d, 0xd3, 1) lineWidth:1];
+        _eyeImgView.layer.cornerRadius = _eyeImgView.width/2;
+        _eyeImgView.layer.masksToBounds = YES;
         _eyeImgView.backgroundColor = [UIColor clearColor];
-        _eyeImgView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _eyeImgView;
+}
+
+- (void)setProgress:(float)progress
+{
+    [_eyeImgView setProgress:progress];
+}
+
+- (void)setEyeType:(EyeType)type
+{
+    if(_uploadImage){
+        type = EyeType_Custom;
+    }
+    UIImage* eye = nil;
+    _eyeImgView.contentMode = UIViewContentModeScaleAspectFit;
+    switch (type) {
+        case EyeType_Black:
+        {
+            eye = LOAD_ICON_USE_POOL_CACHE(@"filter_eye_black.png");
+        }break;
+        case EyeType_White:
+        {
+            eye = LOAD_ICON_USE_POOL_CACHE(@"filter_eye_white.png");
+        }break;
+        case EyeType_Succeed:
+        {
+            eye = LOAD_ICON_USE_POOL_CACHE(@"silly_upload_succeed.png");
+            
+            [self performSelector:@selector(resetEyeType) withObject:nil afterDelay:1];
+        }break;
+        case EyeType_Failed:
+        {
+            eye = LOAD_ICON_USE_POOL_CACHE(@"silly_upload_failed.png");
+            
+            [self performSelector:@selector(resetEyeType) withObject:nil afterDelay:1];
+        }break;
+        case EyeType_Custom:
+        {
+            _eyeImgView.contentMode = UIViewContentModeScaleAspectFill;
+            eye = _uploadImage;
+        }break;
+        default:
+            break;
+    }
+    _eyeImgView.image = eye;
+    
+    if (type == EyeType_Custom){
+        [_eyeImgView setProgressLayerHidden:NO];
+    }else{
+        [_eyeImgView setProgressLayerHidden:YES];
+    }
+}
+
+- (void)resetEyeType
+{
+    self.uploadImage = nil;
+    if (self.highlighted || self.selected) {
+        _filterLabel.textColor = [UIColor whiteColor];
+        _arrowImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_arrow_up.png");
+        [self setEyeType:EyeType_White];
+    }else{
+        _filterLabel.textColor = [UIColor blackColor];
+        _arrowImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_arrow_down.png");
+        [self setEyeType:EyeType_Black];
+    }
 }
 
 - (UILabel *)filterLabel
@@ -76,11 +146,13 @@
     if (highlighted || self.selected) {
         _filterLabel.textColor = [UIColor whiteColor];
         _arrowImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_arrow_up.png");
-        _eyeImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_eye_white.png");
+        
+        [self setEyeType:EyeType_White];
     }else{
         _filterLabel.textColor = [UIColor blackColor];
         _arrowImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_arrow_down.png");
-        _eyeImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_eye_black.png");
+        
+        [self setEyeType:EyeType_Black];
     }
 }
 
@@ -91,11 +163,13 @@
     if (selected) {
         _filterLabel.textColor = [UIColor whiteColor];
         _arrowImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_arrow_up.png");
-        _eyeImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_eye_white.png");
+        
+        [self setEyeType:EyeType_White];
     }else{
         _filterLabel.textColor = [UIColor blackColor];
         _arrowImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_arrow_down.png");
-        _eyeImgView.image = LOAD_ICON_USE_POOL_CACHE(@"filter_eye_black.png");
+        
+        [self setEyeType:EyeType_Black];
     }
 }
 

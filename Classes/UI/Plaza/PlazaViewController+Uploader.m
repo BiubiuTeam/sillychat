@@ -13,6 +13,8 @@
 #import <SDWebImage/SDImageCache.h>
 #import "SillyVoiceCache.h"
 #import "UIImage+Helper.h"
+#import "PlazaFilterButton.h"
+
 @implementation PlazaViewController (Uploader)
 
 - (void)addPhotoUploadTask:(UIImage*)photo
@@ -27,8 +29,11 @@
     [uploader createRequestWithImage:photo];
     
     uploader.extensionInfo = extension;
-    
     [[DPBaseUploadMgr shareInstance] addTaskWithPhotoTask:uploader];
+    
+    _filterButton.uploaderTag = uploader.taskTag;
+    [_filterButton setUploadImage:photo];
+    [_filterButton setEyeType:EyeType_Custom];
 }
 
 - (void)addAudioFileUploadTask:(NSString*)localPath withExtension:(NSDictionary*)extension
@@ -57,6 +62,9 @@
         case UploadContentType_Image:
         {
             NSLog(@"****图片上传进度：%f",process);
+            if (_filterButton.uploaderTag == task.taskTag) {
+                _filterButton.progress = process;
+            }
         } break;
         case UploadContentType_Audio:
         {
@@ -82,6 +90,10 @@
         {
             NSLog(@"*****图片上传结果：%@",info);
             if (info) {
+                if (_filterButton.uploaderTag == task.taskTag) {
+                    [_filterButton resetEyeType];
+                    [_filterButton setEyeType:EyeType_Succeed];
+                }
                 //上传成功
                 NSString* picPath = [info objectForKey:@"return_string"];
                 [self postImageBroadcast:picPath withExtension:task.extensionInfo];
@@ -90,6 +102,10 @@
                 DPPhotoUploader* uploader = (DPPhotoUploader*)task;
                 [[SDImageCache sharedImageCache] storeImage:[UIImage fixOrientation:uploader.uploadContent] forKey:picPath toDisk:YES];
             }else{
+                if (_filterButton.uploaderTag == task.taskTag) {
+                    [_filterButton resetEyeType];
+                    [_filterButton setEyeType:EyeType_Failed];
+                }
                 //上传失败了
                 if (self.postOptComletionCallback) {
                     self.postOptComletionCallback(NO, nil);
@@ -136,6 +152,10 @@
         } break;
         case UploadContentType_Image:
         {
+            if (_filterButton.uploaderTag == task.taskTag) {
+                [_filterButton resetEyeType];
+            }
+            
             if (self.postOptComletionCallback) {
                 self.postOptComletionCallback(NO, nil);
             }

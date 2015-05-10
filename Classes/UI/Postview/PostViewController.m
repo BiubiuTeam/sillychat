@@ -26,6 +26,10 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 #define TOP_BTN_WIDTH _size_S(35)
 #define TOP_BTN_HEIGHT _size_S(35)
 
+#define CRAP_IMAGE_TOP _size_S(56)
+#define CRAP_IMAGE_LEFT _size_S(12)
+#define CRAP_IMAGE_RADIUS _size_S(25)
+
 @interface PostViewController ()<UITextViewDelegate,CACameraSessionDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,PostAccessoryViewProtocol>
 {
     BOOL switchOperating;
@@ -144,7 +148,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 {
     if (nil == _containerView) {
         _containerView = [[UIView alloc] initWithFrame:self.view.bounds];
-        _containerView.backgroundColor = APPLICATIONCOLOR;
+        _containerView.backgroundColor = [UIColor clearColor];//APPLICATIONCOLOR;
     }
     return _containerView;
 }
@@ -354,7 +358,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (void)sendOutThisPost
 {
     if(_selectedImage){
-        [self didCaptureImage:_selectedImage];
+        [self uploadImageAndDismissView];
     }else if (_cameraView) {
         @try {
 //            [_cameraView stopRunning];
@@ -366,6 +370,10 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         @finally {
             DPTrace("完成了这个操作");
         }
+    }else{
+        [self showHudInTopWindowWithHint:@"图片内容不能为空，请从图库内选择一张"];
+        
+        [self openPhotoLibrary];
     }
 }
 
@@ -382,7 +390,21 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 {
     [_textView resignAllFirstResponder];
     _dismissOpt = YES;
-    [self removeCamera];
+    _textView.hidden = YES;
+    _photoLibaryButton.hidden = _cancelButton.hidden = _switchButton.hidden = YES;
+    _confirmButton.hidden = YES;
+    _cameraView.hidden = YES;
+    
+    /*动画移动图片*/
+    [UIView animateWithDuration:.5 animations:^{
+        _captureView.frame = CGRectMake(CRAP_IMAGE_LEFT, CRAP_IMAGE_TOP, CRAP_IMAGE_RADIUS, CRAP_IMAGE_RADIUS);
+        _captureView.layer.cornerRadius = CRAP_IMAGE_RADIUS/2;
+        _captureView.layer.masksToBounds = YES;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self dismissViewControllerAnimated:NO completion:nil];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -392,7 +414,29 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 #pragma mark - helper
 
-
+- (void)uploadImageAndDismissView
+{
+    if (_selectedImage == nil) {
+        [self showHudInTopWindowWithHint:@"图片为空，检查检查你的设备吧"];
+        return;
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(postOptWithContent:contentType:postType:extension:completion:)]) {
+        __weak PostViewController* weakSelf = self;
+        NSString* msg = [_textView.text length]?_textView.text:@"";
+        [_delegate postOptWithContent:_selectedImage contentType:PostContentType_IMG postType:_viewType extension:@{@"Text":msg} completion:^(BOOL succeed, NSError *error) {
+            [weakSelf hideHud];
+            if (succeed) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf dismissPostView];
+                });
+            }else{
+                [weakSelf showHudInTopWindowWithHint:@"发送失败"];
+                [weakSelf performSelector:@selector(hideHud) withObject:nil afterDelay:0.3];
+            }
+        }];
+    }
+}
 
 #pragma mark - keyboard notification
 
@@ -522,23 +566,12 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     [_containerView insertSubview:_cameraView aboveSubview:_captureView];
 }
 
--(void)didCaptureImage:(UIImage *)image {
+-(void)didCaptureImage:(UIImage *)image
+{
     NSLog(@"CAPTURED IMAGE");
-    //不把文字写入图片
-    //image = [UIImage drawTextView:_textView inImage:image];
-    if (_delegate && [_delegate respondsToSelector:@selector(postOptWithContent:contentType:postType:extension:completion:)]) {
-        __weak PostViewController* weakSelf = self;
-        NSString* msg = [_textView.text length]?_textView.text:@"";
-        [_delegate postOptWithContent:image contentType:PostContentType_IMG postType:_viewType extension:@{@"Text":msg} completion:^(BOOL succeed, NSError *error) {
-            [weakSelf hideHud];
-            if (succeed) {
-                [weakSelf dismissPostView];
-            }else{
-                [weakSelf showHudInTopWindowWithHint:@"发送失败"];
-                [weakSelf performSelector:@selector(hideHud) withObject:nil afterDelay:0.3];
-            }
-        }];
-    }
+    self.selectedImage = image;
+    
+    [self uploadImageAndDismissView];
 }
 
 -(void)didCaptureImageWithData:(NSData *)imageData {

@@ -101,8 +101,6 @@
 
 @property (nonatomic, strong) UIView* topPlaceView;
 
-@property (nonatomic, strong) PlazaFilterButton * filterButton;
-
 @property (nonatomic, strong) UIButton* chatRoomButton;
 
 @property (nonatomic, strong) UIButton* removeStateButton;
@@ -411,7 +409,7 @@
 {
     PostViewController* postview = [[PostViewController alloc] init];
     postview.delegate = self;
-//    postview.modalPresentationStyle = UIModalPresentationCustom;
+    postview.modalPresentationStyle = UIModalPresentationCustom;
     [self presentViewController:postview animated:NO completion:nil];
 }
 
