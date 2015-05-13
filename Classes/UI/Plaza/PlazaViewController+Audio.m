@@ -17,7 +17,7 @@
 - (DXRecordView *)recordView
 {
     if (nil == _recordView) {
-        _recordView = [[DXRecordView alloc] initWithImage:LOAD_ICON_USE_POOL_CACHE(@"voice/silly_voice_bg.png")];
+        _recordView = [[DXRecordView alloc] initWithFrame:CGRectZero];
     }
     return _recordView;
 }
@@ -25,7 +25,6 @@
 -(void)longPressGestureOpt:(UILongPressGestureRecognizer *)longGer
 {
     [UmLogEngine logEvent:EventPressureMode];
-    
     switch (longGer.state) {
         case UIGestureRecognizerStateBegan:
             NSLog(@"_UIGestureRecognizerStateBegan_");

@@ -36,33 +36,28 @@
     return self;
 }
 
-- (instancetype)initWithImage:(UIImage *)image
-{
-    if (self = [super initWithImage:image]) {
-        [self setupSubViews];
-    }
-    return self;
-}
-
 - (void)setupSubViews
 {
-    self.backgroundColor = [UIColor clearColor];
+    self.size = CGSizeMake(120, 120);
+    self.backgroundColor = RGBACOLOR(0x66, 0x55, 0x00, 1);
+    self.layer.cornerRadius = 60;
+    self.layer.masksToBounds = YES;
     
+    _isRecording = NO;
     _recordAnimationView = [[UIImageView alloc] initWithImage:LOAD_ICON_USE_POOL_CACHE(@"voice/silly_voice_feedback1.png")];
     _recordAnimationView.contentMode = UIViewContentModeCenter;
-    _recordAnimationView.center = CGPointMake(self.width/2, self.height/2);
+    _recordAnimationView.center = CGPointMake(self.width/2, self.height/2 - 11);
     [self addSubview:_recordAnimationView];
     
-    _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(5,
-                                                           self.bounds.size.height - 30,
-                                                           self.bounds.size.width - 10,
-                                                           25)];
-    
+    _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,
+                                                           _recordAnimationView.bottom + _size_S(8),
+                                                           self.bounds.size.width - 20,
+                                                           14)];
     _textLabel.textAlignment = NSTextAlignmentCenter;
     _textLabel.backgroundColor = [UIColor clearColor];
     _textLabel.text = NSLocalizedString(@"手指上滑，取消发送", @"Fingers up slide, cancel sending");
     [self addSubview:_textLabel];
-    _textLabel.font = [UIFont systemFontOfSize:13];
+    _textLabel.font = [UIFont systemFontOfSize:10];
     _textLabel.textColor = [UIColor whiteColor];
     _textLabel.layer.cornerRadius = 5;
     _textLabel.layer.borderColor = [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor;
@@ -75,6 +70,7 @@
     // 需要根据声音大小切换recordView动画
     _textLabel.text = NSLocalizedString(@"手指上滑，取消发送", @"Fingers up slide, cancel sending");
     _textLabel.backgroundColor = [UIColor clearColor];
+    _isRecording = YES;
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.05
                                               target:self
                                             selector:@selector(setVoiceImage)
@@ -110,7 +106,7 @@
 
 -(void)setVoiceImage
 {
-    if (_isRecording) {
+    if (_isRecording == NO) {
         
         return;
     }

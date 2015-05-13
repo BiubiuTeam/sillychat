@@ -12,7 +12,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DXRecordView : UIImageView
+@interface DXRecordView : UIView
 
 // 录音按钮按下
 -(void)recordButtonTouchDown;

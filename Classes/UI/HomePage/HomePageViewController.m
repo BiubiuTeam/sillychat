@@ -18,7 +18,7 @@
 #import "BaseInfoSettingView.h"
 
 #define SILLY_IMG_TOP (188)
-#define SILLY_IMG_DOT_TOP (32)
+#define SILLY_IMG_DOT_TOP (25)
 #define SILLY_IMG_INSET (3)
 #define SILLY_DOT_NUMBER (4)
 @interface HomePageViewController ()

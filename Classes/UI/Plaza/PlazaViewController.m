@@ -36,6 +36,7 @@
 
 #import "UmLogEngine.h"
 #import "RelationShipService.h"
+#import "UIERealTimeBlurView.h"
 
 @implementation UIButton (Blink)
 
@@ -105,6 +106,8 @@
 
 @property (nonatomic, strong) UIButton* removeStateButton;
 
+@property (nonatomic, strong) UIView* mainView;
+
 @property (nonatomic, strong) EMRoundButton* roundButton;
 @property (nonatomic, strong) PlazaFilterView* filterView;
 @property (nonatomic, strong) PlazaMetroView* metroView;
@@ -125,20 +128,35 @@
     return self;
 }
 
+- (UIView *)mainView
+{
+    if (nil == _mainView) {
+#if 0
+        _mainView = [[UIERealTimeBlurView alloc] initWithFrame:self.view.bounds];
+#else
+        _mainView = [[UIView alloc] initWithFrame:self.view.bounds];
+#endif
+        _mainView.backgroundColor = [UIColor clearColor];
+    }
+    return _mainView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view addSubview:self.topPlaceView];
+    [self.view addSubview:self.mainView];
+    
+    [_mainView addSubview:self.topPlaceView];
     // Do any additional setup after loading the view.
-    [self.view addSubview:self.removeStateButton];
-    [self.view addSubview:self.roundButton];
+    [_mainView addSubview:self.removeStateButton];
+    [_mainView addSubview:self.roundButton];
     
     [self.topPlaceView addSubview:self.filterButton];
     
     [self.topPlaceView addSubview:self.chatRoomButton];
-    [self.view addSubview:self.metroView];
+    [_mainView addSubview:self.metroView];
 
-    [self.view bringSubviewToFront:_topPlaceView];
+    [_mainView bringSubviewToFront:_topPlaceView];
     
     [self adjustControlsPosition];
     self.postOptComletionCallback = nil;
@@ -205,9 +223,9 @@
         [self closeFilterSelectView];
     }else{
         //打开
-        [self.view addSubview:self.filterView];
-        [self.view bringSubviewToFront:_topPlaceView];
-        [self.view insertSubview:_filterView belowSubview:_topPlaceView];
+        [_mainView addSubview:self.filterView];
+        [_mainView bringSubviewToFront:_topPlaceView];
+        [_mainView insertSubview:_filterView belowSubview:_topPlaceView];
         
         _filterView.bottom = _topPlaceView.bottom;
         [UIView animateWithDuration:0.3 animations:^{
@@ -274,14 +292,13 @@
 {
     if (nil == _roundButton) {
         _roundButton = [[EMRoundButton alloc] initWithFrame:CGRectZero];
-//        [_roundButton setTitle:@"点我发" forState:UIControlStateNormal];
         [_roundButton addTarget:self action:@selector(didPressSendSomethingButton) forControlEvents:UIControlEventTouchUpInside];
         
-        UILongPressGestureRecognizer* longGes = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureOpt:)];
-        longGes.minimumPressDuration = .75;
-        [_roundButton addGestureRecognizer:longGes];
+//        UILongPressGestureRecognizer* longGes = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureOpt:)];
+//        longGes.minimumPressDuration = .75;
+//        [_roundButton addGestureRecognizer:longGes];
     }
-    _roundButton.centerX = self.view.width/2;
+    _roundButton.centerX = _mainView.width/2;
     _roundButton.bottom = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM;
     return _roundButton;
 }
@@ -300,7 +317,7 @@
         
         [_chatRoomButton addTarget:self action:@selector(didPressOpenChatRoomButton) forControlEvents:UIControlEventTouchUpInside];
         
-        _chatRoomButton.right = self.view.width - 18;
+        _chatRoomButton.right = _mainView.width - 18;
         _chatRoomButton.layer.cornerRadius = _chatRoomButton.width/2;
     }
     return _chatRoomButton;
@@ -336,7 +353,7 @@
     CGFloat height = _roundButton.top - TAG_VERTICAL_MARGIN - _metroView.top;
     _metroView.height = height;
     
-    [self.view bringSubviewToFront:_metroView];
+    [_mainView bringSubviewToFront:_metroView];
     
     _removeStateButton.center = _roundButton.center;
 }
@@ -344,18 +361,18 @@
 - (PlazaFilterView *)filterView
 {
     if (nil == _filterView) {
-        _filterView = [[PlazaFilterView alloc] initWithFrame:self.view.bounds];
+        _filterView = [[PlazaFilterView alloc] initWithFrame:_mainView.bounds];
     }
     return _filterView;
 }
 #pragma mark - silly view delegate
 - (void)didPressSendSomethingButton
 {
-    PlazaStateSelectedView* stateSelectedView = [[PlazaStateSelectedView alloc] initWithFrame:self.view.bounds];
+    PlazaStateSelectedView* stateSelectedView = [[PlazaStateSelectedView alloc] initWithFrame:_mainView.bounds];
     stateSelectedView.tag = PlazaStateTag;
     stateSelectedView.delegate = self;
-    [self.view addSubview:stateSelectedView];
-    [self.view bringSubviewToFront:_removeStateButton];
+    [_mainView addSubview:stateSelectedView];
+    [_mainView bringSubviewToFront:_removeStateButton];
     
     stateSelectedView.alpha = 0.7;
     stateSelectedView.top = SCREEN_HEIGHT;
@@ -383,7 +400,7 @@
 
 - (void)removeStateSelectedViewWithAnimate:(BOOL)animate
 {
-    PlazaStateSelectedView* stateSelectedView = (PlazaStateSelectedView*)[self.view findSubview:@"PlazaStateSelectedView" resursion:YES];
+    PlazaStateSelectedView* stateSelectedView = (PlazaStateSelectedView*)[_mainView findSubview:@"PlazaStateSelectedView" resursion:YES];
     if (animate) {
         [UIView animateWithDuration:0.3 animations:^{
             stateSelectedView.top = SCREEN_HEIGHT;
@@ -396,7 +413,7 @@
                 [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateSelected];
                 [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateNormal];
                 [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateHighlighted];
-                [self.view insertSubview:_removeStateButton belowSubview:_roundButton];
+                [_mainView insertSubview:_removeStateButton belowSubview:_roundButton];
             }
         }];
     }else{
@@ -406,7 +423,7 @@
         [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateSelected];
         [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateNormal];
         [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateHighlighted];
-        [self.view insertSubview:_removeStateButton belowSubview:_roundButton];
+        [_mainView insertSubview:_removeStateButton belowSubview:_roundButton];
     }
 }
 
