@@ -412,6 +412,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 //cancel button event
 - (void)closePostView
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@YES];
     _dismissOpt = YES;
     [_textView resignAllFirstResponder];
     [self removeCamera];
@@ -581,7 +582,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 {
     NSLog(@"CAPTURED IMAGE");
     self.selectedImage = image;
-    
+    _captureView.image = image;
     [self uploadImageAndDismissView];
 }
 
@@ -611,6 +612,10 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     [applicationLoadViewOut setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [[_cameraView layer] addAnimation:applicationLoadViewOut forKey:@"applicationLoadViewOut"];
     _cameraView.alpha = 0;
+    if (_dismissOpt) {
+        [[_containerView layer] addAnimation:applicationLoadViewOut forKey:nil];
+        _containerView.alpha = 0;
+    }
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag

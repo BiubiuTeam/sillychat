@@ -7,7 +7,8 @@
 */
 
 //应用程序名称
-"CFBundleDisplayName" = "无聊";
-"CFBundleName" = "无聊";
+"CFBundleDisplayName" = "此刻";
+"CFBundleName" = "此刻";
 
 //地理位置请求信息
+"NSLocationWhenInUseUsageDescription" = "请点击“允许”以允许此刻获取地理位置信息请求。\n若不允许，则无法正常使用该程序。";

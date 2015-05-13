@@ -62,7 +62,8 @@
     
     BOOL showUp = [self needsShowUpInfoSettingView];
     if (showUp == NO && [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-        [self showHint:@"地理位置信息不可用"];
+//        [self showHint:@"地理位置信息不可用"];
+        [self showLocationDisableMessage];
     }
 }
 
@@ -177,7 +178,8 @@
 - (void)clickButton
 {
     if ([[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-        [self showHint:@"地理位置信息不可用"];
+//        [self showHint:@"地理位置信息不可用"];
+        [self showLocationDisableMessage];
         return;
     }
     
@@ -288,4 +290,10 @@
     }
 }
 
+- (void)showLocationDisableMessage
+{
+    NSString* navtipstr = @"打开定位开始\n请在iPhone \"设置-隐私-定位服务\"中打开\n定位服务，并允许此刻使用";
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"此刻，你应该" message:navtipstr delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
+}
 @end

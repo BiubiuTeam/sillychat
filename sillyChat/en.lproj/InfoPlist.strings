@@ -7,7 +7,8 @@
 */
 
 //应用程序名称
-"CFBundleDisplayName" = "sillychat";
-"CFBundleName" = "sillychat";
+"CFBundleDisplayName" = "CiKe";
+"CFBundleName" = "CiKe";
 
 //地理位置请求信息
+"NSLocationWhenInUseUsageDescription" = "biubiu uses location to get interesting things around you.\nTo do that you'll need to press \"Allow\".";

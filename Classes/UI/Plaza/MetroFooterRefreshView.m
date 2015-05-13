@@ -79,7 +79,7 @@ static NSString* LoadingMessage = @"正\n在\n加\n载";
 
 - (void)adjustPosition
 {
-    CGPoint center = CGPointMake(MAX(_scrollView.width, _scrollView.contentSize.width) + self.width/2, _scrollView.height/2);
+    CGPoint center = CGPointMake(MAX(SCREEN_WIDTH, _scrollView.contentSize.width) + self.width/2, _scrollView.height/2);
     self.center = center;
 }
 
@@ -111,7 +111,6 @@ static NSString* LoadingMessage = @"正\n在\n加\n载";
         } break;
         case MetroPullRefreshNormal:{
             if (_state == MetroPullRefreshPulling) {
-    
             }
             [self stopAnimation];
             _messageLabel.text = RefreshMessage;
@@ -170,10 +169,16 @@ static NSString* LoadingMessage = @"正\n在\n加\n载";
     
     BOOL condition = NO;
     UIEdgeInsets insets = UIEdgeInsetsZero;
-
-    CGFloat x = scrollView.contentOffset.x+scrollView.frame.size.width-scrollView.contentSize.width;
-    condition = (x > REFRESH_DRAG_WIDTH);
-    insets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, self.width);
+    
+    CGFloat x = scrollView.contentOffset.x + scrollView.frame.size.width - MAX(scrollView.frame.size.width,scrollView.contentSize.width);
+    
+    condition = (x > REFRESH_DRAG_WIDTH) && (scrollView.contentOffset.x > 0);
+    
+//    CGFloat right = REFRESH_WIDTH;
+//    if (scrollView.frame.size.width > scrollView.contentSize.width) {
+//        right = right + scrollView.frame.size.width - MAX(scrollView.frame.size.width,scrollView.contentSize.width);
+//    }
+    insets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, REFRESH_WIDTH);
 
     if (condition && !_loading) {
         if ([_delegate respondsToSelector:@selector(MetroRefreshTableHeaderDidTriggerRefresh:)]) {
