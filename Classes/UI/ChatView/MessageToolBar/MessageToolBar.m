@@ -239,6 +239,7 @@
     [self.toolbarView addSubview:self.toolbarBackgroundImageView];
     [self addSubview:self.toolbarView];
     
+    [self addTopBorderLayer];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
@@ -688,5 +689,15 @@
     self.pictureButton.selected = NO;
     //录音状态下，不显示底部扩展页面
     [self willShowBottomView:nil];
+}
+
+//haowen, 05-13 顶部分割线
+- (void)addTopBorderLayer
+{
+    // Add a bottomBorder.
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0f, 0, self.width, .5f);
+    bottomBorder.backgroundColor = RGBACOLOR(0x97, 0x97, 0x97, .75).CGColor;
+    [self.layer addSublayer:bottomBorder];
 }
 @end

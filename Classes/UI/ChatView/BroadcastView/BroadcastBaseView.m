@@ -55,6 +55,7 @@
         [self addSubview:self.profileLabel];
         [self.layer addSublayer:self.stateIconLayer];
         
+        [self addBottomBorderLayer];
         [self centerTopSubviews];
     }
     return self;
@@ -263,4 +264,15 @@
 {
     DPTrace("\n--------------私聊信息详情销毁完成--------------");
 }
+
+//haowen, 05-13 底部分割线
+- (void)addBottomBorderLayer
+{
+    // Add a bottomBorder.
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0f, self.height - .5, self.width, .5f);
+    bottomBorder.backgroundColor = RGBACOLOR(0x97, 0x97, 0x97, .75).CGColor;
+    [self.layer addSublayer:bottomBorder];
+}
+
 @end

@@ -35,7 +35,7 @@
         [self addSubview:_kenbunrsView];
         _kenbunrsView.backgroundColor = [UIColor clearColor];
         self.viewType = BroacastType_Image;
-        _kenbunrsView.image = [UIImage imageWithColor:RGBACOLOR(0xe9, 0xc6, 0x00, 1) size:_kenbunrsView.size];
+        _kenbunrsView.image = [UIImage imageWithColor:APPLIGHTCOLOR size:_kenbunrsView.size];
         _kenbunrsView.userInteractionEnabled = NO;
         _kenbunrsView.exclusiveTouch = NO;
         

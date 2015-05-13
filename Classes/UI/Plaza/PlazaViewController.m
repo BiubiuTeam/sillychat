@@ -152,10 +152,9 @@
     [_mainView addSubview:self.roundButton];
     
     [self.topPlaceView addSubview:self.filterButton];
-    
     [self.topPlaceView addSubview:self.chatRoomButton];
+    
     [_mainView addSubview:self.metroView];
-
     [_mainView bringSubviewToFront:_topPlaceView];
     
     [self adjustControlsPosition];
@@ -275,7 +274,6 @@
     if (nil == _topPlaceView) {
         _topPlaceView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, _size_S(105))];
         _topPlaceView.backgroundColor = APPLICATIONCOLOR;
-//        _topPlaceView.backgroundColor = [UIColor blueColor];
     }
     return _topPlaceView;
 }
@@ -306,18 +304,19 @@
 - (UIButton *)chatRoomButton
 {
     if (nil == _chatRoomButton) {
-        UIImage* room = LOAD_ICON_USE_POOL_CACHE(@"silly_chat_entrance.png");
-        _chatRoomButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 52, 52)];
+        _chatRoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _chatRoomButton.backgroundColor = [UIColor clearColor];
-        [_chatRoomButton setImage:room forState:UIControlStateNormal];
+        _chatRoomButton.contentMode = UIViewContentModeScaleAspectFit;
+//        UIImage* hroom = LOAD_ICON_USE_POOL_CACHE(@"silly_chat_entrance.png");
+        UIImage* room = LOAD_ICON_USE_POOL_CACHE(@"silly_new_info.png");
+        [_chatRoomButton setBackgroundImage:room forState:UIControlStateNormal];
+//        [_chatRoomButton setImage:hroom forState:UIControlStateHighlighted];
+//        [_chatRoomButton setImage:hroom forState:UIControlStateSelected];
         
-        room = LOAD_ICON_USE_POOL_CACHE(@"silly_new_info.png");
-        [_chatRoomButton setImage:room forState:UIControlStateHighlighted];
-        [_chatRoomButton setImage:room forState:UIControlStateSelected];
-        
+        _chatRoomButton.size = room.size;
         [_chatRoomButton addTarget:self action:@selector(didPressOpenChatRoomButton) forControlEvents:UIControlEventTouchUpInside];
         
-        _chatRoomButton.right = _mainView.width - 18;
+        _chatRoomButton.right = self.view.width - 18;
         _chatRoomButton.layer.cornerRadius = _chatRoomButton.width/2;
     }
     return _chatRoomButton;
@@ -348,6 +347,7 @@
 {
     _filterButton.top = _size_S(56);
     _chatRoomButton.centerY = _filterButton.centerY;
+    [_topPlaceView bringSubviewToFront:_chatRoomButton];
     
     _metroView.top = _topPlaceView.bottom + TAG_VERTICAL_MARGIN;
     CGFloat height = _roundButton.top - TAG_VERTICAL_MARGIN - _metroView.top;
