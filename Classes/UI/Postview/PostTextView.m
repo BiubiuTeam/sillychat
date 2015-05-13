@@ -187,7 +187,7 @@
 
 @end
 
-#define PTVAV_BTN_WIDTH _size_S(20)
+#define PTVAV_BTN_WIDTH _size_S(40)
 #define PTVAV_BTN_HEIGHT _size_S(48)
 
 #define PTVAV_HEIGHT _size_S(80)

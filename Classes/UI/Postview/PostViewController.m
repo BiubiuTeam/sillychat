@@ -23,8 +23,8 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 #define TOP_BTN_HOR_MARGIN _size_S(37)
 #define TOP_BTN_MGTOP _size_S(25)
-#define TOP_BTN_WIDTH _size_S(35)
-#define TOP_BTN_HEIGHT _size_S(35)
+#define TOP_BTN_WIDTH _size_S(50)
+#define TOP_BTN_HEIGHT _size_S(50)
 
 #define CRAP_IMAGE_TOP _size_S(56)
 #define CRAP_IMAGE_LEFT _size_S(12)
