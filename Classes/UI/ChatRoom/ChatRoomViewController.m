@@ -171,8 +171,24 @@
 - (void)didClickBackButton
 {
     _dismissingVC = YES;
-    [_bubbleView removeFromSuperview];
-    [_tableView setContentOffset:CGPointMake(0, (_tableView.contentSize.height + _tableView.height)) animated:YES];
+//    [_bubbleView removeFromSuperview];
+//    [self dismissChatRoomView];
+
+    CATransition *applicationLoadViewOut = [CATransition animation];
+    applicationLoadViewOut.delegate = self;
+    [applicationLoadViewOut setValue:@"applicationLoadViewOut" forKey:@"CATransitionName"];
+    [applicationLoadViewOut setDuration:0.3];
+    [applicationLoadViewOut setType:kCATransitionFade];
+    [applicationLoadViewOut setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [[self.view layer] addAnimation:applicationLoadViewOut forKey:@"applicationLoadViewOut"];
+    self.view.alpha = 0;
+}
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    if ([[theAnimation valueForKey:@"CATransitionName"] isEqualToString:@"applicationLoadViewOut"]) {
+        [self dismissChatRoomView];
+    }
 }
 
 - (void)dismissChatRoomView
@@ -380,9 +396,10 @@ static NSUInteger NumberOfRow = 5;
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     NSLog(@"scrollViewDidEndScrollingAnimation  -   End of Scrolling.");
-    if ([scrollView isKindOfClass:[UITableView class]] && scrollView == _tableView && _dismissingVC) {
-        [self dismissChatRoomView];
-    }else if (_bubbleView == nil){
+//    if ([scrollView isKindOfClass:[UITableView class]] && scrollView == _tableView && _dismissingVC) {
+//        [self dismissChatRoomView];
+//    }
+    if (_dismissingVC == NO && _bubbleView == nil){
         [self displayBubbleView];
     }
 }
@@ -390,6 +407,10 @@ static NSUInteger NumberOfRow = 5;
 #pragma mark - delegate
 - (void)didPressedBubbleView:(ChatRoomBubbleView *)bubble datasource:(SillyBroacastModel *)datasource
 {
+    if (![datasource.dvcId length]) {
+        [self showHint:@"关系链dvcid为空"];
+        return;
+    }
     [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"Click"}];
     EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:datasource.dvcId];
     [chatView setBroadcastModel:datasource];

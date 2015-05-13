@@ -13,7 +13,7 @@
 #import "PostTextView.h"
 #import "SillyService.h"
 #import "UIImageAdditions.h"
-
+#import "UIImage+Helper.h"
 #import "CameraSessionView.h"
 
 typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
@@ -432,6 +432,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         [self showHudInTopWindowWithHint:@"图片为空，检查检查你的设备吧"];
         return;
     }
+    _selectedImage = [UIImage image:_selectedImage scaleToFitSizeWithMaxLongSide:SCREEN_HEIGHT];
     
     if (_delegate && [_delegate respondsToSelector:@selector(postOptWithContent:contentType:postType:extension:completion:)]) {
         __weak PostViewController* weakSelf = self;

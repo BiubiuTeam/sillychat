@@ -149,6 +149,11 @@
     [self registUploadManager];
     
     [self registLocationNotification];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[SCStateService shareInstance] filterDatasource];
+        [[SCStateService shareInstance] stateStillList];
+    });
 }
 
 - (void)registUploadManager
@@ -435,7 +440,7 @@
 - (void)didClickBroacast:(id)broacast onFrame:(CGRect)absoluteFrame
 {
     SillyBroacastModel* model = (SillyBroacastModel*)broacast;
-    NSLog(@"Open Chat View Controller With Data: %@", model);
+    DPTrace(@"Open Chat View Controller With Data: %@", model);
     if ([SvUDIDTools isEqualToUdid:model.dvcId]) {
         [self showHint:@"自己和自己聊天，你真的很无聊啊"];
         //支不支持自己和自己聊天？

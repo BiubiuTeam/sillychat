@@ -35,7 +35,7 @@ static NSThread *gsHttpThread = nil;
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"post url : %@",url);
     self.uploadContent = uploadImage;
-    request = [DPPhotoUploader createPOSTRequest:url content:UIImageJPEGRepresentation(uploadImage, 0.0) timeout:300];
+    request = [DPPhotoUploader createPOSTRequest:url content:UIImageJPEGRepresentation(uploadImage, 0.3) timeout:300];
 }
 
 //+ (NSString*)urlWithParam:(NSDictionary*)diction

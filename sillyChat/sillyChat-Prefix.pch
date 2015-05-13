@@ -20,7 +20,7 @@
 #import "NSStringAdditions.h"
 #import "DPFont.h"
 
-#if 0
+#if !DEBUG
 #define DPTrace(...)
 #else
 #define DPTrace(fmt, ...) NSLog((@"DPTrace :%s : %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
