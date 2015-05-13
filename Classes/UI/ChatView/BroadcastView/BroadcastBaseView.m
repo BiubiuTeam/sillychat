@@ -54,8 +54,9 @@
         [self addSubview:self.titleLabel];
         [self addSubview:self.profileLabel];
         [self.layer addSublayer:self.stateIconLayer];
-        
+#if PROGRAM_STYPE
         [self addBottomBorderLayer];
+#endif
         [self centerTopSubviews];
     }
     return self;

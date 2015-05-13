@@ -307,12 +307,19 @@
         _chatRoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _chatRoomButton.backgroundColor = [UIColor clearColor];
         _chatRoomButton.contentMode = UIViewContentModeScaleAspectFit;
+#if PROGRAM_STYPE
 //        UIImage* hroom = LOAD_ICON_USE_POOL_CACHE(@"silly_chat_entrance.png");
         UIImage* room = LOAD_ICON_USE_POOL_CACHE(@"silly_new_info.png");
         [_chatRoomButton setBackgroundImage:room forState:UIControlStateNormal];
 //        [_chatRoomButton setImage:hroom forState:UIControlStateHighlighted];
 //        [_chatRoomButton setImage:hroom forState:UIControlStateSelected];
-        
+#else
+        UIImage* room = LOAD_ICON_USE_POOL_CACHE(@"silly_chat_entrance.png");
+        UIImage* hroom = LOAD_ICON_USE_POOL_CACHE(@"silly_new_info.png");
+        [_chatRoomButton setBackgroundImage:room forState:UIControlStateNormal];
+        [_chatRoomButton setImage:hroom forState:UIControlStateHighlighted];
+        [_chatRoomButton setImage:hroom forState:UIControlStateSelected];
+#endif
         _chatRoomButton.size = room.size;
         [_chatRoomButton addTarget:self action:@selector(didPressOpenChatRoomButton) forControlEvents:UIControlEventTouchUpInside];
         
