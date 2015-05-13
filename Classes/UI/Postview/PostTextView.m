@@ -188,9 +188,9 @@
 @end
 
 #define PTVAV_BTN_WIDTH _size_S(20)
-#define PTVAV_BTN_HEIGHT _size_S(35)
+#define PTVAV_BTN_HEIGHT _size_S(48)
 
-#define PTVAV_HEIGHT _size_S(70)
+#define PTVAV_HEIGHT _size_S(80)
 #define PTVAV_LABEL_BOTTOM _size_S(45)
 
 #define PTVAV_MARGIN_HOR _size_S(19)

@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     CGFloat _textViewWidth;
     UIColor* _textViewTintColor;
     
+    BOOL _firstLoadedPostView;
     BOOL _dismissOpt;
 }
 
@@ -93,7 +94,9 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.containerView];
+    
+    _firstLoadedPostView = YES;
+    [self containerView];
     self.selectedImage = nil;
     // Do any additional setup after loading the view.
 
@@ -124,6 +127,8 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     if (_dismissOpt == NO && [self isCameraAuthorized] == NO && _selectedImage == nil) {
         [self openPhotoLibrary];
     }
+    
+    [self showViewsWithAnimate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -146,12 +151,31 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)showViewsWithAnimate
+{
+    if (!_firstLoadedPostView) {
+        return;
+    }
+    _firstLoadedPostView = NO;
+    _containerView.alpha = 0;
+    //Apply animation effect to present the camera view
+    CATransition *applicationLoadViewIn =[CATransition animation];
+    applicationLoadViewIn.delegate = self;
+    [applicationLoadViewIn setDuration:0.3];
+    [applicationLoadViewIn setType:kCATransitionReveal];
+    [applicationLoadViewIn setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [[self.containerView layer] addAnimation:applicationLoadViewIn forKey:kCATransitionReveal];
+    _containerView.alpha = 1;
+    
+    [self.view addSubview:_containerView];
+}
+
 #pragma mark - getter
 - (UIView *)containerView
 {
     if (nil == _containerView) {
         _containerView = [[UIView alloc] initWithFrame:self.view.bounds];
-        _containerView.backgroundColor = [UIColor clearColor];//APPLICATIONCOLOR;
+        _containerView.backgroundColor = APPLICATIONCOLOR;
     }
     return _containerView;
 }
@@ -299,7 +323,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     switchOperating = YES;
     if (_currentState == PHOTO_STATE_STILL) {
         _currentState = PHOTO_STATE_LIVE;
-        [self launchCamera];
+        [self launchCameraWithAnimate:YES];
         self.selectedImage = nil;
     }else{
         [_cameraView toggleCamera];
@@ -392,6 +416,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (void)dismissPostView
 {
     _dismissOpt = YES;
+    _containerView.backgroundColor = [UIColor clearColor];
     [_textView resignAllFirstResponder];
     /*动画移动图片*/
     [UIView animateWithDuration:.3 animations:^{
@@ -546,7 +571,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
         switchOperating = YES;
         [self cameraView];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self launchCamera];
+            [self launchCameraWithAnimate:YES];
             switchOperating = NO;
         });
     });
@@ -563,19 +588,19 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     return _cameraView;
 }
 
-- (void)launchCamera
+- (void)launchCameraWithAnimate:(BOOL)animate
 {
-    //Apply animation effect to present the camera view
-    CATransition *applicationLoadViewIn =[CATransition animation];
-    applicationLoadViewIn.delegate = self;
-    [applicationLoadViewIn setDuration:0.3];
-    [applicationLoadViewIn setType:kCATransitionReveal];
-    [applicationLoadViewIn setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-    [[self.cameraView layer] addAnimation:applicationLoadViewIn forKey:kCATransitionReveal];
-    
+    if (animate) {
+        //Apply animation effect to present the camera view
+        CATransition *applicationLoadViewIn =[CATransition animation];
+        applicationLoadViewIn.delegate = self;
+        [applicationLoadViewIn setDuration:0.3];
+        [applicationLoadViewIn setType:kCATransitionReveal];
+        [applicationLoadViewIn setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+        [[self.cameraView layer] addAnimation:applicationLoadViewIn forKey:kCATransitionReveal];
+    }
     _cameraView.alpha = 1;
     [_containerView addSubview:_cameraView];
-    
     [_containerView insertSubview:_cameraView aboveSubview:_captureView];
 }
 

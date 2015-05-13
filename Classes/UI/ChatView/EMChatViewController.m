@@ -54,6 +54,7 @@
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.chatter = chatter;
         _curMessagesCount = 0;
+        _animationType = IMAGE_ANIMATION_TYPE_LARGE;
         //根据接收者的username获取当前会话的管理者
         _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:chatter isGroup:NO];
         [_conversation markAllMessagesAsRead:YES];
@@ -334,15 +335,13 @@
 - (void)dismissChatViewController
 {
     _tableView.hidden = YES;
+    if (CGRectIsNull(_originFrame) || CGRectEqualToRect(_originFrame, CGRectZero) || _animationType == IMAGE_ANIMATION_TYPE_NONE) {
+        _contentView.hidden = YES;
+    }
     [UIView animateWithDuration:.3 animations:^{
         _broadcastView.bottom = 0;
         _chatToolBar.top = _chatToolBar.superview.height;
-        if (CGRectIsNull(_originFrame) || CGRectEqualToRect(_originFrame, CGRectZero)) {
-            //这里做些什么才做比较好呢？
-            _contentView.alpha = 0;
-        }else{
-            _contentView.frame = _originFrame;
-        }
+        _contentView.frame = _originFrame;
     } completion:^(BOOL finished) {
         if (finished) {
             [self dismissViewControllerAnimated:NO completion:nil];
@@ -657,14 +656,27 @@
 
 - (void)showUpWithAnimation
 {
+    if (_animationType == IMAGE_ANIMATION_TYPE_NONE) {
+        [self showTopAndBottomWithAnimation];
+        return;
+    }
     self.broadcastView.hidden = YES;
     self.chatToolBar.hidden = YES;
     self.tableView.hidden = YES;
     
     _contentView.frame = self.originFrame;
-    _contentView.largeState = YES;
     [UIView animateWithDuration:0.3 animations:^{
-        _contentView.frame = self.tableView.frame;
+        if (_animationType == IMAGE_ANIMATION_TYPE_LARGE) {
+            _contentView.largeState = YES;
+            _contentView.frame = self.tableView.frame;
+        }else if(_animationType == IMAGE_ANIMATION_TYPE_SMALL){
+            _contentView.largeState = NO;
+            CGRect frame = _contentView.frame;
+            frame.size = CGSizeMake(BCV_RADIUS, BCV_RADIUS);
+            frame.origin.y = _size_S(14);
+            frame.origin.x = _contentView.superview.width - _size_S(17) - BCV_RADIUS;
+            _contentView.frame = frame;
+        }
     } completion:^(BOOL finished) {
         if (finished) {
             [self showTopAndBottomWithAnimation];

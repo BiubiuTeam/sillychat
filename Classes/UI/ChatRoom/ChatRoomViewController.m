@@ -62,6 +62,10 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsDidReload object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsDidUpdate object:nil];
+    
+    if (SYSTEM_VERSION < 8.0) {
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+    }
 }
 
 - (void)reloadByNotification:(NSNotification*)notification
@@ -414,7 +418,11 @@ static NSUInteger NumberOfRow = 5;
     [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"Click"}];
     EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:datasource.dvcId];
     [chatView setBroadcastModel:datasource];
-    chatView.modalPresentationStyle = UIModalPresentationCustom;
+    if (SYSTEM_VERSION >= 8.0) {
+        chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+    }
+    
+    chatView.animationType = IMAGE_ANIMATION_TYPE_NONE;
     CGRect frame = bubble.absoluteFrame;
     chatView.originFrame = frame;
     [self presentViewController:chatView animated:NO completion:nil];

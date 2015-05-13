@@ -35,6 +35,9 @@ static CGFloat MetroInset = 5;
 
 - (void)setMaxRow:(NSUInteger)maxRow
 {
+    if (SCREEN_HEIGHT <= 480) {
+        maxRow = MIN(2, maxRow);
+    }
     _maxRow = maxRow;
     _collectionView.height = self.height = 2*_maxRow* MetroInset + _maxRow*ROWHEIGHT;
     [self updateMetroBaseWidth:_maxRow];

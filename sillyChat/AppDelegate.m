@@ -84,6 +84,9 @@ void UncaughtExceptionHandler(NSException *exception) {
     if (nil == _plazaViewController) {
         _plazaViewController = [[PlazaViewController alloc] initWithTagsArray:datasource];
     }
+    if (SYSTEM_VERSION < 8.0) {
+        _plazaViewController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    }
     _window.rootViewController = _plazaViewController;
     [_window makeKeyAndVisible];
     

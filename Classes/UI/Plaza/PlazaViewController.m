@@ -431,7 +431,9 @@
 {
     PostViewController* postview = [[PostViewController alloc] init];
     postview.delegate = self;
-    postview.modalPresentationStyle = UIModalPresentationCustom;
+    if (SYSTEM_VERSION >= 8.0) {
+        postview.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+    }
     [self presentViewController:postview animated:NO completion:^{
         //这里是因为UIModalPresentationCustom 是不会触发viewwilldisappear的
         [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@NO];
@@ -464,7 +466,9 @@
         EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:model.dvcId];
         [chatView setBroadcastModel:model];
         chatView.originFrame = absoluteFrame;
-        chatView.modalPresentationStyle = UIModalPresentationCustom;
+        if (SYSTEM_VERSION >= 8.0) {
+            chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+        }
         [self presentViewController:chatView animated:NO completion:nil];
         return;
     }
@@ -472,7 +476,9 @@
     [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"Click"}];
     EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:model.dvcId];
     chatView.originFrame = absoluteFrame;
-    chatView.modalPresentationStyle = UIModalPresentationCustom;
+    if (SYSTEM_VERSION >= 8.0) {
+        chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+    }
     [chatView setBroadcastModel:model];
     [self presentViewController:chatView animated:NO completion:nil];
 }
@@ -497,14 +503,19 @@
     }
     
     [[SCStateService shareInstance] setSelectedStateTag:_msgTag];
-    _filterButton.selected = YES;
-    [self closeFilterSelectView];
+    _filterButton.selected = NO;
+    [_filterButton setNeedUpdateContent];
+    [_filterView removeFromSuperview];
+    self.filterView = nil;
     
     if (ctype == PostContentType_Text) {
         [self postTextBroadcast:content];
     }else if (ctype == PostContentType_IMG){
+        NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:extension];
+        [dic setObject:@(_msgTag) forKey:@"msgTag"];
+        
         UIImage* imageToPost = (UIImage*)content;
-        [self addPhotoUploadTask:imageToPost withExtension:extension];
+        [self addPhotoUploadTask:imageToPost withExtension:dic];
     }
     completion(YES,nil);
 //    self.postOptComletionCallback = completion;    

@@ -25,7 +25,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    frame.size.height = 6*48+100;
+    frame.size.height = _size_S(6*48+100);
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = APPLICATIONCOLOR;
         [self addSubview:self.collectionView];
@@ -153,7 +153,7 @@
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     CGFloat leftw = (self.width - _size_S(102)*3)/3;
-    return UIEdgeInsetsMake(5, leftw/2, 5, leftw/2);
+    return UIEdgeInsetsMake(_size_S(5), leftw/2, _size_S(5), leftw/2);
 }
 
 #pragma mark --UICollectionViewDelegate

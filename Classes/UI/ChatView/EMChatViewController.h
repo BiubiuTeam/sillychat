@@ -13,6 +13,12 @@
 
 #import "BroadcastContentView.h"
 
+typedef NS_ENUM(NSUInteger, IMAGE_ANIMATION_TYPE) {
+    IMAGE_ANIMATION_TYPE_LARGE = 0,//Default
+    IMAGE_ANIMATION_TYPE_SMALL = 1,
+    IMAGE_ANIMATION_TYPE_NONE = 2,
+};
+
 @interface EMChatViewController : BaseViewController<BroadcastBaseViewProtocol,MessageToolBarProtocol>
 {
     dispatch_queue_t _messageQueue;
@@ -34,7 +40,7 @@
     NSIndexPath *_showLargeIndexPath;//大图打开位置
 }
 - (instancetype)initWithChatter:(NSString *)chatter;
-
+@property (nonatomic) IMAGE_ANIMATION_TYPE animationType;
 @property (nonatomic, strong) BroadcastContentView* contentView;
 @property (nonatomic, assign) CGRect originFrame;
 

@@ -8,7 +8,7 @@
 
 #import "PlazaViewController+Service.h"
 #import "SillyService.h"
-
+#import "SCStateService.h"
 #import "UmLogEngine.h"
 
 @implementation PlazaViewController (Service)
@@ -45,26 +45,22 @@
 - (void)postImageBroadcast:(NSString*)picPath withExtension:(NSDictionary*)extension
 {
     [UmLogEngine logEvent:EventPublishStatus attribute:@{@"StatusType":_wording4Tag.length?_wording4Tag:@"",@"ContentType":@"text"}];
-    
-    [[SillyService shareInstance] sendBroacastToPlaza:BroacastType_Image titleContent:picPath  msgTag:_msgTag extension:extension comletion:^(id json, JSONModelError *err) {
+    __block NSNumber* msgTag = [extension objectForKey:@"msgTag"];
+    [[SillyService shareInstance] sendBroacastToPlaza:BroacastType_Image titleContent:picPath  msgTag:[msgTag unsignedIntegerValue] extension:extension comletion:^(id json, JSONModelError *err) {
         PlazaViewController* tmpself = (PlazaViewController*)_weakSelf;
-        BOOL succeed = NO;
         if (err == nil) {
             SillyResponseModel* response = [[SillyResponseModel alloc] initWithDictionary:json error:&err];
             if (response && [response.statusCode integerValue] == 0) {
                 DPTrace("广播成功");
-                [tmpself forceToUpdatePlazaSillyMessage];
-                succeed = YES;
+                if ([msgTag unsignedIntegerValue] == [[SCStateService shareInstance] selectedMsgTag]) {
+                    [tmpself forceToUpdatePlazaSillyMessage];
+                }
             }else {
                 DPTrace("广播无聊消息失败");
             }
         }else{
             DPTrace("广播无聊消息发送失败");
         }
-        if (tmpself.postOptComletionCallback) {
-            tmpself.postOptComletionCallback(succeed, err);
-        }
-        tmpself.postOptComletionCallback = nil;
     }];
 }
 
