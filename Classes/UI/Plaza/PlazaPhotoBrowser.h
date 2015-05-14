@@ -15,4 +15,5 @@
 - (void)showImage:(UIImage*)image fromFrame:(CGRect)frame;
 - (void)hideBrowserWithAnimate:(BOOL)animation;
 
+- (void)showImage:(UIImage*)image fromFrame:(CGRect)frame message:(NSString*)message;
 @end

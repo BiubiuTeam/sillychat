@@ -70,7 +70,9 @@
         case UIGestureRecognizerStateBegan:{
             [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"LongPress"}];
             CGRect frame = [_kenbunrsView convertRect:_kenbunrsView.bounds toView:[UIApplication sharedApplication].keyWindow];
-            [[PlazaPhotoBrowser shareInstance] showImage:_kenbunrsView.image fromFrame:frame];
+            
+            NSString* msg = self.msgLabel.text;
+            [[PlazaPhotoBrowser shareInstance] showImage:_kenbunrsView.image fromFrame:frame message:msg];
         }break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:

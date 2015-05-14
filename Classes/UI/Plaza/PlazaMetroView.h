@@ -13,6 +13,11 @@
 #define TAG_VERTICAL_MARGIN (15)
 #define TAG_HORICAL_MARGIN (26)
 
+typedef NS_ENUM(NSUInteger, MetroViewType) {
+    MetroViewType_Metro = 0,
+    MetroViewType_Empty = 1,
+};
+
 @protocol PlazaMetroProtocol <NSObject>
 
 @optional
@@ -24,7 +29,9 @@
 @end
 
 @interface PlazaMetroView : UIView<UICollectionViewDataSource,UICollectionViewDelegate,RFQuiltLayoutDelegate>
-
+{
+    MetroViewType _viewType;
+}
 @property (nonatomic, assign) NSUInteger maxRow;/*default is 3*/
 @property (nonatomic, strong) UICollectionView* collectionView;
 @property (nonatomic, assign) id<PlazaMetroProtocol> delegate;

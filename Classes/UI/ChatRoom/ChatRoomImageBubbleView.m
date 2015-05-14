@@ -11,7 +11,9 @@
 #import "PlazaPhotoBrowser.h"
 
 @implementation ChatRoomImageBubbleView
-
+{
+    NSString* _textContent;
+}
 - (id)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
@@ -99,7 +101,8 @@
 
 - (void)setTextContent:(NSString *)content
 {
-    [self.textLabel setText:content];
+    _textContent = content;
+//    [self.textLabel setText:content];
 }
 
 - (void)showWholeImage:(UILongPressGestureRecognizer *)gesture
@@ -107,7 +110,8 @@
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:{
             CGRect frame = [_imageView convertRect:_imageView.bounds toView:[UIApplication sharedApplication].keyWindow];
-            [[PlazaPhotoBrowser shareInstance] showImage:_imageView.image fromFrame:frame];
+            
+            [[PlazaPhotoBrowser shareInstance] showImage:_imageView.image fromFrame:frame message:_textContent];
         }break;
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled:

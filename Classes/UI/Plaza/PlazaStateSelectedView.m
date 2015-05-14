@@ -145,7 +145,7 @@
         _messageLabel.textColor = [UIColor whiteColor];
         _messageLabel.textAlignment = NSTextAlignmentCenter;
         
-        _messageLabel.text = @"您此刻的状态是？";
+        _messageLabel.text = @"你此刻的状态是？";
         [_messageLabel sizeToFit];
     }
     return _messageLabel;

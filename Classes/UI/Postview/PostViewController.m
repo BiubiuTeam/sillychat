@@ -235,7 +235,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
             _textView.maxCount = NSIntegerMax;
         }
         
-        _textView.defaultPlaceholder = @"点击添加文字";
+        _textView.defaultPlaceholder = @"说点什么吧，24小时销毁";
     }
     return _textView;
 }

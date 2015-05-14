@@ -39,7 +39,7 @@
 @property (nonatomic, strong) BBTableView* tableView;
 
 @property (nonatomic, strong) UIButton* roundButton;
-
+@property (nonatomic, strong) UIImageView* emptyView;
 @property (nonatomic, strong) ChatRoomBubbleView* bubbleView;
 
 @end
@@ -71,9 +71,7 @@
 - (void)reloadByNotification:(NSNotification*)notification
 {
     NSMutableArray* convShips = [[[RelationShipService shareInstance] relationShips] mutableCopy];
-    if ([convShips count]) {
-        [self updateRelationshipsList:convShips];
-    }
+    [self updateRelationshipsList:convShips];
     convShips = nil;
     [_tableView setContentOffset:CGPointZero animated:YES];
     [self centerTableView];
@@ -82,9 +80,7 @@
 - (void)loadAllAvailableConversation
 {
     NSMutableArray* convShips = [[[RelationShipService shareInstance] relationShips] mutableCopy];
-    if ([convShips count]) {
-        [self updateRelationshipsList:convShips];
-    }
+    [self updateRelationshipsList:convShips];
     convShips = nil;
 }
 
@@ -229,20 +225,40 @@ static NSUInteger NumberOfRow = 5;
 - (void)updateRelationshipsList:(NSArray*)shiplist
 {
     [self.buddyList removeAllObjects];
-    [self.buddyList addObjectsFromArray:shiplist];
-//    if ([_buddyList count] > 10) {
-//        [_tableView setEnableInfiniteScrolling:YES];
-//    }else{
-    [_tableView setEnableInfiniteScrolling:NO];
-    
-    SillyRelationshipModel* tmpModel = [SillyRelationshipModel new];
-    tmpModel.localTemp = @YES;
-    [self.buddyList insertObject:tmpModel atIndex:0];
-    [self.buddyList insertObject:tmpModel atIndex:0];
-    [self.buddyList addObject:tmpModel];
-    [self.buddyList addObject:tmpModel];
-//    }
+    if (shiplist && [shiplist count]) {
+        [self.buddyList addObjectsFromArray:shiplist];
+        [_tableView setEnableInfiniteScrolling:NO];
+        SillyRelationshipModel* tmpModel = [SillyRelationshipModel new];
+        tmpModel.localTemp = @YES;
+        [self.buddyList insertObject:tmpModel atIndex:0];
+        [self.buddyList insertObject:tmpModel atIndex:0];
+        [self.buddyList addObject:tmpModel];
+        [self.buddyList addObject:tmpModel];
+        
+        if (_emptyView) {
+            [_emptyView removeFromSuperview];
+            self.emptyView = nil;
+        }
+    }else{
+        [_bubbleView removeFromSuperview];
+        self.bubbleView = nil;
+        //展示图片
+
+        [_emptyView removeFromSuperview];
+        [self.view addSubview:self.emptyView];
+    }
     [_tableView reloadData];
+}
+
+- (UIImageView *)emptyView
+{
+    if (nil == _emptyView) {
+        _emptyView = [[UIImageView alloc] initWithImage:LOAD_ICON_USE_POOL_CACHE(@"silly_list_empty.png")];
+        _emptyView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+        _emptyView.backgroundColor = [UIColor clearColor];
+        _emptyView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _emptyView;
 }
 #pragma mark - tableview delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -379,8 +395,8 @@ static NSUInteger NumberOfRow = 5;
         {
             _bubbleView = [[ChatRoomImageBubbleView alloc] initWithFrame:CGRectZero];
             [_bubbleView setImagePath:[relation.broadcastModel titleCont]];
-//            NSDictionary* dict = [relation.broadcastModel extension];
-//            [_bubbleView setTextContent:[dict objectForKey:@"Text"]];
+            NSDictionary* dict = [relation.broadcastModel extension];
+            [_bubbleView setTextContent:[dict objectForKey:@"Text"]];
         }break;
         default:
             break;

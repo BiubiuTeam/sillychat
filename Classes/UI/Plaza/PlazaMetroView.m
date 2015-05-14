@@ -19,6 +19,7 @@ static CGFloat MetroInset = 5;
 {
     BOOL _reloading;
 }
+@property (nonatomic, strong) UIImageView* emptyView;
 @property (nonatomic, strong) MetroFooterRefreshView* refreshView;
 @end
 
@@ -28,6 +29,10 @@ static CGFloat MetroInset = 5;
 {
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.collectionView];
+        [self addSubview:self.emptyView];
+        _emptyView.hidden = YES;
+        [self sendSubviewToBack:_emptyView];
+        
         self.maxRow = 3;
     }
     return self;
@@ -45,8 +50,14 @@ static CGFloat MetroInset = 5;
 
 - (void)reloadData
 {
+    if ([_datasource count]) {
+        _viewType = MetroViewType_Metro;
+        _emptyView.hidden = YES;
+    }else{
+        _viewType = MetroViewType_Empty;
+        _emptyView.hidden = NO;
+    }
     [_collectionView setContentOffset:CGPointZero animated:NO];
-    
     [_collectionView performBatchUpdates:^{
         [_collectionView reloadSections:[[NSIndexSet alloc] initWithIndex:0]];
     } completion:^(BOOL finished) {
@@ -71,6 +82,18 @@ static CGFloat MetroInset = 5;
         _refreshView.delegate = self;
     }
     return _refreshView;
+}
+
+- (UIImageView *)emptyView
+{
+    if (nil == _emptyView) {
+        _emptyView = [[UIImageView alloc] initWithImage:LOAD_ICON_USE_POOL_CACHE(@"silly_broadcast_empty.png")];
+        _emptyView.centerX = self.width/2;
+        _emptyView.centerY = (self.height - self.refreshView.height)/2;
+        _emptyView.backgroundColor = [UIColor clearColor];
+        _emptyView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _emptyView;
 }
 
 - (UICollectionView *)collectionView
@@ -108,13 +131,20 @@ static CGFloat MetroInset = 5;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+    if (_viewType == MetroViewType_Empty) {
+        return 1;
+    }
     return [_datasource count];
 }
 
 - (MetroCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (_viewType == MetroViewType_Empty) {
+        MetroCollectionViewCell *emptyCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MetroCell" forIndexPath:indexPath];
+        [emptyCell updateMetroWithData:nil];
+        
+        return emptyCell;
+    }
     MetroCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MetroCell" forIndexPath:indexPath];
-    
     if (indexPath.row < _datasource.count) {
         [cell updateMetroWithData:_datasource[indexPath.row]];
     }
@@ -124,12 +154,18 @@ static CGFloat MetroInset = 5;
 #pragma mark --UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_viewType == MetroViewType_Empty) {
+        return;
+    }
     UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.transform = CGAffineTransformMakeScale(1.1, 1.1);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_viewType == MetroViewType_Empty) {
+        return;
+    }
     UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.transform = CGAffineTransformMakeScale(1, 1);
 }
@@ -138,7 +174,9 @@ static CGFloat MetroInset = 5;
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    
+    if (_viewType == MetroViewType_Empty) {
+        return;
+    }
     UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     
     if (_delegate && [_delegate respondsToSelector:@selector(didClickBroacast:onFrame:)]) {
@@ -157,6 +195,9 @@ static CGFloat MetroInset = 5;
 //返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_viewType == MetroViewType_Empty) {
+        return NO;
+    }
     return YES;
 }
 
@@ -164,6 +205,10 @@ static CGFloat MetroInset = 5;
 
 - (CGSize) blockSizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_viewType == MetroViewType_Empty) {
+        return CGSizeMake(3, 3);
+    }
+    
     if (indexPath.row >= _datasource.count) {
         return CGSizeMake(1, 1);
     }

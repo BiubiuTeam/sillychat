@@ -452,6 +452,15 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
  */
 - (void)didFinishedReceiveOfflineMessages:(NSArray *)offlineMessages
 {
-    
+    //从离线数据中获取关键信息，标识未读关系链
+    if ([offlineMessages count]) {
+        for (EMMessage* message in offlineMessages) {
+            NSDictionary* ext = message.ext;
+            NSString* from = [ext objectForKey:@"from"];
+            NSString* broadcast = [ext objectForKey:@"broadcast"];
+            [[RelationShipService shareInstance] addUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,broadcast]];
+        }
+    }
 }
+
 @end
