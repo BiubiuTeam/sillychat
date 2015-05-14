@@ -310,11 +310,13 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)switchLiveSessionState
 {
+    if(_dismissOpt)return;
     [self performSelector:@selector(swithOptWithDelay) withObject:nil afterDelay:.2];
 }
 
 - (void)swithOptWithDelay
 {
+    if(_dismissOpt)return;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(swithOptWithDelay) object:nil];
     
     if (switchOperating) {
@@ -333,6 +335,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)openPhotoLibrary
 {
+    if(_dismissOpt)return;
     __weak PostViewController* weakSelf = self;
     [self presentViewController:self.imagePicker animated:YES completion:^{
         if (_currentState == PHOTO_STATE_LIVE) {
@@ -384,6 +387,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)sendOutThisPost
 {
+    if(_dismissOpt)return;
     if(_selectedImage){
         [self uploadImageAndDismissView];
     }else if (_cameraView) {
@@ -415,6 +419,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)dismissPostView
 {
+    if(_dismissOpt)return;
     _dismissOpt = YES;
     _containerView.backgroundColor = [UIColor clearColor];
     [_textView resignAllFirstResponder];
@@ -437,6 +442,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 //cancel button event
 - (void)closePostView
 {
+    if(_dismissOpt)return;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@YES];
     _dismissOpt = YES;
     [_textView resignAllFirstResponder];

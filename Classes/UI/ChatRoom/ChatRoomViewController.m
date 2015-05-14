@@ -62,7 +62,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsDidReload object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsDidUpdate object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsUnReadMessageDidUpdate object:nil];
     if (SYSTEM_VERSION < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
     }
@@ -209,14 +209,15 @@ static NSUInteger NumberOfRow = 5;
         frame.origin.x = 2*SCREEN_WIDTH/3;
         frame.size.width = abs(SCREEN_WIDTH - frame.origin.x);
         CGFloat height = SCREEN_HEIGHT - ALL_BUBBLE_BOTTOM2 - STATUSBAR_HEIGHT;
-        frame.size.height = NumberOfRow*abs(height/NumberOfRow);
+        CGFloat rowHeight = abs(height/NumberOfRow);
+        frame.size.height = NumberOfRow*rowHeight;
         
         _tableView = [[BBTableView alloc] initWithFrame:frame];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.opaque = NO;
-        _tableView.rowHeight = abs(height/NumberOfRow);
+        _tableView.rowHeight = rowHeight;
         _tableView.showsHorizontalScrollIndicator = NO;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -302,7 +303,8 @@ static NSUInteger NumberOfRow = 5;
     }
     cell.imageView.animationDuration = 1;
     
-    if ([relationship.hasUnreadMessage boolValue]) {
+    //在后台进入的时候，未读计数并不能统计到，所以只能是让第一个跳动
+    if ([relationship.hasUnreadMessage boolValue] || ([RelationShipService shareInstance].hasUnhandleMessage && indexPath.row == 0)) {
         [cell.imageView startAnimating];
     }else{
         [cell.imageView stopAnimating];
@@ -388,7 +390,7 @@ static NSUInteger NumberOfRow = 5;
     [self.view addSubview:_bubbleView];
     [self.view bringSubviewToFront:_bubbleView];
     _bubbleView.size = [_bubbleView sizeThatFits:CGSizeZero];
-    _bubbleView.centerY = _tableView.centerY;
+    _bubbleView.centerY = CGRectGetMidY(_tableView.frame);
     _bubbleView.right = _tableView.left;
 }
 #pragma mark - scroll view delegate
@@ -421,7 +423,6 @@ static NSUInteger NumberOfRow = 5;
     if (SYSTEM_VERSION >= 8.0) {
         chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
     }
-    
     chatView.animationType = IMAGE_ANIMATION_TYPE_NONE;
     CGRect frame = bubble.absoluteFrame;
     chatView.originFrame = frame;

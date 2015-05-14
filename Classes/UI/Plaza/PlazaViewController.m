@@ -102,8 +102,6 @@
 
 @property (nonatomic, strong) UIView* topPlaceView;
 
-@property (nonatomic, strong) UIButton* chatRoomButton;
-
 @property (nonatomic, strong) UIButton* removeStateButton;
 
 @property (nonatomic, strong) UIView* mainView;
@@ -139,6 +137,14 @@
         _mainView.backgroundColor = [UIColor clearColor];
     }
     return _mainView;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (_filterButton.selected) {
+        //关闭
+        [self closeFilterSelectView];
+    }
 }
 
 - (void)viewDidLoad {
@@ -246,10 +252,10 @@
     [UIView animateWithDuration:0.3 animations:^{
         _filterView.bottom = _topPlaceView.bottom;
     } completion:^(BOOL finished) {
-        if (finished) {
+//        if (finished) {
             [_filterView removeFromSuperview];
             self.filterView = nil;
-        }
+//        }
     }];
     if (needUpdate) {
         [UmLogEngine logEventWithFilterAutoly:EventPickStatus];
@@ -388,7 +394,7 @@
         stateSelectedView.alpha = 1;
         _removeStateButton.transform = CGAffineTransformMakeRotation(45 *M_PI / 180.0);
     } completion:^(BOOL finished) {
-        if (finished) {
+//        if (finished) {
             _removeStateButton.transform = CGAffineTransformMakeRotation(0);
             UIImage* room = LOAD_ICON_USE_POOL_CACHE(@"silly_state_cancel.png");
             [_removeStateButton setImage:room forState:UIControlStateNormal];
@@ -396,7 +402,7 @@
             [_removeStateButton setImage:room forState:UIControlStateSelected];
             
             [_removeStateButton addTarget:self action:@selector(removeStateSelectedView) forControlEvents:UIControlEventTouchUpInside];
-        }
+//        }
     }];
 }
 
@@ -413,7 +419,7 @@
             stateSelectedView.top = SCREEN_HEIGHT;
             _removeStateButton.transform = CGAffineTransformMakeRotation(-45 *M_PI / 180.0);
         } completion:^(BOOL finished) {
-            if (finished) {
+//            if (finished) {
                 [stateSelectedView removeFromSuperview];
                 _removeStateButton.transform = CGAffineTransformMakeRotation(0);
                 [_removeStateButton removeTarget:self action:@selector(removeStateSelectedView) forControlEvents:UIControlEventTouchUpInside];
@@ -421,7 +427,7 @@
                 [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateNormal];
                 [_removeStateButton setImage:LOAD_ICON_USE_POOL_CACHE(@"silly_plaza_add.png") forState:UIControlStateHighlighted];
                 [_mainView insertSubview:_removeStateButton belowSubview:_roundButton];
-            }
+//            }
         }];
     }else{
         [stateSelectedView removeFromSuperview];

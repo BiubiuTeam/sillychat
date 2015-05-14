@@ -10,6 +10,7 @@
 
 extern NSString* const RelationShipsDidUpdate;
 extern NSString* const RelationShipsDidReload;
+extern NSString* const RelationShipsUnReadMessageDidUpdate;
 
 @class SillyBroacastModel;
 

@@ -12,6 +12,8 @@
 #import "SillyBroacastModel.h"
 #import "HomePageViewController.h"
 #import "RelationShipService.h"
+#import "PlazaViewController.h"
+#import "UIViewController+Front.h"
 
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 5.0;
@@ -19,13 +21,14 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 @implementation AppDelegate (EaseMob)
 
 
-- (void)easemobApplication:(UIApplication *)application withOptions:(NSDictionary *)launchOptions
+- (BOOL)easemobApplication:(UIApplication *)application withOptions:(NSDictionary *)launchOptions
 {
+    BOOL withLaunchInfo = NO;
     if (launchOptions) {
         NSDictionary*userInfo = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
         if(userInfo)
         {
-            [self didReiveceRemoteNotificatison:userInfo];
+            withLaunchInfo = [self didReiveceRemoteNotificatison:userInfo];
         }
     }
     _connectionState = eEMConnectionConnected;
@@ -51,6 +54,8 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     [[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     [self setupNotifiers];
+    
+    return withLaunchInfo;
 }
 
 //自定义方法
@@ -152,7 +157,7 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
         model.isLocalTmp = @YES;
     }
     chat.broadcastModel = model;
-    [[(UIViewController*)_plazaViewController frontViewController] presentViewController:chat animated:NO completion:^{
+    [[(UIViewController*)self.window.rootViewController frontViewController] presentViewController:chat animated:NO completion:^{
     }];
 }
 
@@ -195,9 +200,13 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 }
 
 // 打印收到的apns信息
--(void)didReiveceRemoteNotificatison:(NSDictionary *)userInfo
+-(BOOL)didReiveceRemoteNotificatison:(NSDictionary *)userInfo
 {
     [[RelationShipService shareInstance] setHasUnhandleMessage:YES];
+    
+//    [self changeToPlazaViewControllerWithDatasource:nil];
+    //需要找到对应Message，才能解析到Message内容来标识哪个会话
+    return YES;
 #if DEBUG
     NSError *parseError = nil;
     NSData  *jsonData = [NSJSONSerialization dataWithJSONObject:userInfo
@@ -312,9 +321,9 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     [[EaseMob sharedInstance] applicationProtectedDataDidBecomeAvailable:notif.object];
 }
 
+//这里主要是管理本地推送、消息提醒、未读数管理
 -(void)didReceiveMessage:(EMMessage *)message
 {
-#if !TARGET_IPHONE_SIMULATOR
     BOOL isAppActivity = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
     if (!isAppActivity) {
         [self showNotificationWithMessage:message];
@@ -332,9 +341,25 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
                 }
             }
         }
+#if !TARGET_IPHONE_SIMULATOR
         [self playSoundAndVibration];
-    }
 #endif
+        NSDictionary* ext = message.ext;
+        if ([ext count]) {
+            NSString* from = [ext objectForKey:@"from"];
+            NSString* titleid = [ext objectForKey:@"broadcast"];
+            [[RelationShipService shareInstance] addUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
+        }
+        [RelationShipService shareInstance].hasUnhandleMessage = YES;
+        //触发主页面的动画
+        if([_plazaViewController frontViewController] == _plazaViewController)
+        {
+            [_plazaViewController.chatRoomButton setSelected:YES];
+            [_plazaViewController.chatRoomButton startAnimation];
+        }
+        //是否需要做频率限制
+        [[RelationShipService shareInstance] performSelector:@selector(updateRelationShips) withObject:nil afterDelay:0.5];
+    }
 }
 
 - (void)playSoundAndVibration{
@@ -405,9 +430,9 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     
     if (message.ext) {
         notification.userInfo = message.ext;
-        NSString* from = [message.ext objectForKey:@"from"];
-        NSString* sortid = [message.ext objectForKey:@"broadcast"];
-        notification.alertBody = [NSString stringWithFormat:@"来自 %@ 关于 %@ \n %@",from,sortid,notification.alertBody];
+//        NSString* from = [message.ext objectForKey:@"from"];
+//        NSString* sortid = [message.ext objectForKey:@"broadcast"];
+//        notification.alertBody = [NSString stringWithFormat:@"来自 %@ 关于 %@ \n %@",from,sortid,notification.alertBody];
     }
     
     //发送通知
@@ -417,4 +442,16 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     application.applicationIconBadgeNumber += 1;
 }
 
+
+/*!
+ @method
+ @brief 离线非透传消息接收完成的回调
+ @discussion
+ @param offlineMessages 接收到的离线列表
+ @result
+ */
+- (void)didFinishedReceiveOfflineMessages:(NSArray *)offlineMessages
+{
+    
+}
 @end

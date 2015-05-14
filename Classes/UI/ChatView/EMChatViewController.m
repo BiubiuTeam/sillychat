@@ -159,6 +159,7 @@
     NSString* from = _conversation.chatter;
     NSString* titleid = [NSString stringWithFormat:@"%@",_broadcastModel.sortId];
     [[RelationShipService shareInstance] removeUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
+    //特殊处理会话列表页面，因为从这里回去不会相应viewwillappear
 }
 
 - (void)removeChatterSet
@@ -267,7 +268,7 @@
         
         _tableView.backgroundColor = APPLICATIONCOLOR;
         UIView* footer = [[UIView alloc] init];
-        _footerViewHeight = _size_S(20);
+        _footerViewHeight = _size_S(30);
         footer.height = _footerViewHeight;
         footer.backgroundColor = [UIColor clearColor];
         _tableView.tableFooterView = footer;
@@ -525,7 +526,7 @@
 {
     if (self.tableView.contentSize.height > self.tableView.frame.size.height)
     {
-        CGPoint offset = CGPointMake(0, self.tableView.contentSize.height  - self.tableView.frame.size.height);
+        CGPoint offset = CGPointMake(0, self.tableView.contentSize.height  - self.tableView.frame.size.height + _footerViewHeight);
         [self.tableView setContentOffset:offset animated:animated];
     }
 }
@@ -712,7 +713,7 @@
 
 - (void)didChangeFrameToHeight:(CGFloat)toHeight
 {
-    _tableView.height = _containerView.height - toHeight;
+    _tableView.height = /*_containerView.height - toHeight*/_chatToolBar.top;
 }
 
 - (void)didSendFace:(NSString *)faceLocalPath

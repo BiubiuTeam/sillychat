@@ -18,6 +18,8 @@
 NSString* const RelationShipsDidUpdate = @"_RelationShipsDidUpdate_";
 NSString* const RelationShipsDidReload = @"_RelationShipsDidReload_";
 
+NSString* const RelationShipsUnReadMessageDidUpdate = @"_RelationShipsUnReadMessageDidUpdate_";
+
 @interface RelationShipService ()
 {
     BOOL _hasUnhandleMessage;
@@ -103,6 +105,8 @@ NSString* const RelationShipsDidReload = @"_RelationShipsDidReload_";
 - (void)removeUnreadCountOfChat:(NSString*)chatkey
 {
     [_unreadRecords removeObjectForKey:chatkey];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RelationShipsUnReadMessageDidUpdate object:chatkey];
 }
 
 - (void)addUnreadCountOfChat:(NSString*)chatkey

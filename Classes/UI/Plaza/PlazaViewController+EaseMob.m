@@ -31,25 +31,25 @@
 
 -(void)didReceiveMessage:(EMMessage *)message
 {
-    NSDictionary* ext = message.ext;
-    if ([ext count]) {
-        NSString* from = [ext objectForKey:@"from"];
-        NSString* titleid = [ext objectForKey:@"broadcast"];
-        [[RelationShipService shareInstance] addUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
-    }
-    [RelationShipService shareInstance].hasUnhandleMessage = YES;
-    
-    if([self frontViewController] == self)
-    {
-        [_chatRoomButton setSelected:YES];
-        [_chatRoomButton startAnimation];
-    }
-    
-//    if(NO == [self viewControllerInStack:[ChatRoomViewController class]])
-    {
-        //是否需要做频率限制
-        [[RelationShipService shareInstance] performSelector:@selector(updateRelationShips) withObject:nil afterDelay:0.5];
-    }
+//    NSDictionary* ext = message.ext;
+//    if ([ext count]) {
+//        NSString* from = [ext objectForKey:@"from"];
+//        NSString* titleid = [ext objectForKey:@"broadcast"];
+//        [[RelationShipService shareInstance] addUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
+//    }
+//    [RelationShipService shareInstance].hasUnhandleMessage = YES;
+//    
+//    if([self frontViewController] == self)
+//    {
+//        [_chatRoomButton setSelected:YES];
+//        [_chatRoomButton startAnimation];
+//    }
+//    
+////    if(NO == [self viewControllerInStack:[ChatRoomViewController class]])
+//    {
+//        //是否需要做频率限制
+//        [[RelationShipService shareInstance] performSelector:@selector(updateRelationShips) withObject:nil afterDelay:0.5];
+//    }
 }
 
 @end

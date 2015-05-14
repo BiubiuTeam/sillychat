@@ -9,5 +9,5 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate (EaseMob)<IChatManagerDelegate>
-- (void)easemobApplication:(UIApplication *)application withOptions:(NSDictionary *)launchOptions;
+- (BOOL)easemobApplication:(UIApplication *)application withOptions:(NSDictionary *)launchOptions;
 @end

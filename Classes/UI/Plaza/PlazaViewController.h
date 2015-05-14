@@ -27,6 +27,7 @@
 }
 @property (nonatomic, strong) DXRecordView* recordView;
 
+@property (nonatomic, strong) UIButton* chatRoomButton;
 @property (nonatomic, strong) PlazaFilterButton * filterButton;
 @property (nonatomic, copy) void (^postOptComletionCallback)(BOOL, NSError *);
 

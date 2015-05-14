@@ -52,7 +52,7 @@ void UncaughtExceptionHandler(NSException *exception) {
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     // Override point for customization after application launch.
     [self registBaiduMap];
@@ -63,18 +63,21 @@ void UncaughtExceptionHandler(NSException *exception) {
     self.lastPlaySoundDate = [NSDate date];
     
     _connectionState = eEMConnectionConnected;
+    
     [self easemobApplication:application withOptions:launchOptions];
 
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _window.backgroundColor = APPLICATIONCOLOR;
-
+//    if (withLaunchInfo) {
+//        [self changeToPlazaViewControllerWithDatasource:nil];
+//    }else{
+        if (nil == _homePageViewController) {
+            _homePageViewController = [[HomePageViewController alloc] init];
+        }
+        _window.rootViewController = _homePageViewController;
+        [_window makeKeyAndVisible];
+//    }
     
-    if (nil == _homePageViewController) {
-        _homePageViewController = [[HomePageViewController alloc] init];
-    }
-    _window.rootViewController = _homePageViewController;
-    [_window makeKeyAndVisible];
-
     [[EMAccountService shareInstance] loginStateChange:NO];
     return YES;
 }
