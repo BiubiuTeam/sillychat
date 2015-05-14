@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "Camera View/CameraSessionView.h"
 
 #define KeyBoardHeight (216)
 #define DEFAUTL_TEXTVIEW_WIDTH (300)
@@ -52,6 +53,8 @@ typedef NS_ENUM(NSUInteger, PostViewType) {
     UIView* _containerView;
     PostViewType _viewType;
 }
+
+@property (nonatomic) CameraType launchCameraType;
 
 @property (nonatomic, strong) UIView* containerView; //承载所有的视图控件
 @property (nonatomic, assign) id<PostViewControllerDelegate> delegate;

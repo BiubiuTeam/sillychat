@@ -78,6 +78,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (instancetype)initWithViewType:(PostViewType)type
 {
     if (self = [super init]) {
+        _launchCameraType = RearFacingCamera;
         _viewType = type;
     }
     return self;
@@ -86,6 +87,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 - (instancetype)init
 {
     if (self = [super init]) {
+        _launchCameraType = RearFacingCamera;
         _viewType = PostViewType_Plaza;
     }
     return self;
@@ -587,7 +589,7 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 {
     if (nil == _cameraView) {
         //Instantiate the camera view & assign its frame
-        _cameraView = [[CameraSessionView alloc] initWithFrame:_containerView.bounds];
+        _cameraView = [[CameraSessionView alloc] initWithFrame:_containerView.bounds withType:_launchCameraType];
         //Set the camera view's delegate and add it as a subview
         _cameraView.delegate = self;
     }

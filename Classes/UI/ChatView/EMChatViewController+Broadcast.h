@@ -8,6 +8,6 @@
 
 #import "EMChatViewController.h"
 
-@interface EMChatViewController (Broadcast)
+@interface EMChatViewController (Broadcast)<UIAlertViewDelegate>
 
 @end

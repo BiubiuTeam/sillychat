@@ -444,6 +444,9 @@
 {
     PostViewController* postview = [[PostViewController alloc] init];
     postview.delegate = self;
+    if (_msgTag == 10) {
+        postview.launchCameraType = FrontFacingCamera;
+    }
     if (SYSTEM_VERSION >= 8.0) {
         postview.modalPresentationStyle=UIModalPresentationOverCurrentContext;
     }
