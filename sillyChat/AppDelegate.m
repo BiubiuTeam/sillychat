@@ -17,6 +17,7 @@
 #import "MobClick.h"
 #import "RelationShipService.h"
 
+#import <SDWebImage/SDImageCache.h>
 void UncaughtExceptionHandler(NSException *exception) {
     /**
      *  获取异常崩溃信息
@@ -79,6 +80,10 @@ void UncaughtExceptionHandler(NSException *exception) {
 //    }
     
     [[EMAccountService shareInstance] loginStateChange:NO];
+    
+    //清理旧图片缓存
+    [[SDImageCache sharedImageCache] clearDisk];
+    
     return YES;
 }
 
