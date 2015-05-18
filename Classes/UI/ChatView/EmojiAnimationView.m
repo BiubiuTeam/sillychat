@@ -66,7 +66,7 @@
     _LeftOrientation = YES;
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeScaleAspectFit;
-    _offsetInfps = 1.5;
+    _offsetInfps = 1.5 + (float)(random()%10) /10.f;
 }
 
 - (void)setImage:(UIImage *)image
@@ -82,9 +82,9 @@
 - (void)startAnimation
 {
     if (_LeftOrientation) {
-        self.left = SCREEN_WIDTH;
+        self.left = SCREEN_WIDTH + random()%20;
     }else{
-        self.left = -self.width;
+        self.left = -self.width - random()%20;
     }
 
     [self.link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];

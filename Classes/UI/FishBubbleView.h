@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+/**
+ * 鱼，冒泡动画图
+ */
 @interface FishBubbleView : UIImageView
 
 @end

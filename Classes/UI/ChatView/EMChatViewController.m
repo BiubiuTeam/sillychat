@@ -18,7 +18,6 @@
 
 #import "SRRefreshView.h"
 #import "ChatSendHelper.h"
-#import "NSDate+Category.h"
 
 #import "EMChatTimeCell.h"
 #import "EMChatViewCell.h"
@@ -31,7 +30,7 @@
 #import "EMChatImageStillBubbleView.h"
 #import "PlazaPhotoBrowser.h"
 #import "RelationShipService.h"
-
+#import "SillyMediaDevice.h"
 @interface EMChatViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, SRRefreshDelegate, IChatManagerDelegate,IDeviceManagerDelegate>
 {
     UIMenuController *_menuController;
@@ -191,6 +190,25 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground) name:@"applicationDidEnterBackground" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(relationshipDidReload) name:RelationShipsDidReload object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optHandleWithReportNotification:) name:Key_ReportOperation object:nil];
+}
+
+- (void)optHandleWithReportNotification:(NSNotification*)notification
+{
+    NSDictionary* dict = notification.userInfo;
+    NSString* dvcId = [dict objectForKey:@"from"];
+    if ([dvcId isEqualToString:[SillyService sillyDeviceIdentifier]]) {
+        return;
+    }
+    
+    NSInteger titleId = [[dict objectForKey:@"broadcast"] integerValue];
+    if (titleId == [[self.broadcastModel titleId] integerValue]) {
+        if ([dvcId isEqualToString:[self.broadcastModel dvcId]]) {
+            //弹框、强退
+            [self showAlertViewWithMessage:@"你已被对方举报，无法再进行会话或信息查看" succeed:YES];
+        }
+    }
 }
 
 - (void)relationshipDidReload
@@ -268,7 +286,7 @@
         
         _tableView.backgroundColor = APPLICATIONCOLOR;
         UIView* footer = [[UIView alloc] init];
-        _footerViewHeight = _size_S(30);
+        _footerViewHeight = _size_S(10);
         footer.height = _footerViewHeight;
         footer.backgroundColor = [UIColor clearColor];
         _tableView.tableFooterView = footer;
@@ -335,6 +353,7 @@
 
 - (void)dismissChatViewController
 {
+    [_chatToolBar resignAllFirstResponder];
     _tableView.hidden = YES;
     if (CGRectIsNull(_originFrame) || CGRectEqualToRect(_originFrame, CGRectZero) || _animationType == IMAGE_ANIMATION_TYPE_NONE) {
         _contentView.hidden = YES;
@@ -348,14 +367,6 @@
             [self dismissViewControllerAnimated:NO completion:nil];
         }
     }];
-}
-
-- (NSDate *)chatTagDate
-{
-    if (_chatTagDate == nil) {
-        _chatTagDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:0];
-    }
-    return _chatTagDate;
 }
 
 #pragma mark - UITableView Datasource
@@ -713,7 +724,11 @@
 
 - (void)didChangeFrameToHeight:(CGFloat)toHeight
 {
+    BOOL growUp = _chatToolBar.top > _tableView.height;
     _tableView.height = /*_containerView.height - toHeight*/_chatToolBar.top;
+    if (!growUp) {
+        [self scrollViewToBottom:YES];
+    }
 }
 
 - (void)didSendFace:(NSString *)faceLocalPath
@@ -840,6 +855,7 @@
 #if TARGET_IPHONE_SIMULATOR
     [self showHint:@"模拟器不支持拍照"];
 #elif TARGET_OS_IPHONE
+    [SillyMediaDevice isCameraAvailable];
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];

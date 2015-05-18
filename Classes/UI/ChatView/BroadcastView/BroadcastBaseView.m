@@ -7,7 +7,6 @@
 //
 
 #import "BroadcastBaseView.h"
-#import "NSDate+Category.h"
 #import "SCStateService.h"
 
 #define BBV_HOR_INSET _size_S(8)

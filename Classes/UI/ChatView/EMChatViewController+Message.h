@@ -7,6 +7,7 @@
 //
 
 #import "EMChatViewController.h"
+#import "SillyService.h"
 //将后台的EMMessage 转换成 UI展示的MessageModel
 
 @interface EMChatViewController (Message)
@@ -21,6 +22,7 @@
 - (NSDictionary*)messageExt;
 /////////////////////////
 - (void)sendEmojiMessage:(NSString*)emojiName;
+- (void)sendReportCmdMessage:(ReportReasonType)reason;
 
 -(void)sendTextMessage:(NSString *)textMessage;
 -(void)sendImageMessage:(UIImage *)imageMessage;

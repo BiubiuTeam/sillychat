@@ -7,6 +7,7 @@
 //
 
 #import "EMChatViewController+Broadcast.h"
+#import "EMChatViewController+Message.h"
 #import "SillyBroacastModel.h"
 #import "BlockActionSheet.h"
 #import "SillyService.h"
@@ -39,14 +40,19 @@
 - (void)didClickRightButton
 {
     BlockActionSheet *sheet = [BlockActionSheet sheetWithTitle:nil];
-    [sheet setDestructiveButtonWithTitle:@"举报图片或文字内容" atIndex:0 block:^{
+    [sheet setDestructiveButtonWithTitle:@"含政治敏感信息" atIndex:0 block:^{
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"举报后将不会再看到该内容" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alert.tag = 0x2009;
         [alert show];
     }];
-    [sheet setDestructiveButtonWithTitle:@"聊天过程中受到骚扰" atIndex:1 block:^{
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"向系统举报，且永久不再联系" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [sheet setDestructiveButtonWithTitle:@"含色情等不良信息" atIndex:1 block:^{
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"举报后将不会再看到该内容" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         alert.tag = 0x2010;
+        [alert show];
+    }];
+    [sheet setDestructiveButtonWithTitle:@"受到谩骂或人身攻击" atIndex:2 block:^{
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"举报后将不会再看到该内容" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alert.tag = 0x2011;
         [alert show];
     }];
     [sheet addButtonWithTitle:@"取消" block:nil];
@@ -58,20 +64,23 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag == 0x2009) {
-        //举报内容
+    if (alertView.tag == 0x1456) {
+        //举报成功
+        [self dismissChatViewController];
+    }else if (alertView.tag == 0x2009) {
+        //政治
         if(buttonIndex == 1){
-            [self reportWithType:ReportReasonType_Content extension:@"举报图片或文字内容"];
+            [self reportWithType:ReportReasonType_Policy extension:@"政治、敏感信息"];
         }
     }else if(alertView.tag == 0x2010){
-        //举报聊天
+        //色情
         if(buttonIndex == 1){
-            [self reportWithType:ReportReasonType_Chat extension:@"聊天过程中受到骚扰"];
-            //加入黑名单
-            EMError *error = [[EaseMob sharedInstance].chatManager blockBuddy:self.chatter relationship:eRelationshipBoth];
-            if (!error) {
-                NSLog(@"发送成功");
-            }
+            [self reportWithType:ReportReasonType_Porn extension:@"色情、广告信息"];
+        }
+    }else if(alertView.tag == 0x2011){
+        //人身攻击
+        if(buttonIndex == 1){
+            [self reportWithType:ReportReasonType_Attacks extension:@"人身攻击"];
         }
     }
 }
@@ -83,13 +92,22 @@
         DPTrace("举报回调");
         EMChatViewController* strong = (EMChatViewController*)_weakSelf;
         NSString* message = nil;
+        BOOL ret = NO;
         if (err == nil) {
             SillyResponseModel* model = [[SillyResponseModel alloc] initWithDictionary:json error:&err];
             if (model.statusCode && [model.statusCode integerValue] == 0) {
                 DPTrace("举报成功");
                 message = @"举报成功";
-                
+                ret = YES;
+                //重新更新关系链
                 [[RelationShipService shareInstance] reloadRelationShips:@0];
+                //发命令消息给对方
+                [strong sendReportCmdMessage:reason];
+                
+                //更新广场数据、关系链数据
+                [[NSNotificationCenter defaultCenter] removeObserver:strong];
+                NSDictionary* dict = @{@"broadcast":[strong.broadcastModel titleId],@"from":[strong.broadcastModel dvcId]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:Key_ReportOperation object:nil userInfo:dict];
             }else if (err){
                 DPTrace("返回数据出错: %@ \n %@",json,err);
                 message = @"举报操作出错";
@@ -101,13 +119,15 @@
             DPTrace("举报操作请求发送失败： %@",err);
             message = @"举报失败，请检查你当前的网络状况";
         }
-        [strong showAlertViewWithMessage:message];
+        [strong showAlertViewWithMessage:message succeed:ret];
     }];
 }
 
-- (void)showAlertViewWithMessage:(NSString*)message
+- (void)showAlertViewWithMessage:(NSString*)message succeed:(BOOL)ret
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    id delegate = ret?self:nil;
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:delegate cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    alert.tag = 0x1456;
     [alert show];
 }
 

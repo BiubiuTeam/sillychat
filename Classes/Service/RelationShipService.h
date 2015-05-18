@@ -24,6 +24,7 @@ extern NSString* const RelationShipsUnReadMessageDidUpdate;
 - (void)reloadRelationShips:(NSNumber*)lastId;
 - (void)updateRelationShips;
 
+- (BOOL)removeRelationShipWithTitleId:(NSDictionary*)ext;
 
 - (void)addUnreadCountOfChat:(NSString*)chatkey;
 - (NSInteger)unreadMessageCountOfChat:(NSString*)chatkey;

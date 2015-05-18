@@ -22,10 +22,15 @@ typedef NS_ENUM(NSUInteger, ReportType) {
     ReportType_User = 2,
 };
 
-//举报原因：广播内容、聊天骚扰
+/*举报原因：广播内容、聊天骚扰
+ 1.政治敏感  2.色情  4.人身攻击  5.其他 3.广告
+ */
 typedef NS_ENUM(NSUInteger, ReportReasonType) {
-    ReportReasonType_Content = 0,
-    ReportReasonType_Chat = 1,
+    ReportReasonType_Policy = 1,
+    ReportReasonType_Porn = 2,
+    ReportReasonType_Ad = 3,
+    ReportReasonType_Attacks = 4,
+    ReportReasonType_Others = 5,
 };
 
 //与后台的请求交互
@@ -45,6 +50,7 @@ typedef NS_ENUM(NSUInteger, ReportReasonType) {
 @interface SillyService : NSObject
 
 + (instancetype)shareInstance;
++ (NSString*)sillyDeviceIdentifier;
 
 /**
  *  用户注册

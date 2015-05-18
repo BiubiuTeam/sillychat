@@ -30,4 +30,5 @@ enum TEXT_CONSTRAIN_TYPE
 + (NSUInteger)stringLengthOfType:(int)type str:(NSString*)str;
 + (NSString *)hexValue:(NSNumber*)number;
 
+-(BOOL)isChinese;
 @end

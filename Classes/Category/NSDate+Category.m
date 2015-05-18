@@ -64,9 +64,6 @@
 
 /*标准时间日期描述*/
 -(NSString *)formattedTime{
-    
-    
-    
     NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString * dateNow = [formatter stringFromDate:[NSDate date]];

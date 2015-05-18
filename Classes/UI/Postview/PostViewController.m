@@ -15,6 +15,7 @@
 #import "UIImageAdditions.h"
 #import "UIImage+Helper.h"
 #import "CameraSessionView.h"
+#import "SillyMediaDevice.h"
 
 typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     PHOTO_STATE_LIVE = 0,
@@ -126,10 +127,6 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     _textViewTintColor = [[UITextView appearance] tintColor];
     [[UITextView appearance] setTintColor:TEXTVIEW_TINT_COLOR];
     
-    if (_dismissOpt == NO && [self isCameraAuthorized] == NO && _selectedImage == nil) {
-        [self openPhotoLibrary];
-    }
-    
     [self showViewsWithAnimate];
 }
 
@@ -141,9 +138,14 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
     [[UITextView appearance] setTintColor:_textViewTintColor];
 }
 
+static BOOL everShowCameraAuthorized = NO;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (everShowCameraAuthorized == NO) {
+        [SillyMediaDevice isCameraAvailable];
+        everShowCameraAuthorized = YES;
+    }
 }
 
 - (void)addKeyboardNotification
@@ -679,20 +681,20 @@ typedef NS_ENUM(NSUInteger, PHOTO_STATE) {
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    if ([self isCameraAuthorized]) {
+//    if ([self isCameraAuthorized]) {
         [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
         if (_selectedImage == nil) {
             [self switchLiveSessionState];
         }
         self.imagePicker = nil;
-    }else{
-        _dismissOpt = YES;
-        [self.imagePicker dismissViewControllerAnimated:YES completion:^{
-            if (_selectedImage == nil) {
-                [self closePostView];
-            }
-        }];
-    }
+//    }else{
+//        _dismissOpt = YES;
+//        [self.imagePicker dismissViewControllerAnimated:YES completion:^{
+//            if (_selectedImage == nil) {
+//                [self closePostView];
+//            }
+//        }];
+//    }
 }
 
 @end

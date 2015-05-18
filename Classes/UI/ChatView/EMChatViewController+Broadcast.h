@@ -10,4 +10,6 @@
 
 @interface EMChatViewController (Broadcast)<UIAlertViewDelegate>
 
+- (void)showAlertViewWithMessage:(NSString*)message succeed:(BOOL)ret;
+
 @end

@@ -36,6 +36,16 @@
                        requireEncryption:(BOOL)requireEncryption
                                emojiName:(NSString *)emojiName
                                      ext:(NSDictionary*)ext;
+/**
+ *  发送举报命令消息
+ *
+ *  @param username          接收方
+ *  @param reason            举报原因
+ *  @return 封装的消息体
+ */
++(EMMessage *)sendReportCmdMessageToUsername:(NSString *)username
+                                reportReason:(NSInteger)reason
+                                         ext:(NSDictionary *)ext;
 
 /**
  *  发送文字消息（包括系统表情）

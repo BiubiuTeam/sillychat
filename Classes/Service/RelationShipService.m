@@ -202,6 +202,27 @@ NSString* const RelationShipsUnReadMessageDidUpdate = @"_RelationShipsUnReadMess
     }];
 }
 
+- (BOOL)removeRelationShipWithTitleId:(NSDictionary*)ext
+{
+    NSUInteger index = NSNotFound;
+    NSNumber* titleId = [ext objectForKey:@"broadcast"];
+    NSString* dvcId = [ext objectForKey:@"from"];
+
+    for (SillyRelationshipModel* relation in _relationShips) {
+        if ([[relation.broadcastModel titleId] integerValue] == [titleId integerValue]) {
+            if ([[relation.broadcastModel dvcId] isEqualToString:dvcId]) {
+                index = [_relationShips indexOfObject:relation];
+                break;
+            }
+        }
+    }
+    if (index != NSNotFound) {
+        [_relationShips removeObjectAtIndex:index];
+        return YES;
+    }
+    return NO;
+}
+
 - (void)reloadRelationShips:(NSNumber*)lastId
 {
     __weak RelationShipService* weakSelf = self;

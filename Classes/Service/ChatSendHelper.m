@@ -45,6 +45,22 @@
     return [self sendMessage:username messageBody:body isChatGroup:isChatGroup requireEncryption:requireEncryption ext:dic];
 }
 
+//发送举报命令给对方，强制对方下线
++(EMMessage *)sendReportCmdMessageToUsername:(NSString *)username
+                                reportReason:(NSInteger)reason
+                                         ext:(NSDictionary *)ext
+{
+    EMChatCommand* command = [[EMChatCommand alloc] init];
+    command.cmd = @"sillychat#report";
+    EMCommandMessageBody* body = [[EMCommandMessageBody alloc] initWithChatObject:command];
+    NSMutableDictionary* dic = [NSMutableDictionary new];
+    if ([ext count]) {
+        [dic addEntriesFromDictionary:ext];
+    }
+    [dic setObject:[NSString stringWithFormat:@"%zd",reason] forKey:@"sillychat#report"];
+    return [self sendMessage:username messageBody:body isChatGroup:NO requireEncryption:NO ext:dic];
+}
+
 +(EMMessage *)sendTextMessageWithString:(NSString *)str
                              toUsername:(NSString *)username
                             isChatGroup:(BOOL)isChatGroup

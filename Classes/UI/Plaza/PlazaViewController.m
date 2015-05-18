@@ -149,6 +149,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optHandleWithReportNotification:) name:Key_ReportOperation object:nil];
     
     [self.view addSubview:self.mainView];
     
@@ -177,6 +178,25 @@
         [[SCStateService shareInstance] filterDatasource];
         [[SCStateService shareInstance] stateStillList];
     });
+}
+
+- (void)optHandleWithReportNotification:(NSNotification*)notification
+{
+    NSNumber* theId = [notification.userInfo objectForKey:@"broadcast"];
+    NSUInteger index = NSNotFound;
+    for (SillyBroacastModel* model in self.broadcastArray) {
+        if ([model.titleId integerValue] == [theId integerValue]) {
+            if (![[SillyService sillyDeviceIdentifier] isEqualToString:model.dvcId]) {
+                index = [_broadcastArray indexOfObject:model];
+            }
+            break;
+        }
+    }
+    
+    if (index != NSNotFound) {
+        [_broadcastArray removeObjectAtIndex:index];
+        [self.metroView setDatasource:_broadcastArray];
+    }
 }
 
 - (void)registUploadManager

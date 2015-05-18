@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, DPDateState) {
 
 @interface NSDate (biubiu)
 
++ (NSDate *)dateWithTimeIntervalInMilliSecondSince1970:(double)timeIntervalInMilliSecond;
+
 /**
  * MM月dd日
  */

@@ -15,6 +15,7 @@
 #import "PlazaViewController.h"
 #import "UIViewController+Front.h"
 
+#import "EMAccountService.h"
 //两次提示的默认间隔
 static const CGFloat kDefaultPlaySoundInterval = 5.0;
 
@@ -359,6 +360,25 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
         }
         //是否需要做频率限制
         [[RelationShipService shareInstance] performSelector:@selector(updateRelationShips) withObject:nil afterDelay:0.5];
+    }
+}
+
+//处理被举报消息
+- (void)didReceiveCmdMessage:(EMMessage *)cmdMessage
+{
+    NSString* from = cmdMessage.from;
+    //cmd from yourself
+    if ([[[EMAccountService shareInstance] username] isEqualToString:from]) {
+        return;
+    }
+    
+    NSDictionary* ext = [cmdMessage ext];
+    if ([ext objectForKey:@"sillychat#report"]) {
+        //举报操作
+        [[NSNotificationCenter defaultCenter] postNotificationName:Key_ReportOperation object:nil userInfo:ext];
+    }else if ([ext objectForKey:@"sillychat#emoji"]){
+        //表情，不管
+        
     }
 }
 

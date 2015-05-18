@@ -10,7 +10,6 @@
 #import "UIViewController+HUD.h"
 #import "EMChatViewController+Audio.h"
 
-#import "NSDate+Category.h"
 #import "ChatSendHelper.h"
 #import "MessageModel.h"
 #import "SillyEmojiMgr.h"
@@ -22,6 +21,7 @@
 
 #import "RelationShipService.h"
 #import "EmojiAnimationView.h"
+#import "NSDateAdditions.h"
 
 #define KPageCount 30
 
@@ -35,7 +35,7 @@
             NSDate *createDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.timestamp];
             NSTimeInterval tempDate = [createDate timeIntervalSinceDate:self.chatTagDate];
             if (tempDate > 60 || tempDate < -60 || (self.chatTagDate == nil)) {
-                [formatArray addObject:[createDate formattedTime]];
+                [formatArray addObject:[NSDate formatterDateForMDHM:createDate]];
                 self.chatTagDate = createDate;
             }
             
@@ -54,7 +54,7 @@
     NSDate *createDate = [NSDate dateWithTimeIntervalInMilliSecondSince1970:(NSTimeInterval)message.timestamp];
     NSTimeInterval tempDate = [createDate timeIntervalSinceDate:self.chatTagDate];
     if (tempDate > 60 || tempDate < -60 || (self.chatTagDate == nil)) {
-        [ret addObject:[createDate formattedTime]];
+        [ret addObject:[NSDate formatterDateForMDHM:createDate]];
         self.chatTagDate = createDate;
     }
     
@@ -112,11 +112,17 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [CATransaction begin];
+            [CATransaction setCompletionBlock: ^{
+                [weakSelf scrollViewToBottom:YES];
+            }];
+            
             [weakSelf.tableView beginUpdates];
             [weakSelf.dataSource addObjectsFromArray:messages];
             [weakSelf.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
             [weakSelf.tableView endUpdates];
             
+            [CATransaction commit];
             [weakSelf scrollViewToBottom:YES];
         });
     });
@@ -139,6 +145,11 @@
     //emoji
     [ChatSendHelper sendEmojiMessageToUsername:_conversation.chatter isChatGroup:NO requireEncryption:NO emojiName:emojiName ext:[self messageExt]];
     [EmojiAnimationView showEmoji:emojiName aboveView:self.view yPosition:-1 leftOrientation:YES];
+}
+
+- (void)sendReportCmdMessage:(ReportReasonType)reason
+{
+    [ChatSendHelper sendReportCmdMessageToUsername:_conversation.chatter reportReason:reason ext:[self messageExt]];
 }
 
 -(void)sendTextMessage:(NSString *)textMessage
@@ -194,11 +205,18 @@
                     if ([message.messageId isEqualToString:currMsg.messageId]) {
                         MessageModel *cellModel = [MessageModelManager modelWithMessage:message];
                         dispatch_async(dispatch_get_main_queue(), ^{
+                            [CATransaction begin];
+                            [CATransaction setCompletionBlock: ^{
+                                [weakSelf scrollViewToBottom:YES];
+                            }];
+                            
                             [weakSelf.tableView beginUpdates];
                             [weakSelf.dataSource replaceObjectAtIndex:i withObject:cellModel];
                             [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
                             [weakSelf.tableView endUpdates];
                             
+                            [CATransaction commit];
+                            [weakSelf scrollViewToBottom:YES];
                         });
                         
                         break;

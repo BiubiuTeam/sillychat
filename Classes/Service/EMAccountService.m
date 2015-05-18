@@ -89,8 +89,7 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
 
 - (NSString*)username
 {
-    NSString* udidStr = [SvUDIDTools UDID];
-    return [NSString stringWithFormat:@"sillychat-%@",udidStr];
+    return [SillyService sillyDeviceIdentifier];
 }
 
 - (void)registerAccount

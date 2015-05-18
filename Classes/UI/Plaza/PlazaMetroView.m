@@ -11,6 +11,7 @@
 #import "SillyBroacastModel.h"
 #import "MetroFooterRefreshView.h"
 #import "TagBaseView.h"
+#import "FishBubbleView.h"
 
 static CGFloat MetroInset = 5;
 #define ROWHEIGHT _size_S(115)
@@ -19,7 +20,7 @@ static CGFloat MetroInset = 5;
 {
     BOOL _reloading;
 }
-@property (nonatomic, strong) UIImageView* emptyView;
+@property (nonatomic, strong) FishBubbleView* emptyView;
 @property (nonatomic, strong) MetroFooterRefreshView* refreshView;
 @end
 
@@ -84,10 +85,10 @@ static CGFloat MetroInset = 5;
     return _refreshView;
 }
 
-- (UIImageView *)emptyView
+- (FishBubbleView *)emptyView
 {
     if (nil == _emptyView) {
-        _emptyView = [[UIImageView alloc] initWithImage:LOAD_ICON_USE_POOL_CACHE(@"silly_broadcast_empty.png")];
+        _emptyView = [[FishBubbleView alloc] init];
         _emptyView.centerX = self.width/2;
         _emptyView.centerY = (self.height - self.refreshView.height)/2;
         _emptyView.backgroundColor = [UIColor clearColor];

@@ -9,6 +9,8 @@
 #ifndef sillyChat_ServiceConstants_h
 #define sillyChat_ServiceConstants_h
 
+#define Key_ReportOperation @"_kNotificationKey_ReportOperation_"
+
 typedef NS_ENUM(NSUInteger, BroacastType) {
     BroacastType_Text = 1,
     BroacastType_Voice = 2,

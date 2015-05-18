@@ -63,6 +63,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsDidReload object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsDidUpdate object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadByNotification:) name:RelationShipsUnReadMessageDidUpdate object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(optHandleWithReportNotification:) name:Key_ReportOperation object:nil];
     if (SYSTEM_VERSION < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
     }
@@ -127,6 +129,15 @@
     [super viewWillDisappear:animated];
     _firstLoadingView = NO;
     [RelationShipService shareInstance].hasUnhandleMessage = NO;
+}
+
+- (void)optHandleWithReportNotification:(NSNotification*)notification
+{
+    NSDictionary* dict = notification.userInfo;
+    BOOL result = [[RelationShipService shareInstance] removeRelationShipWithTitleId:dict];
+    if (result) {
+        [self reloadByNotification:nil];
+    }
 }
 
 - (UIView*)containerView
