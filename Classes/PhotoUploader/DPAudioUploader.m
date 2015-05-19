@@ -33,7 +33,7 @@ static NSThread *gsHttpThread = nil;
         return;
     NSString* url = @"http://183.131.76.109/upload.php";
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"post url : %@",url);
+    DPTrace(@"post url : %@",url);
     self.localPath = localPath;
     NSData *data = [[NSFileManager defaultManager] contentsAtPath:localPath];
     request = [DPAudioUploader createPOSTRequest:url content:data timeout:300];
@@ -45,7 +45,7 @@ static NSThread *gsHttpThread = nil;
         return;
     NSString* url = @"http://183.131.76.109/upload.php";
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"post url : %@",url);
+    DPTrace(@"post url : %@",url);
     request = [DPAudioUploader createPOSTRequest:url content:audio timeout:300];
 }
 

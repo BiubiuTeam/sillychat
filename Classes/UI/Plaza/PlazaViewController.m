@@ -578,7 +578,7 @@
                     }
                 }
                 @catch (NSException *exception) {
-                    NSLog(@"数据添加产生Exception : %@",[exception description]);
+                    DPTrace(@"数据添加产生Exception : %@",[exception description]);
                 }
                 @finally {
                     [tmpself.metroView setMaxRow:[response.lineLen integerValue]];

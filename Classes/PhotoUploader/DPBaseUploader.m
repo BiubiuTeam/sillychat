@@ -305,7 +305,7 @@
             }
         }else if (_resultType == UploadResultType_String){
             NSString* isKindOfString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"%@",isKindOfString);
+            DPTrace(@"%@",isKindOfString);
             self.resultInfo = @{@"return_string": isKindOfString};
             if (self.delegate && [self.delegate respondsToSelector:@selector(onFinishUploadTask:info:)])
             {

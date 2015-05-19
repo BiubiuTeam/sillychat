@@ -48,7 +48,7 @@
 //
 //- (void)didTouchUpInsideTag:(UIButton*)sender
 //{
-//    NSLog(@"%@",_datasource);
+//    DPTrace(@"%@",_datasource);
 //}
 
 - (void)setViewType:(BroacastType)viewType

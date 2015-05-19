@@ -226,7 +226,7 @@
             BOOL maximumRestrictedBoundSize = (vert? blockOrigin.x : blockOrigin.y) == 0;
             
             if (spaceAvailable && maximumRestrictedBoundSize && !inBounds) {
-                NSLog(@"%@: layout is not %@ enough for this piece size: %@! Adding anyway...", [self class], vert? @"wide" : @"tall", NSStringFromCGSize(blockSize));
+                DPTrace(@"%@: layout is not %@ enough for this piece size: %@! Adding anyway...", [self class], vert? @"wide" : @"tall", NSStringFromCGSize(blockSize));
                 return YES;
             }
             
@@ -396,7 +396,7 @@
     if(size == 0) {
         static BOOL didShowMessage;
         if(!didShowMessage) {
-            NSLog(@"%@: cannot fit block of size: %@ in frame %@!  Defaulting to 1", [self class], NSStringFromCGSize(self.blockPixels), NSStringFromCGRect(self.collectionView.frame));
+            DPTrace(@"%@: cannot fit block of size: %@ in frame %@!  Defaulting to 1", [self class], NSStringFromCGSize(self.blockPixels), NSStringFromCGRect(self.collectionView.frame));
             didShowMessage = YES;
         }
         return 1;

@@ -242,7 +242,7 @@
 }
 
 - (void)didFetchingMessageAttachments:(EMMessage *)message progress:(float)progress{
-    NSLog(@"didFetchingMessageAttachment: %f", progress);
+    DPTrace(@"didFetchingMessageAttachment: %f", progress);
 }
 
 -(void)didReceiveMessage:(EMMessage *)message

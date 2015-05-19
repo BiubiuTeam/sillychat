@@ -363,7 +363,7 @@ static NSUInteger NumberOfRow = 5;
         return;
     }
     
-    NSLog(@"********************centerTableView*******************************");
+    DPTrace(@"********************centerTableView*******************************");
     
     NSInteger pageIndex;
     pageIndex = floor(_tableView.contentOffset.y / _tableView.rowHeight);
@@ -427,7 +427,7 @@ static NSUInteger NumberOfRow = 5;
 // UITableView的selectRowAtIndexPath:animated:scrollPosition:
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewDidEndScrollingAnimation  -   End of Scrolling.");
+    DPTrace(@"scrollViewDidEndScrollingAnimation  -   End of Scrolling.");
 //    if ([scrollView isKindOfClass:[UITableView class]] && scrollView == _tableView && _dismissingVC) {
 //        [self dismissChatRoomView];
 //    }

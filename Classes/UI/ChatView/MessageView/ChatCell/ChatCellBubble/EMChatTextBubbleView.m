@@ -200,7 +200,7 @@ NSString *const kRouterEventTextURLTapEventName = @"kRouterEventTextURLTapEventN
     
     NSInteger numberOfLines = self.textLabel.numberOfLines > 0 ? MIN(self.textLabel.numberOfLines, CFArrayGetCount(lines)) : CFArrayGetCount(lines);
     
-    //NSLog(@"num lines: %d", numberOfLines);
+    //DPTrace(@"num lines: %d", numberOfLines);
     
     if (numberOfLines == 0) {
         CFRelease(frame);

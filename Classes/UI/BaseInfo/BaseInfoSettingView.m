@@ -433,7 +433,7 @@
         if (err == nil) {
             SillyResponseModel* response = [[SillyResponseModel alloc] initWithDictionary:json error:&err];
             if (err == nil) {
-                NSLog(@"结果：%@",response);
+                DPTrace(@"结果：%@",response);
                 if ([response.statusCode integerValue] != 0) {
                     DPTrace("注册失败，可能是帐户冲突");
                     [[EMAccountService shareInstance] updateSettingAccountInfo:YES];
@@ -444,7 +444,7 @@
                     [weakSelf removeInfoView];
                 }
             }else{
-                NSLog(@"转换失败：%@",[err description]);
+                DPTrace(@"转换失败：%@",[err description]);
                 [weakSelf showErroTips];
                 [weakSelf dragDownButton];
             }

@@ -27,11 +27,11 @@
     [UmLogEngine logEvent:EventPressureMode];
     switch (longGer.state) {
         case UIGestureRecognizerStateBegan:
-            NSLog(@"_UIGestureRecognizerStateBegan_");
+            DPTrace(@"_UIGestureRecognizerStateBegan_");
             [self recordButtonTouchDown];
             break;
         case UIGestureRecognizerStateChanged:{
-            NSLog(@"_UIGestureRecognizerStateChanged_");
+            DPTrace(@"_UIGestureRecognizerStateChanged_");
             UIView* view = longGer.view;
             CGSize size = view.size;
             CGPoint location = [longGer locationInView:longGer.view];
@@ -43,7 +43,7 @@
             }
         } break;
         case UIGestureRecognizerStateEnded:{
-            NSLog(@"_UIGestureRecognizerStateEnded_");
+            DPTrace(@"_UIGestureRecognizerStateEnded_");
             UIView* view = longGer.view;
             CGSize size = view.size;
             CGPoint location = [longGer locationInView:longGer.view];
@@ -56,17 +56,17 @@
             _roundButton.highlighted = NO;
         }break;
         case UIGestureRecognizerStateCancelled:
-            NSLog(@"_UIGestureRecognizerStateCancelled_");
+            DPTrace(@"_UIGestureRecognizerStateCancelled_");
             [self recordButtonTouchUpOutside];
             _roundButton.highlighted = NO;
             break;
         case UIGestureRecognizerStateFailed:
-            NSLog(@"_UIGestureRecognizerStateFailed_");
+            DPTrace(@"_UIGestureRecognizerStateFailed_");
             [self recordButtonTouchUpOutside];
             _roundButton.highlighted = NO;
             break;
         case UIGestureRecognizerStatePossible:
-            NSLog(@"_UIGestureRecognizerStatePossible_");
+            DPTrace(@"_UIGestureRecognizerStatePossible_");
             _roundButton.highlighted = NO;
             break;
         default:

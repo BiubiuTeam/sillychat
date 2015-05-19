@@ -78,9 +78,9 @@
         if(authStatus == AVAuthorizationStatusNotDetermined){
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
                 if(granted){
-                    NSLog(@"Granted access to AVMediaTypeVideo");
+                    DPTrace(@"Granted access to AVMediaTypeVideo");
                 } else {
-                    NSLog(@"Not granted access to AVMediaTypeVideo");
+                    DPTrace(@"Not granted access to AVMediaTypeVideo");
                 }
             }];
         }

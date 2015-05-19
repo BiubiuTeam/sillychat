@@ -153,7 +153,7 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
                      DPTrace(@"连接环信后台失败");
                  }break;
                  case EMErrorServerAuthenticationFailure:{
-                     NSLog(@"%@",error.description);
+                     DPTrace(@"%@",error.description);
                  }break;
                  case EMErrorServerTimeout:{
                      DPTrace(@"连接环信后台超时");

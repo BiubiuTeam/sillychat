@@ -601,14 +601,14 @@ static BOOL everShowCameraAuthorized = NO;
 
 -(void)didCaptureImage:(UIImage *)image
 {
-    NSLog(@"CAPTURED IMAGE");
+    DPTrace(@"CAPTURED IMAGE");
     self.selectedImage = image;
     _captureView.image = image;
     [self uploadImageAndDismissView];
 }
 
 -(void)didCaptureImageWithData:(NSData *)imageData {
-    NSLog(@"CAPTURED IMAGE DATA");
+    DPTrace(@"CAPTURED IMAGE DATA");
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo

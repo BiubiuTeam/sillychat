@@ -33,7 +33,7 @@ static NSThread *gsHttpThread = nil;
     NSString* url = @"http://183.131.76.109/upload.php";
     
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"post url : %@",url);
+    DPTrace(@"post url : %@",url);
     self.uploadContent = uploadImage;
     request = [DPPhotoUploader createPOSTRequest:url content:UIImageJPEGRepresentation(uploadImage, 0.3) timeout:300];
 }
@@ -50,7 +50,7 @@ static NSThread *gsHttpThread = nil;
 //    NSDictionary* paramDic = [diction objectForKey:@"params"];
 //    
 //    for (id key in [paramDic allKeys]) {
-//        NSLog(@"key:%@ , Value:%@",key,[paramDic objectForKey:key]);
+//        DPTrace(@"key:%@ , Value:%@",key,[paramDic objectForKey:key]);
 //        [url appendString:[NSString stringWithFormat:@"%@=%@&",key,[paramDic objectForKey:key]]];
 //    }
 //    return [url substringToIndex:[url length]-1];

@@ -27,10 +27,10 @@
 - (void)onGetNetworkState:(int)iError
 {
     if (0 == iError) {
-        NSLog(@"联网成功");
+        DPTrace(@"联网成功");
     }
     else{
-        NSLog(@"onGetNetworkState %d",iError);
+        DPTrace(@"onGetNetworkState %d",iError);
     }
     
 }
@@ -38,10 +38,10 @@
 - (void)onGetPermissionState:(int)iError
 {
     if (0 == iError) {
-        NSLog(@"授权成功");
+        DPTrace(@"授权成功");
     }
     else {
-        NSLog(@"onGetPermissionState %d",iError);
+        DPTrace(@"onGetPermissionState %d",iError);
     }
 }
 

@@ -811,7 +811,7 @@
             NSError *error = nil;
             [fileman removeItemAtURL:videoURL error:&error];
             if (error) {
-                NSLog(@"failed to remove file, error:%@.", error);
+                DPTrace(@"failed to remove file, error:%@.", error);
             }
         }
         EMChatVideo *chatVideo = [[EMChatVideo alloc] initWithFile:[mp4 relativePath] displayName:@"video.mp4"];
@@ -892,23 +892,23 @@
         [exportSession exportAsynchronouslyWithCompletionHandler:^{
             switch ([exportSession status]) {
                 case AVAssetExportSessionStatusFailed: {
-                    NSLog(@"failed, error:%@.", exportSession.error);
+                    DPTrace(@"failed, error:%@.", exportSession.error);
                 } break;
                 case AVAssetExportSessionStatusCancelled: {
-                    NSLog(@"cancelled.");
+                    DPTrace(@"cancelled.");
                 } break;
                 case AVAssetExportSessionStatusCompleted: {
-                    NSLog(@"completed.");
+                    DPTrace(@"completed.");
                 } break;
                 default: {
-                    NSLog(@"others.");
+                    DPTrace(@"others.");
                 } break;
             }
             dispatch_semaphore_signal(wait);
         }];
         long timeout = dispatch_semaphore_wait(wait, DISPATCH_TIME_FOREVER);
         if (timeout) {
-            NSLog(@"timeout.");
+            DPTrace(@"timeout.");
         }
         if (wait) {
             //dispatch_release(wait);

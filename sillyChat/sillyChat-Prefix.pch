@@ -20,7 +20,7 @@
 #import "NSStringAdditions.h"
 
 
-#if 0
+#if 1
 #define DPTrace(...)
 #else
 #define DPTrace(fmt, ...) NSLog((@"DPTrace :%s : %d " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -33,11 +33,5 @@
 #endif
 
 #define SC_DEPRECATED_IOS(_sillyIntro, _sillyDep, ...) __attribute__((deprecated("")))
-
-
-
-
-//千万别改这个值哦
-#define GroupSubjectSeperator (@"*+_+*")
 
 #endif

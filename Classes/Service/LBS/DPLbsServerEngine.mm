@@ -340,7 +340,7 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
 {
     [_locService stopUserLocationService];
-    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    DPTrace(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
     if (userLocation) {
         self.userLocation = userLocation;
         [DPLbsServerEngine saveUserLocation:_userLocation];
@@ -359,9 +359,9 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
     reverseGeoCodeSearchOption.reverseGeoPoint = pt;
     BOOL flag = [self.searcher reverseGeoCode:reverseGeoCodeSearchOption];
     if(flag){
-        NSLog(@"*****eo检索发送成功");
+        DPTrace(@"*****eo检索发送成功");
     }else{
-        NSLog(@"*****eo检索发送失败");
+        DPTrace(@"*****eo检索发送失败");
         [[NSNotificationCenter defaultCenter] postNotificationName:DPLocationGetReverseGeoCodeResult object:@(NO)];
         _isUpdatingLocation = NO;
     }

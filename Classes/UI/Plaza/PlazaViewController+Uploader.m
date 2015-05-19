@@ -60,14 +60,14 @@
         } break;
         case UploadContentType_Image:
         {
-            NSLog(@"****图片上传进度：%f",process);
+            DPTrace(@"****图片上传进度：%f",process);
             if (_filterButton.uploaderTag == task.taskTag) {
                 _filterButton.progress = process;
             }
         } break;
         case UploadContentType_Audio:
         {
-            NSLog(@"****音频上传进度：%f",process);
+            DPTrace(@"****音频上传进度：%f",process);
         } break;
         case UploadContentType_Video:
         {
@@ -87,7 +87,7 @@
         } break;
         case UploadContentType_Image:
         {
-            NSLog(@"*****图片上传结果：%@",info);
+            DPTrace(@"*****图片上传结果：%@",info);
             if (info) {
                 if (_filterButton.uploaderTag == task.taskTag) {
                     [_filterButton resetEyeType];
