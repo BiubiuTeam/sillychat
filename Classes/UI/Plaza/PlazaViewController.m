@@ -20,11 +20,7 @@
 #import "SillyService.h"
 
 #import "EMChatViewController.h"
-#import "UIViewController+HUD.h"
-
 #import "DPLbsServerEngine.h"
-#import "DPSlideInteractor.h"
-
 #import "SillyStringMapping.h"
 #import "TagVoiceView.h"
 
@@ -497,16 +493,16 @@
     SillyBroacastModel* model = (SillyBroacastModel*)broacast;
     DPTrace(@"Open Chat View Controller With Data: %@", model);
     if ([SvUDIDTools isEqualToUdid:model.dvcId]) {
-        [self showHint:@"自己和自己聊天，你真的很无聊啊"];
-        //支不支持自己和自己聊天？
-        EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:model.dvcId];
-        [chatView setBroadcastModel:model];
-        chatView.originFrame = absoluteFrame;
-        if (SYSTEM_VERSION >= 8.0) {
-            chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
-        }
-        [self presentViewController:chatView animated:NO completion:nil];
+        DPTrace(@"自己和自己聊天，你真的很无聊啊");
         return;
+//        EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:model.dvcId];
+//        [chatView setBroadcastModel:model];
+//        chatView.originFrame = absoluteFrame;
+//        if (SYSTEM_VERSION >= 8.0) {
+//            chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+//        }
+//        [self presentViewController:chatView animated:NO completion:nil];
+//        return;
     }
     
     [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"Click"}];
@@ -564,7 +560,7 @@
         return;
     }
     isForceUpdating = YES;
-//    [self showHudInView:self.view hint:@"正在更新数据"];
+
     [UmLogEngine logEventWithFilterAutoly:EventBrowse];
     [[SillyService shareInstance] fetchNearbySillyBroacast:[[SCStateService shareInstance] selectedFilter] msgTag:[[SCStateService shareInstance] selectedMsgTag] comletion:^(id json, JSONModelError *err) {
         PlazaViewController* tmpself = (PlazaViewController*)_weakSelf;
@@ -597,7 +593,6 @@
         }
         isForceUpdating = NO;
         [tmpself.metroView refreshDone];
-        [tmpself hideHud];
     }];
 }
 
@@ -605,17 +600,17 @@
 
 - (void)willUserLocationStartUpdate:(NSNotification*)notification
 {
-    [self showHudInView:self.view hint:@"正在更新数据"];
+
 }
 
 - (void)didUserLocationStopUpdate:(NSNotification*)notification
 {
-    [self hideHud];
+
 }
 
 - (void)didUserLocationUpdateFailed:(NSNotification*)notification
 {
-    [self hideHud];
+
 }
 
 - (void)didUserLocationEndUpdate:(NSNotification*)notification

@@ -181,7 +181,6 @@
 		554CA4051AE8D6C100B94177 /* MetroFooterRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 554CA4041AE8D6C100B94177 /* MetroFooterRefreshView.m */; };
 		5566BDC51B05AA1E007B110C /* SillyMediaDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5566BDC41B05AA1E007B110C /* SillyMediaDevice.m */; };
 		557188431ADEC72F00E93272 /* EMChatViewController+Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 557188421ADEC72F00E93272 /* EMChatViewController+Audio.m */; };
-		557E1DA91AD51A62008A1AFB /* DPSlideInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 557E1DA81AD51A62008A1AFB /* DPSlideInteractor.m */; };
 		558BD6AF1AF7798C0073A040 /* EMChatImageStillBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 558BD6AE1AF7798C0073A040 /* EMChatImageStillBubbleView.m */; };
 		55AB604A1AEB308000C66228 /* UmLogEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AB60491AEB308000C66228 /* UmLogEngine.m */; };
 		55BCDD941B05F13F004C6B00 /* FishBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55BCDD931B05F13F004C6B00 /* FishBubbleView.m */; };
@@ -635,8 +634,6 @@
 		5566BDC41B05AA1E007B110C /* SillyMediaDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SillyMediaDevice.m; sourceTree = "<group>"; };
 		557188411ADEC72F00E93272 /* EMChatViewController+Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+Audio.h"; sourceTree = "<group>"; };
 		557188421ADEC72F00E93272 /* EMChatViewController+Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EMChatViewController+Audio.m"; sourceTree = "<group>"; };
-		557E1DA71AD51A62008A1AFB /* DPSlideInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPSlideInteractor.h; sourceTree = "<group>"; };
-		557E1DA81AD51A62008A1AFB /* DPSlideInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPSlideInteractor.m; sourceTree = "<group>"; };
 		558BD6AD1AF7798C0073A040 /* EMChatImageStillBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatImageStillBubbleView.h; sourceTree = "<group>"; };
 		558BD6AE1AF7798C0073A040 /* EMChatImageStillBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChatImageStillBubbleView.m; sourceTree = "<group>"; };
 		55AB60481AEB308000C66228 /* UmLogEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UmLogEngine.h; sourceTree = "<group>"; };
@@ -1923,8 +1920,6 @@
 				55E562DC1AB53AD100AF0D13 /* UIViewAdditions.m */,
 				55E562DD1AB53AD100AF0D13 /* UIViewControllerAdditions.h */,
 				55E562DE1AB53AD100AF0D13 /* UIViewControllerAdditions.m */,
-				557E1DA71AD51A62008A1AFB /* DPSlideInteractor.h */,
-				557E1DA81AD51A62008A1AFB /* DPSlideInteractor.m */,
 				55E2E3331ADA443D007B9B56 /* UIViewController+Front.h */,
 				55E2E3341ADA443D007B9B56 /* UIViewController+Front.m */,
 			);
@@ -2276,7 +2271,6 @@
 				552FF1671ABAB8EF00643CD9 /* SillyBroacastModel.m in Sources */,
 				55F3DFF51AE7C8E3006E66E8 /* MetroCollectionViewCell.m in Sources */,
 				55D085541AEF482900173996 /* BroadcastContentView.m in Sources */,
-				557E1DA91AD51A62008A1AFB /* DPSlideInteractor.m in Sources */,
 				55357C521AC93F7B004BA079 /* DPBaseUploadMgr.m in Sources */,
 				5534644D1AB42B500015BF37 /* EmojiEmoticons.m in Sources */,
 				55E5622C1AB525FF00AF0D13 /* EMAnimationButton.m in Sources */,

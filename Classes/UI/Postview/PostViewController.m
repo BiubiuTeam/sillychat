@@ -7,7 +7,6 @@
 //
 
 #import "PostViewController.h"
-#import "UIViewController+HUD.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "PostTextView.h"
@@ -406,19 +405,8 @@ static BOOL everShowCameraAuthorized = NO;
             DPTrace("完成了这个操作");
         }
     }else{
-        [self showHudInTopWindowWithHint:@"图片内容不能为空，请从图库内选择一张"];
-        
         [self openPhotoLibrary];
     }
-}
-
-- (void)showHudInTopWindowWithHint:(NSString*)hint
-{
-    UIWindow *topWindow = [[[UIApplication sharedApplication].windows sortedArrayUsingComparator:^NSComparisonResult(UIWindow *win1, UIWindow *win2) {
-        return win1.windowLevel - win2.windowLevel;
-    }] lastObject];
-    
-    [self showHudInView:topWindow hint:hint];
 }
 
 - (void)dismissPostView
@@ -464,7 +452,6 @@ static BOOL everShowCameraAuthorized = NO;
 - (void)uploadImageAndDismissView
 {
     if (_selectedImage == nil) {
-        [self showHudInTopWindowWithHint:@"图片为空，检查检查你的设备吧"];
         return;
     }
     _selectedImage = [UIImage image:_selectedImage scaleToFitSizeWithMaxLongSide:SCREEN_HEIGHT];
@@ -473,14 +460,12 @@ static BOOL everShowCameraAuthorized = NO;
         __weak PostViewController* weakSelf = self;
         NSString* msg = [_textView.text length]?_textView.text:@"";
         [_delegate postOptWithContent:_selectedImage contentType:PostContentType_IMG postType:_viewType extension:@{@"Text":msg} completion:^(BOOL succeed, NSError *error) {
-            [weakSelf hideHud];
             if (succeed) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf dismissPostView];
                 });
             }else{
-                [weakSelf showHudInTopWindowWithHint:@"发送失败"];
-                [weakSelf performSelector:@selector(hideHud) withObject:nil afterDelay:0.3];
+
             }
         }];
     }

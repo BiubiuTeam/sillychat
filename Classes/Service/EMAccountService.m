@@ -103,7 +103,7 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
              _registerProcess = 0;
              [[NSNotificationCenter defaultCenter] postNotificationName:kEMNotificationRegist object:nil userInfo:nil];
              
-             NSLog(NSLocalizedString(@"环信注册成功", @"Registered successfully, please log in"));
+             DPTrace(@"环信注册成功");
              [self loginAccount];
          }else{
              _registerProcess = error.errorCode;
@@ -112,18 +112,18 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
              
              switch (error.errorCode) {
                  case EMErrorServerNotReachable:{
-                     NSLog(NSLocalizedString(@"连接环信后台失败", @"Connect to the server failed!"));
+                     DPTrace(@"连接环信后台失败");
                  }break;
                  case EMErrorServerDuplicatedAccount:{
                      _registerProcess = 0;
-                     NSLog(NSLocalizedString(@"环信重新注册提示", @"You registered user already exists!"));
+                     DPTrace(@"环信重新注册提示");
                      [self loginAccount];
                  }break;
                  case EMErrorServerTimeout:{
-                     NSLog(NSLocalizedString(@"连接环信后台超时", @"Connect to the server timed out!"));
+                     DPTrace(@"连接环信后台超时");
                  }break;
                  default:{
-                     NSLog(NSLocalizedString(@"环信注册失败", @"Registration failed"));
+                     DPTrace(@"环信注册失败");
                  }break;
              }
          }
@@ -137,7 +137,7 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
                                                       completion:
      ^(NSDictionary *loginInfo, EMError *error) {
          if (loginInfo && !error) {
-             NSLog(@"登录成功");
+             DPTrace(@"登录成功");
              _loginProcess = 0;
              [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
              //发送自动登陆状态通知
@@ -147,19 +147,19 @@ NSString* const kEMNotificationRegist = @"_kEMNotificationRegist_";
              _loginProcess = error.errorCode;
              [[NSNotificationCenter defaultCenter] postNotificationName:kEMNotificationLogin object:nil userInfo:nil];
              
-             NSLog(@"无法注册和登录，导致私聊无法使用");
+             DPTrace(@"无法注册和登录，导致私聊无法使用");
              switch (error.errorCode) {
                  case EMErrorServerNotReachable:{
-                     NSLog(NSLocalizedString(@"连接环信后台失败", @"Connect to the server failed!"));
+                     DPTrace(@"连接环信后台失败");
                  }break;
                  case EMErrorServerAuthenticationFailure:{
                      NSLog(@"%@",error.description);
                  }break;
                  case EMErrorServerTimeout:{
-                     NSLog(NSLocalizedString(@"连接环信后台超时", @"Connect to the server timed out!"));
+                     DPTrace(@"连接环信后台超时");
                  }break;
                  default:{
-                     NSLog(NSLocalizedString(@"登陆失败", @"Logon failure"));
+                     DPTrace(@"登陆失败");
                  }break;
              }
          }

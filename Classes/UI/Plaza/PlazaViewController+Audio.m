@@ -136,7 +136,7 @@
         NSError *error = nil;
         [[EaseMob sharedInstance].chatManager startRecordingAudioWithError:&error];
         if (error) {
-            NSLog(NSLocalizedString(@"message.startRecordFail", @"failure to start recording"));
+            DPTrace(@"failure to start recording");
         }
     }
 }
@@ -160,14 +160,17 @@
     [[EaseMob sharedInstance].chatManager
      asyncStopRecordingAudioWithCompletion:^(EMChatVoice *aChatVoice, NSError *error){
          if (!error) {
-             [self showHudInView:self.view hint:@"语音上传中..."];
+             DPTrace("语音上传中...");
              [self addAudioFileUploadTask:aChatVoice.localPath withExtension:@{@"duration":@(aChatVoice.duration)}];
          }else{
+             DPTrace(@"%@",error.domain);
+             NSString* hint = @"录音操作失败";
              if (error.code == EMErrorAudioRecordNotStarted) {
-                 [self showHint:error.domain yOffset:-40];
-             } else {
-                 [self showHint:error.domain];
+                 hint = @"录音没有开始";
+             } else if(error.code == EMErrorAudioRecordDurationTooShort){
+                 hint = @"录音时间过短";
              }
+             [self showHint:hint];
          }
      } onQueue:nil];
     

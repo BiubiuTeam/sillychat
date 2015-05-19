@@ -7,7 +7,6 @@
 //
 
 #import "PlazaViewController+EaseMob.h"
-#import "UIViewController+HUD.h"
 #import "EMChatViewController.h"
 
 #import "UIViewController+Front.h"

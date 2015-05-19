@@ -98,31 +98,27 @@
         });
     }
 }
-
+//haowen， 5-19，置低的操作，先这样的···没有好方法
 -(void)addMessage:(EMMessage *)message
 {
     __weak EMChatViewController *weakSelf = self;
     dispatch_async(_messageQueue, ^{
         NSArray *messages = [weakSelf formatMessage:message];
-        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-        
-        for (int i = 0; i < messages.count; i++) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:weakSelf.dataSource.count+i inSection:0];
-            [indexPaths addObject:indexPath];
-        }
+//        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+//        
+//        for (int i = 0; i < messages.count; i++) {
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:weakSelf.dataSource.count+i inSection:0];
+//            [indexPaths addObject:indexPath];
+//        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [CATransaction begin];
-            [CATransaction setCompletionBlock: ^{
-                [weakSelf scrollViewToBottom:YES];
-            }];
-            
-            [weakSelf.tableView beginUpdates];
+
+//            [weakSelf.tableView beginUpdates];
             [weakSelf.dataSource addObjectsFromArray:messages];
-            [weakSelf.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-            [weakSelf.tableView endUpdates];
+//            [weakSelf.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+//            [weakSelf.tableView endUpdates];
+            [weakSelf.tableView reloadData];
             
-            [CATransaction commit];
             [weakSelf scrollViewToBottom:YES];
         });
     });
@@ -205,18 +201,10 @@
                     if ([message.messageId isEqualToString:currMsg.messageId]) {
                         MessageModel *cellModel = [MessageModelManager modelWithMessage:message];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [CATransaction begin];
-                            [CATransaction setCompletionBlock: ^{
-                                [weakSelf scrollViewToBottom:YES];
-                            }];
-                            
                             [weakSelf.tableView beginUpdates];
                             [weakSelf.dataSource replaceObjectAtIndex:i withObject:cellModel];
                             [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
                             [weakSelf.tableView endUpdates];
-                            
-                            [CATransaction commit];
-                            [weakSelf scrollViewToBottom:YES];
                         });
                         
                         break;
@@ -250,7 +238,6 @@
         }
         
     }else{
-        
     }
 }
 

@@ -23,7 +23,6 @@
 #import "ChatRoomViewController+EaseMob.h"
 #import "RelationShipService.h"
 #import "SvUDIDTools.h"
-#import "UIViewController+HUD.h"
 
 #define CONTAINER_VIEW_TAG (0x1234)
 
@@ -441,7 +440,9 @@ static NSUInteger NumberOfRow = 5;
 - (void)didPressedBubbleView:(ChatRoomBubbleView *)bubble datasource:(SillyBroacastModel *)datasource
 {
     if (![datasource.dvcId length]) {
-        [self showHint:@"关系链dvcid为空"];
+        DPTrace(@"关系链dvcid为空");
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"关系链数据存在异常，无法进行会话" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
         return;
     }
     [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"Click"}];

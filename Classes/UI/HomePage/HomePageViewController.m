@@ -7,7 +7,6 @@
 //
 
 #import "HomePageViewController.h"
-#import "UIViewController+HUD.h"
 #import "EMAnimationButton.h"
 #import "DPLbsServerEngine.h"
 #import "SillyService.h"
@@ -62,7 +61,6 @@
     
     BOOL showUp = [self needsShowUpInfoSettingView];
     if (showUp == NO && [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-//        [self showHint:@"地理位置信息不可用"];
         [self showLocationDisableMessage];
     }
 }
@@ -178,7 +176,6 @@
 - (void)clickButton
 {
     if ([[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-//        [self showHint:@"地理位置信息不可用"];
         [self showLocationDisableMessage];
         return;
     }
@@ -202,7 +199,9 @@
     //return [self openPlazaViewControllerWithData:nil];
     static NSInteger reqCount = 0;
     if (reqCount++ > 5) {
-        [self showHint:@"请求失败，请检查您的网络设置"];
+        DPTrace(@"请求失败，请检查你的网络设置");
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"请求失败，请检查你的网络设置" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
         [_roundButton stopAnimation];
         reqCount = 0;
         return;
@@ -231,7 +230,10 @@
                     DPTrace("拉取广播数据成功，共计：%zd个",[broacasts count]);
                     [weakSelf openPlazaViewControllerWithData:broacasts];
                 }else if ([response.statusCode integerValue] == 8){
-                    [weakSelf showHint:@"您的帐户已经被后台封号"];
+                    DPTrace(@"你的帐户已经被后台封号");
+                    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"你的帐户已经被后台封号" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    [alert show];
+                    
                     [weakSelf.roundButton stopAnimation];
                 }
             }else{
@@ -278,7 +280,9 @@
 - (void)didLocationFailedUpdate:(NSNotification*)notification
 {
     [_roundButton stopAnimation];
-    [self showHint:@"定位失败，请检查您当前的网络"];
+    DPTrace(@"定位失败，请检查你当前的网络");
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败，请检查你当前的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
 }
 
 - (void)didGeoReverseResultUpdate:(NSNotification*)notification

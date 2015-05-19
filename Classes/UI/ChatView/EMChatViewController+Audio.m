@@ -31,21 +31,23 @@
 
 - (void)stopAudioPlaying
 {
-    //停止音频播放及播放动画
-    [[EaseMob sharedInstance].chatManager stopPlayingAudio];
-    MessageModel *playingModel = [self.messageReadManager stopMessageAudioModel];
-    
-    NSIndexPath *indexPath = nil;
-    if (playingModel) {
-        indexPath = [NSIndexPath indexPathForRow:[self.dataSource indexOfObject:playingModel] inSection:0];
-    }
-    
-    if (indexPath) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView beginUpdates];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            [self.tableView endUpdates];
-        });
+    if([[EaseMob sharedInstance].chatManager isPlayingAudio]){
+        //停止音频播放及播放动画
+        [[EaseMob sharedInstance].chatManager stopPlayingAudio];
+        MessageModel *playingModel = [self.messageReadManager stopMessageAudioModel];
+        
+        NSIndexPath *indexPath = nil;
+        if (playingModel) {
+            indexPath = [NSIndexPath indexPathForRow:[self.dataSource indexOfObject:playingModel] inSection:0];
+        }
+        
+        if (indexPath) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView beginUpdates];
+                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [self.tableView endUpdates];
+            });
+        }
     }
 }
 
@@ -64,7 +66,7 @@
         NSError *error = nil;
         [[EaseMob sharedInstance].chatManager startRecordingAudioWithError:&error];
         if (error) {
-            NSLog(NSLocalizedString(@"message.startRecordFail", @"failure to start recording"));
+            DPTrace(@"failure to start recording");
         }
     }
     
@@ -91,11 +93,14 @@
          if (!error) {
              [self sendAudioMessage:aChatVoice];
          }else{
+             DPTrace("%@",error.domain);
+             NSString* hint = @"录音操作失败";
              if (error.code == EMErrorAudioRecordNotStarted) {
-                 [self showHint:error.domain yOffset:-40];
-             } else {
-                 [self showHint:error.domain];
+                 hint = @"录音没有开始";
+             } else if(error.code == EMErrorAudioRecordDurationTooShort){
+                hint = @"录音时间过短";
              }
+             [self showHint:hint];
          }
          
      } onQueue:nil];

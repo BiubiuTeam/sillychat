@@ -112,7 +112,7 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     [[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-// 注册deviceToken失败，此处失败，与环信SDK无关，一般是您的环境配置或者证书配置有误
+// 注册deviceToken失败，此处失败，与环信SDK无关，一般是你的环境配置或者证书配置有误
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     //SDK方法调用
@@ -177,20 +177,20 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 // 开始自动登录回调
 -(void)willAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
 {
-    NSLog(NSLocalizedString(@"login.beginAutoLogin", @"Start automatic login..."));
+    DPTrace(@"Start automatic login...");
 }
 
 // 结束自动登录回调
 -(void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
 {
-    NSLog(NSLocalizedString(@"login.endAutoLogin", @"End automatic login..."));
+    DPTrace(@"End automatic login...");
 }
 
 // 绑定deviceToken回调
 - (void)didBindDeviceWithError:(EMError *)error
 {
     if (error) {
-        NSLog(NSLocalizedString(@"apns.failToBindDeviceToken", @"Fail to bind device token"));
+        DPTrace(@"Fail to bind device token");
     }
 }
 
@@ -216,7 +216,7 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"推送内容"
                                                     message:str
                                                    delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"ok", @"OK")
+                                          cancelButtonTitle:@"确定"
                                           otherButtonTitles:nil];
     [alert show];
 #endif
@@ -418,21 +418,21 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
                 break;
             case eMessageBodyType_Image:
             {
-                messageStr = NSLocalizedString(@"您有一条图片消息", @"Image");
+                messageStr = @"你有一条图片消息";
             }
                 break;
             case eMessageBodyType_Location:
             {
-                messageStr = NSLocalizedString(@"您有一条位置分享消息", @"Location");
+                messageStr = @"你有一条位置分享消息";
             }
                 break;
             case eMessageBodyType_Voice:
             {
-                messageStr = NSLocalizedString(@"您有一条语音消息", @"Voice");
+                messageStr = @"你有一条语音消息";
             }
                 break;
             case eMessageBodyType_Video:{
-                messageStr = NSLocalizedString(@"您有一条视频消息", @"Vidio");
+                messageStr = @"你有一条视频消息";
             }
                 break;
             default:
@@ -440,11 +440,11 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
         }
         notification.alertBody = messageStr;
     }else{
-        notification.alertBody = NSLocalizedString(@"您有一条新消息", @"you have a new message");
+        notification.alertBody = @"你有一条新消息";
     }
     
     //去掉注释会显示[本地]开头, 方便在开发中区分是否为本地推送
-    notification.alertAction = NSLocalizedString(@"打开", @"Open");
+    notification.alertAction = @"打开";
     notification.timeZone = [NSTimeZone defaultTimeZone];
     notification.soundName = UILocalNotificationDefaultSoundName;
     

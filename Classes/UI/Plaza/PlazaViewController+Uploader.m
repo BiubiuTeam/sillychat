@@ -5,7 +5,6 @@
 //  Created by haowenliang on 15/3/30.
 //  Copyright (c) 2015年 dpsoft. All rights reserved.
 //
-#import "UIViewController+HUD.h"
 #import "PlazaViewController+Uploader.h"
 #import "PlazaViewController+Service.h"
 #import "DPPhotoUploader.h"
@@ -115,8 +114,7 @@
         } break;
         case UploadContentType_Audio:
         {
-            [self hideHud];
-            NSLog(@"*****音频上传结果：%@",info);
+            DPTrace(@"*****音频上传结果：%@",info);
             if (info) {
                 //上传成功
                 NSString* audioPath = [info objectForKey:@"return_string"];
@@ -130,8 +128,7 @@
                     [[SillyVoiceCache sharedVoiceCache] storeVoiceData:data forKey:audioPath];
                 }
             }else{
-                [self hideHud];
-                [self showHint:@"语音上传失败"];
+                DPTrace("语音上传失败");
             }
         } break;
         case UploadContentType_Video:

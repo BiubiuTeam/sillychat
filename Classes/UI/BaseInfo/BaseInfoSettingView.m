@@ -9,7 +9,6 @@
 #import "BaseInfoSettingView.h"
 #import "EMAccountService.h"
 #import "SillyService.h"
-#import "UIViewController+HUD.h"
 
 @interface ProfileButton : UIButton
 @property (nonatomic, assign) BOOL alignTop;
@@ -343,7 +342,7 @@
     [self addSubview:self.leftButton];
     [self addSubview:self.rightButton];
     
-    _msgLabel.text = @"选择您的性别";
+    _msgLabel.text = @"选择你的性别";
     [_msgLabel sizeToFit];
     [self bringSubviewToFront:_msgLabel];
     
@@ -393,7 +392,7 @@
     [self addSubview:self.studentButton];
     [self addSubview:self.employeeButton];
     
-    _msgLabel.text = @"选择您的职业";
+    _msgLabel.text = @"选择你的职业";
     [_msgLabel sizeToFit];
     [self bringSubviewToFront:_msgLabel];
     
@@ -460,7 +459,8 @@
 
 - (void)showErroTips
 {
-    UIViewController* viewctr = (UIViewController*)[self nextResponder];
-    [viewctr showHint:@"注册失败，请重新尝试"];
+    DPTrace(@"注册失败，请重新尝试");
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"注册失败，请重新尝试" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
 }
 @end

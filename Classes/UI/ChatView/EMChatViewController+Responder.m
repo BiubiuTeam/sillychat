@@ -7,6 +7,7 @@
 //
 
 #import "EMChatViewController+Responder.h"
+#import "EMChatViewController+Audio.h"
 #import "EMChatViewController+Message.h"
 #import "MessageModel.h"
 #import "EMChatViewCell.h"
@@ -25,7 +26,8 @@
         [self chatTextCellUrlPressed:[userInfo objectForKey:@"url"]];
     }
     else if ([eventName isEqualToString:kRouterEventAudioBubbleTapEventName]) {
-        [self chatAudioCellBubblePressed:model];
+//        [self chatAudioCellBubblePressed:model];
+        [self performSelector:@selector(chatAudioCellBubblePressed:) withObject:model afterDelay:.2];
     }
     else if ([eventName isEqualToString:kRouterEventImageBubbleTapEventName]){
         //haowenliang，阅后即焚
@@ -65,6 +67,8 @@
 // 语音的bubble被点击
 -(void)chatAudioCellBubblePressed:(MessageModel *)model
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(chatAudioCellBubblePressed:) object:nil];
+
     id <IEMFileMessageBody> body = [model.message.messageBodies firstObject];
     EMAttachmentDownloadStatus downloadStatus = [body attachmentDownloadStatus];
     
@@ -74,19 +78,17 @@
         if ([model.localPath length] && [[NSFileManager defaultManager] fileExistsAtPath:model.localPath] == NO)
         {
             DPTrace("文件不存在 %@",model.localPath);
-//            downloadStatus = EMAttachmentDownloadFailure;
         }
     }
     
     if (downloadStatus == EMAttachmentDownloading) {
-//        [self showHint:NSLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
+        DPTrace(@"downloading voice, click later");
         return;
     }
     else if (downloadStatus == EMAttachmentDownloadFailure)
     {
-//        [self showHint:NSLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
+        DPTrace(@"downloading voice, click later");
         [[EaseMob sharedInstance].chatManager asyncFetchMessage:model.message progress:nil];
-        
         return;
     }
     
@@ -131,16 +133,16 @@
 - (void)chatVideoCellPressed:(MessageModel *)model{
     __weak EMChatViewController *weakSelf = self;
     id <IChatManager> chatManager = [[EaseMob sharedInstance] chatManager];
-    [weakSelf showHudInView:weakSelf.view hint:NSLocalizedString(@"message.downloadingVideo", @"downloading video...")];
+    
     [chatManager asyncFetchMessage:model.message progress:nil completion:^(EMMessage *aMessage, EMError *error) {
-        [weakSelf hideHud];
+        DPTrace("video is downloading");
         if (!error) {
             NSString *localPath = aMessage == nil ? model.localPath : [[aMessage.messageBodies firstObject] localPath];
             if (localPath && localPath.length > 0) {
                 [weakSelf playVideoWithVideoPath:localPath];
             }
         }else{
-            [weakSelf showHint:NSLocalizedString(@"message.videoFail", @"video for failure!")];
+            DPTrace("video for failure!");
         }
     } onQueue:nil];
 }
@@ -168,7 +170,7 @@
                 if (!error) {
                     [weakSelf reloadTableViewDataWithMessage:model.message];
                 }else{
-                    [weakSelf showHint:NSLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
+                    DPTrace(@"thumbnail for failure!");
                 }
             } onQueue:nil];
         }

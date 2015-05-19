@@ -55,7 +55,7 @@
                                                            14)];
     _textLabel.textAlignment = NSTextAlignmentCenter;
     _textLabel.backgroundColor = [UIColor clearColor];
-    _textLabel.text = NSLocalizedString(@"手指上滑，取消发送", @"Fingers up slide, cancel sending");
+    _textLabel.text = @"手指上滑，取消发送";
     [self addSubview:_textLabel];
     _textLabel.font = [UIFont systemFontOfSize:10];
     _textLabel.textColor = [UIColor whiteColor];
@@ -68,7 +68,7 @@
 -(void)recordButtonTouchDown
 {
     // 需要根据声音大小切换recordView动画
-    _textLabel.text = NSLocalizedString(@"手指上滑，取消发送", @"Fingers up slide, cancel sending");
+    _textLabel.text = @"手指上滑，取消发送";
     _textLabel.backgroundColor = [UIColor clearColor];
     _isRecording = YES;
     _timer = [NSTimer scheduledTimerWithTimeInterval:0.05
@@ -92,7 +92,7 @@
 -(void)recordButtonDragInside
 {
     _isRecording = YES;
-    _textLabel.text = NSLocalizedString(@"手指上滑，取消发送", @"Fingers up slide, cancel sending");
+    _textLabel.text = @"手指上滑，取消发送";
     _textLabel.backgroundColor = [UIColor clearColor];
 }
 
@@ -100,7 +100,7 @@
 -(void)recordButtonDragOutside
 {
     _isRecording = NO;
-    _textLabel.text = NSLocalizedString(@"松开手指，取消发送", @"loosen the fingers, to cancel sending");
+    _textLabel.text = @"松开手指，取消发送";
     _textLabel.backgroundColor = [UIColor redColor];
 }
 

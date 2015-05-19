@@ -25,8 +25,6 @@
 #import "MessageModel.h"
 #import "BlockActionSheet.h"
 
-#import "DPSlideInteractor.h"
-#import "UIViewController+HUD.h"
 #import "EMChatImageStillBubbleView.h"
 #import "PlazaPhotoBrowser.h"
 #import "RelationShipService.h"
@@ -501,9 +499,9 @@
                             [self.dataSource removeObjectsInArray:messages];
                             [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
                         }
+                        _showLargeIndexPath = nil;
+                        _longPressIndexPath = nil;
                     }
-                    _showLargeIndexPath = nil;
-                    _longPressIndexPath = nil;
                 }
             }break;
             default:
@@ -604,10 +602,10 @@
         _menuController = [UIMenuController sharedMenuController];
     }
     if (_copyMenuItem == nil) {
-        _copyMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"copy", @"Copy") action:@selector(copyMenuAction:)];
+        _copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"Copy" action:@selector(copyMenuAction:)];
     }
     if (_deleteMenuItem == nil) {
-        _deleteMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"delete", @"Delete") action:@selector(deleteMenuAction:)];
+        _deleteMenuItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteMenuAction:)];
     }
     
     if (messageType == eMessageBodyType_Text) {
@@ -855,7 +853,7 @@
 {
     [self keyBoardHidden];
 #if TARGET_IPHONE_SIMULATOR
-    [self showHint:@"模拟器不支持拍照"];
+    DPTrace(@"模拟器不支持拍照");
 #elif TARGET_OS_IPHONE
     [SillyMediaDevice isCameraAvailable];
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -868,7 +866,7 @@
 {
     [self keyBoardHidden];
 #if TARGET_IPHONE_SIMULATOR
-    [self showHint:@"模拟器不支持选择小视频"];
+    DPTrace(@@"模拟器不支持选择小视频");
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
