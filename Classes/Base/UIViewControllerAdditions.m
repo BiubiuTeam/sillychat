@@ -86,7 +86,7 @@
 {
     UIButton *rightButtonItem=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
     [rightButtonItem addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-    rightButtonItem.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+    rightButtonItem.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
     
     [rightButtonItem setTitleColor:[UIColor colorWithColorType:ColorType_NavBtnNormal] forState:UIControlStateNormal];
     [rightButtonItem setTitleColor:[UIColor colorWithColorType:ColorType_NavBtnPressed] forState:UIControlStateHighlighted];
@@ -101,7 +101,7 @@
 {
     UIButton *rightButtonItem=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
     [rightButtonItem addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-    rightButtonItem.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+    rightButtonItem.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
     [rightButtonItem setTitleColor:[UIColor colorWithColorType:ColorType_NavBtnNormal] forState:UIControlStateNormal];
     [rightButtonItem setTitleColor:[UIColor colorWithColorType:ColorType_NavBtnPressed] forState:UIControlStateHighlighted];
     

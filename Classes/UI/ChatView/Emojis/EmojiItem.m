@@ -42,7 +42,7 @@
     if (nil == _emojiLabel) {
         _emojiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height - EmojiWidth)];
         _emojiLabel.backgroundColor = [UIColor clearColor];
-        _emojiLabel.font = [DPFont systemFontOfSize:18];
+        _emojiLabel.font = [UIFont systemFontOfSize:18];
         _emojiLabel.textAlignment = NSTextAlignmentCenter;
         _emojiLabel.textColor = [UIColor whiteColor];
         _emojiLabel.bottom = self.height;

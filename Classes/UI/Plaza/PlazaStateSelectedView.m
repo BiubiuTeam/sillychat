@@ -48,7 +48,7 @@
     if (nil == _titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 0)];
         _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+        _titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -141,7 +141,7 @@
     if (nil == _messageLabel) {
         _messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 0)];
         _messageLabel.backgroundColor = [UIColor clearColor];
-        _messageLabel.font = [DPFont boldSystemFontOfSize:FONT_SIZE_LARGE+6];
+        _messageLabel.font = [UIFont boldSystemFontOfSize:FONT_SIZE_LARGE+6];
         _messageLabel.textColor = [UIColor whiteColor];
         _messageLabel.textAlignment = NSTextAlignmentCenter;
         

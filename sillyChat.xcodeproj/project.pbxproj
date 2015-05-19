@@ -164,9 +164,6 @@
 		5534659A1AB469B30015BF37 /* EMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 553465881AB469B30015BF37 /* EMSearchBar.m */; };
 		5534659B1AB469B30015BF37 /* EMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5534658A1AB469B30015BF37 /* EMTextView.m */; };
 		5534659C1AB469B30015BF37 /* EMRemarkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5534658D1AB469B30015BF37 /* EMRemarkImageView.m */; };
-		5534659E1AB469B30015BF37 /* EMChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 553465921AB469B30015BF37 /* EMChooseViewController.m */; };
-		5534659F1AB469B30015BF37 /* EMNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 553465941AB469B30015BF37 /* EMNavigationController.m */; };
-		553465A01AB469B30015BF37 /* EMSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 553465961AB469B30015BF37 /* EMSearchDisplayController.m */; };
 		553465A11AB469B30015BF37 /* XHMessageTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553465981AB469B30015BF37 /* XHMessageTextView.m */; };
 		553465A41AB4786B0015BF37 /* EMChatViewController+Responder.m in Sources */ = {isa = PBXBuildFile; fileRef = 553465A31AB4786B0015BF37 /* EMChatViewController+Responder.m */; };
 		55357C481AC9275E004BA079 /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55357C471AC9275E004BA079 /* HomePageViewController.m */; };
@@ -198,7 +195,6 @@
 		55E2E3351ADA443D007B9B56 /* UIViewController+Front.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E2E3341ADA443D007B9B56 /* UIViewController+Front.m */; };
 		55E5622C1AB525FF00AF0D13 /* EMAnimationButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E5622B1AB525FF00AF0D13 /* EMAnimationButton.m */; };
 		55E562E01AB53AD100AF0D13 /* BiuUtilFun.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		55E562E21AB53AD100AF0D13 /* DPFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562C81AB53AD100AF0D13 /* DPFont.m */; };
 		55E562E51AB53AD100AF0D13 /* NSDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562CE1AB53AD100AF0D13 /* NSDateAdditions.m */; };
 		55E562E61AB53AD100AF0D13 /* NSDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562D01AB53AD100AF0D13 /* NSDictionaryAdditions.m */; };
 		55E562E71AB53AD100AF0D13 /* NSKeyedUnarchiverAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E562D21AB53AD100AF0D13 /* NSKeyedUnarchiverAdditions.m */; };
@@ -600,12 +596,6 @@
 		5534658A1AB469B30015BF37 /* EMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMTextView.m; sourceTree = "<group>"; };
 		5534658C1AB469B30015BF37 /* EMRemarkImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMRemarkImageView.h; sourceTree = "<group>"; };
 		5534658D1AB469B30015BF37 /* EMRemarkImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMRemarkImageView.m; sourceTree = "<group>"; };
-		553465911AB469B30015BF37 /* EMChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChooseViewController.h; sourceTree = "<group>"; };
-		553465921AB469B30015BF37 /* EMChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMChooseViewController.m; sourceTree = "<group>"; };
-		553465931AB469B30015BF37 /* EMNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMNavigationController.h; sourceTree = "<group>"; };
-		553465941AB469B30015BF37 /* EMNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMNavigationController.m; sourceTree = "<group>"; };
-		553465951AB469B30015BF37 /* EMSearchDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMSearchDisplayController.h; sourceTree = "<group>"; };
-		553465961AB469B30015BF37 /* EMSearchDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMSearchDisplayController.m; sourceTree = "<group>"; };
 		553465971AB469B30015BF37 /* XHMessageTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHMessageTextView.h; sourceTree = "<group>"; };
 		553465981AB469B30015BF37 /* XHMessageTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHMessageTextView.m; sourceTree = "<group>"; };
 		553465A21AB4786B0015BF37 /* EMChatViewController+Responder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EMChatViewController+Responder.h"; sourceTree = "<group>"; };
@@ -670,8 +660,6 @@
 		55E5622E1AB52C6400AF0D13 /* SillyChatUIDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SillyChatUIDefine.h; sourceTree = "<group>"; };
 		55E562C31AB53AD100AF0D13 /* BiuUtilFun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiuUtilFun.h; sourceTree = "<group>"; };
 		55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiuUtilFun.m; sourceTree = "<group>"; };
-		55E562C71AB53AD100AF0D13 /* DPFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPFont.h; sourceTree = "<group>"; };
-		55E562C81AB53AD100AF0D13 /* DPFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPFont.m; sourceTree = "<group>"; };
 		55E562CD1AB53AD100AF0D13 /* NSDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDateAdditions.h; sourceTree = "<group>"; };
 		55E562CE1AB53AD100AF0D13 /* NSDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateAdditions.m; sourceTree = "<group>"; };
 		55E562CF1AB53AD100AF0D13 /* NSDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionaryAdditions.h; sourceTree = "<group>"; };
@@ -1792,7 +1780,6 @@
 				553465891AB469B30015BF37 /* EMTextView.h */,
 				5534658A1AB469B30015BF37 /* EMTextView.m */,
 				5534658B1AB469B30015BF37 /* View */,
-				5534658E1AB469B30015BF37 /* ViewController */,
 				553465971AB469B30015BF37 /* XHMessageTextView.h */,
 				553465981AB469B30015BF37 /* XHMessageTextView.m */,
 			);
@@ -1806,19 +1793,6 @@
 				5534658D1AB469B30015BF37 /* EMRemarkImageView.m */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		5534658E1AB469B30015BF37 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				553465911AB469B30015BF37 /* EMChooseViewController.h */,
-				553465921AB469B30015BF37 /* EMChooseViewController.m */,
-				553465931AB469B30015BF37 /* EMNavigationController.h */,
-				553465941AB469B30015BF37 /* EMNavigationController.m */,
-				553465951AB469B30015BF37 /* EMSearchDisplayController.h */,
-				553465961AB469B30015BF37 /* EMSearchDisplayController.m */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		55357C451AC9273E004BA079 /* HomePage */ = {
@@ -1900,8 +1874,6 @@
 				552FF1AD1ABAE3C500643CD9 /* BiuDevice.mm */,
 				55E562C31AB53AD100AF0D13 /* BiuUtilFun.h */,
 				55E562C41AB53AD100AF0D13 /* BiuUtilFun.m */,
-				55E562C71AB53AD100AF0D13 /* DPFont.h */,
-				55E562C81AB53AD100AF0D13 /* DPFont.m */,
 				55E562CD1AB53AD100AF0D13 /* NSDateAdditions.h */,
 				55E562CE1AB53AD100AF0D13 /* NSDateAdditions.m */,
 				55E562CF1AB53AD100AF0D13 /* NSDictionaryAdditions.h */,
@@ -2282,10 +2254,7 @@
 				553465781AB468CC0015BF37 /* EMChatAudioBubbleView.m in Sources */,
 				552FF1A71ABAC10500643CD9 /* SillyResponseModel.m in Sources */,
 				55D67AEA1AFF598C00C95B38 /* CircularProgressView.m in Sources */,
-				55E562E21AB53AD100AF0D13 /* DPFont.m in Sources */,
-				5534659E1AB469B30015BF37 /* EMChooseViewController.m in Sources */,
 				553465461AB45CA20015BF37 /* UIResponder+Router.m in Sources */,
-				5534659F1AB469B30015BF37 /* EMNavigationController.m in Sources */,
 				55E562E81AB53AD100AF0D13 /* NSStringAdditions.m in Sources */,
 				55E563041AB5939A00AF0D13 /* PostTextView.m in Sources */,
 				554CA4051AE8D6C100B94177 /* MetroFooterRefreshView.m in Sources */,
@@ -2382,7 +2351,6 @@
 				552E4B641ACA88C400766CDD /* BBTableViewInterceptor.m in Sources */,
 				553465791AB468CC0015BF37 /* EMChatBaseBubbleView.m in Sources */,
 				552FF19B1ABABE6500643CD9 /* JSONAPI.m in Sources */,
-				553465A01AB469B30015BF37 /* EMSearchDisplayController.m in Sources */,
 				552E4B4A1ACA36FD00766CDD /* DPAsyncImageLoader.m in Sources */,
 				5566BDC51B05AA1E007B110C /* SillyMediaDevice.m in Sources */,
 				553047E21AB6810A00DFFDC4 /* Constants.m in Sources */,

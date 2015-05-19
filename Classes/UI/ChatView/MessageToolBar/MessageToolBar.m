@@ -316,7 +316,7 @@
     //录制
     self.recordButton = ({
         UIButton* recordButton = [[UIButton alloc] initWithFrame:CGRectMake(textViewLeftMargin, kVerticalPadding, width, kInputTextViewMinHeight)];
-        recordButton.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
+        recordButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_MIDDLE];
         [recordButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         
         UIImage* rimg = LOAD_ICON_USE_POOL_CACHE(@"toolbar/silly_voice_btn_normal.png");

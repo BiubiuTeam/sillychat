@@ -120,7 +120,7 @@
         CGRect frame = self.timerLayer.frame;
         frame.size.width = frame.size.width - _size_S(3);
         _textLabel = [[UILabel alloc] initWithFrame:frame];
-        [_textLabel setFont:[DPFont boldSystemFontOfSize:FONT_SIZE_SMALL-2]];
+        [_textLabel setFont:[UIFont boldSystemFontOfSize:FONT_SIZE_SMALL-2]];
         [_textLabel setBackgroundColor:[UIColor clearColor]];
         [_textLabel setTextAlignment:NSTextAlignmentRight];
         [_textLabel setTextColor:[UIColor whiteColor]];
@@ -144,7 +144,7 @@
     if (nil == _profileLabel) {
         _profileLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, BBV_PRO_WIDTH, BBV_PRO_HEIGHT)];
         _profileLabel.backgroundColor = BBV_STU_COLOR;
-        _profileLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL-2];
+        _profileLabel.font = [UIFont systemFontOfSize:FONT_SIZE_SMALL-2];
         _profileLabel.textColor = [UIColor whiteColor];
         _profileLabel.text = @"学生";
         _profileLabel.textAlignment = NSTextAlignmentCenter;
@@ -157,7 +157,7 @@
     if (nil == _titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL];
+        _titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_SMALL];
         _titleLabel.textColor = [UIColor whiteColor];
         _titleLabel.text = @"香港特别行政区";
         _titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -171,7 +171,7 @@
     if (nil == _leftButton) {
         _leftButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
         [_leftButton addTarget:self action:@selector(didClickLeftButton) forControlEvents:UIControlEventTouchUpInside];
-        _leftButton.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+        _leftButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
         [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_leftButton setTitleColor:[UIColor colorWithWhite:0.7 alpha:1] forState:UIControlStateHighlighted];
         [_leftButton setTitle:@"返回" forState:UIControlStateNormal];
@@ -185,7 +185,7 @@
     if (nil == _rightButton) {
         _rightButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
         [_rightButton addTarget:self action:@selector(didClickRightButton) forControlEvents:UIControlEventTouchUpInside];
-        _rightButton.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+        _rightButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
         
         [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_rightButton setTitleColor:[UIColor colorWithWhite:0.7 alpha:1] forState:UIControlStateHighlighted];

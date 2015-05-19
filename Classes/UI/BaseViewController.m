@@ -58,7 +58,7 @@
             viewController.navigationController.navigationBar.barTintColor = _mainVCtrColor;
             viewController.navigationController.navigationBar.tintColor = [UIColor clearColor];
         }
-        viewController.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[DPFont boldSystemFontOfSize:FONT_SIZE_LARGE]};
+        viewController.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:FONT_SIZE_LARGE]};
         /* Left button */
         viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
         

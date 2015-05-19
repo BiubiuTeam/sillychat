@@ -212,7 +212,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.textAlignment = NSTextAlignmentLeft;
         label.tag = 0x123;
-        label.font = [DPFont boldSystemFontOfSize:FONT_SIZE_LARGE];
+        label.font = [UIFont boldSystemFontOfSize:FONT_SIZE_LARGE];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
         [reusableview addSubview:label];

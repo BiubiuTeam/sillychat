@@ -113,7 +113,7 @@
     if (nil == _filterLabel) {
         _filterLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _filterLabel.backgroundColor = [UIColor clearColor];
-        _filterLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+        _filterLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
         _filterLabel.textAlignment = NSTextAlignmentCenter;
         _filterLabel.textColor = [UIColor blackColor];
     }

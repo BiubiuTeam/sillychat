@@ -265,7 +265,7 @@
         _countLabel.textColor = [UIColor whiteColor];
         _countLabel.textAlignment = NSTextAlignmentCenter;
         _countLabel.backgroundColor = [UIColor clearColor];
-        _countLabel.font = [DPFont systemFontOfSize:20];
+        _countLabel.font = [UIFont systemFontOfSize:20];
         
         _countLabel.text = @"100/100";
         [_countLabel sizeToFit];

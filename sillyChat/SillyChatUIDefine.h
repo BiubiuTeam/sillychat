@@ -27,4 +27,8 @@
 
 #define APPBLACKCOLOR RGBACOLOR(0x39, 0x38, 0x32, 1)
 
+#define FONT_SIZE_LARGE (18)
+#define FONT_SIZE_MIDDLE (16)
+#define FONT_SIZE_SMALL (14)
+
 #endif

@@ -302,7 +302,7 @@ static BOOL everShowCameraAuthorized = NO;
         [_confirmButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_send.png") forState:UIControlStateNormal];
         [_confirmButton setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_post_send.png") forState:UIControlStateHighlighted];
         
-        _confirmButton.titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_MIDDLE];
+        _confirmButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_MIDDLE];
         [_confirmButton setTitle:@"发送" forState:UIControlStateNormal];
         [_confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_confirmButton addTarget:self action:@selector(sendOutThisPost) forControlEvents:UIControlEventTouchUpInside];

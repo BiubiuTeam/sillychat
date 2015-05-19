@@ -29,7 +29,7 @@
         _messageLabel.textColor = [UIColor whiteColor];
         _messageLabel.textAlignment = NSTextAlignmentCenter;
         
-        _messageLabel.font = [DPFont boldSystemFontOfSize:24];
+        _messageLabel.font = [UIFont boldSystemFontOfSize:24];
         _messageLabel.layer.cornerRadius = 4;
         _messageLabel.layer.masksToBounds = YES;
     }
@@ -116,7 +116,7 @@
     if (nil == _sillyLabel) {
         _sillyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _sillyLabel.backgroundColor = [UIColor clearColor];
-        _sillyLabel.font = [DPFont boldSystemFontOfSize:2*FONT_SIZE_MIDDLE];
+        _sillyLabel.font = [UIFont boldSystemFontOfSize:2*FONT_SIZE_MIDDLE];
         _sillyLabel.textColor = [UIColor whiteColor];
         _sillyLabel.text = @"无聊";
         [_sillyLabel sizeToFit];
@@ -218,7 +218,7 @@
     if (nil == _msgLabel) {
         _msgLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _msgLabel.backgroundColor = [UIColor clearColor];
-        _msgLabel.font = [DPFont systemFontOfSize:FONT_SIZE_LARGE];
+        _msgLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
         _msgLabel.textColor = [UIColor whiteColor];
         _msgLabel.text = @"下滑开启";
         [_msgLabel sizeToFit];

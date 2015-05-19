@@ -23,7 +23,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
-    self.textLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL];
+    self.textLabel.font = [UIFont systemFontOfSize:FONT_SIZE_SMALL];
     self.textLabel.textColor = [UIColor whiteColor];
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;

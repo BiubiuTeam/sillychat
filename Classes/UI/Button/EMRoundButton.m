@@ -16,7 +16,7 @@
         self.backgroundColor = [UIColor clearColor];
         [self setBackgroundImage:LOAD_ICON_USE_POOL_CACHE(@"silly_round_button.png")];
         
-        [self.titleLabel setFont:[DPFont systemFontOfSize:16]];
+        [self.titleLabel setFont:[UIFont systemFontOfSize:16]];
         [self.titleLabel setTextColor:[UIColor whiteColor]];
         
         _highLightView = [[UIView alloc] initWithFrame:frame];
