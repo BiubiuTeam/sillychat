@@ -121,8 +121,8 @@ static CGFloat MetroInset = 5;
 
 - (void)updateMetroBaseWidth:(NSInteger)maxRow
 {
-    CGFloat leftW = self.width - MetroInset*(maxRow + 1);
-    NSInteger bwidth = abs(leftW/maxRow);
+    CGFloat leftW = self.width;
+    NSInteger bwidth = abs(leftW/maxRow) + 1;
     
     RFQuiltLayout* layout = (id)[self.collectionView collectionViewLayout];
     layout.blockPixels = CGSizeMake(bwidth, ROWHEIGHT);
@@ -219,7 +219,15 @@ static CGFloat MetroInset = 5;
 }
 
 - (UIEdgeInsets)insetsForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return UIEdgeInsetsMake(MetroInset/2, MetroInset, MetroInset/2, MetroInset);
+    return UIEdgeInsetsMake(MetroInset/2, [self leftMarginAtIndexPath:indexPath], MetroInset/2, MetroInset);
+}
+
+- (CGFloat)leftMarginAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row < _maxRow){
+        return MetroInset;
+    }
+    return 0;
 }
 
 #pragma mark - UIScrollViewDelegate

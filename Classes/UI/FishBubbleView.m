@@ -8,11 +8,11 @@
 
 #import "FishBubbleView.h"
 
-#define FishView_Width _size_S(225)
-#define FishView_Height _size_S(186)
+#define FishView_Width (136)
+#define FishView_Height (117)
 
-#define FishBubbleView_Width _size_S(41)
-#define FishBubbleView_Height _size_S(88)
+#define FishBubbleView_Width (25)
+#define FishBubbleView_Height (54)
 
 @interface FishBubbleView ()
 @property (nonatomic, strong) UIImageView* bubbleView;
@@ -35,7 +35,7 @@
         _bubbleView.backgroundColor = [UIColor clearColor];
         _bubbleView.contentMode = UIViewContentModeScaleAspectFit;
         _bubbleView.animationDuration = 2;
-        _bubbleView.animationImages = @[LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble0.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble1.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble2.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble3.png")];
+        _bubbleView.animationImages = @[LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble0.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble1.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble2.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble3.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble4.png"),LOAD_ICON_USE_POOL_CACHE(@"fish_bubble/fish_bubble5.png")];
     }
     return _bubbleView;
 }
