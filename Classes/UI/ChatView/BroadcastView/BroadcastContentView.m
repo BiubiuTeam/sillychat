@@ -28,7 +28,7 @@
         self.titleContent = nil;
         self.backgroundColor = APPLIGHTCOLOR;
     
-        [[self imageView] setContentMode: UIViewContentModeScaleAspectFill];
+        [[self imageView] setContentMode:UIViewContentModeScaleToFill];
         [self addSubview:self.msgLabel];
         [self setLargeState:NO];
     }

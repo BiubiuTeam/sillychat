@@ -16,6 +16,11 @@
 #define BCV_PROGRESS_MARGIN_BOTTOM (13)
 #define BCV_PROGRESS_HEIGHT (15)
 
+typedef NS_ENUM(NSUInteger, BBViewType) {
+    BBViewType_Normal = 0,
+    BBViewType_Owner = 1,
+};
+
 @protocol BroadcastBaseViewProtocol <NSObject>
 
 @optional
@@ -30,6 +35,7 @@
 @property (nonatomic, strong) CALayer* progressLayer;
 @property (nonatomic, strong) UILabel* textLabel;
 
+@property (nonatomic) BBViewType viewType;
 
 @property (nonatomic, assign) id<BroadcastBaseViewProtocol> delegate;
 

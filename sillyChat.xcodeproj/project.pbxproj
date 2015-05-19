@@ -222,6 +222,7 @@
 		55F3DFEE1AE79903006E66E8 /* PlazaFilterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F3DFED1AE79903006E66E8 /* PlazaFilterButton.m */; };
 		55F3DFF21AE7BB43006E66E8 /* PlazaMetroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F3DFF11AE7BB43006E66E8 /* PlazaMetroView.m */; };
 		55F3DFF51AE7C8E3006E66E8 /* MetroCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F3DFF41AE7C8E3006E66E8 /* MetroCollectionViewCell.m */; };
+		55F4588E1B0B376C0018155B /* CheckImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F4588D1B0B376C0018155B /* CheckImageViewController.m */; };
 		55F5DDEC1AB5DFE400CD491A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F5DDE81AB5DFE400CD491A /* Default-568h@2x.png */; };
 		55F5DDED1AB5DFE400CD491A /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F5DDE91AB5DFE400CD491A /* Default-667h@2x.png */; };
 		55F5DDEE1AB5DFE400CD491A /* Default-736h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F5DDEA1AB5DFE400CD491A /* Default-736h@2x.png */; };
@@ -762,6 +763,8 @@
 		55F3DFF11AE7BB43006E66E8 /* PlazaMetroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlazaMetroView.m; sourceTree = "<group>"; };
 		55F3DFF31AE7C8E3006E66E8 /* MetroCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetroCollectionViewCell.h; sourceTree = "<group>"; };
 		55F3DFF41AE7C8E3006E66E8 /* MetroCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetroCollectionViewCell.m; sourceTree = "<group>"; };
+		55F4588C1B0B376C0018155B /* CheckImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckImageViewController.h; sourceTree = "<group>"; };
+		55F4588D1B0B376C0018155B /* CheckImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckImageViewController.m; sourceTree = "<group>"; };
 		55F5DDE81AB5DFE400CD491A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
 		55F5DDE91AB5DFE400CD491A /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = SOURCE_ROOT; };
 		55F5DDEA1AB5DFE400CD491A /* Default-736h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -1629,6 +1632,8 @@
 				5566BDC41B05AA1E007B110C /* SillyMediaDevice.m */,
 				55BCDD921B05F13F004C6B00 /* FishBubbleView.h */,
 				55BCDD931B05F13F004C6B00 /* FishBubbleView.m */,
+				55F4588C1B0B376C0018155B /* CheckImageViewController.h */,
+				55F4588D1B0B376C0018155B /* CheckImageViewController.m */,
 			);
 			name = base;
 			sourceTree = "<group>";
@@ -2328,6 +2333,7 @@
 				5534643A1AB40FC60015BF37 /* BaseInfoSettingView.m in Sources */,
 				553465811AB468CC0015BF37 /* MessageModel.m in Sources */,
 				5534659C1AB469B30015BF37 /* EMRemarkImageView.m in Sources */,
+				55F4588E1B0B376C0018155B /* CheckImageViewController.m in Sources */,
 				552B17191AC1576F0072812C /* PlazaViewController+EaseMob.m in Sources */,
 				552E4B621ACA88C400766CDD /* BBTableView.m in Sources */,
 				55CC87B81AF1D730005ADD5B /* BlockBackground.m in Sources */,

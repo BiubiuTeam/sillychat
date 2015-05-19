@@ -14,7 +14,7 @@
 
 #import "PostViewController.h"
 #import "ChatRoomViewController.h"
-
+#import "CheckImageViewController.h"
 #import "SvUDIDTools.h"
 #import "EMAccountService.h"
 #import "SillyService.h"
@@ -493,16 +493,15 @@
     SillyBroacastModel* model = (SillyBroacastModel*)broacast;
     DPTrace(@"Open Chat View Controller With Data: %@", model);
     if ([SvUDIDTools isEqualToUdid:model.dvcId]) {
-        DPTrace(@"自己和自己聊天，你真的很无聊啊");
+
+        CheckImageViewController* check = [CheckImageViewController new];
+        if (SYSTEM_VERSION >= 8.0) {
+            check.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+        }
+        check.originFrame = absoluteFrame;
+        [check setBroadcastModel:model];
+        [self presentViewController:check animated:NO completion:nil];
         return;
-//        EMChatViewController* chatView = [[EMChatViewController alloc] initWithChatter:model.dvcId];
-//        [chatView setBroadcastModel:model];
-//        chatView.originFrame = absoluteFrame;
-//        if (SYSTEM_VERSION >= 8.0) {
-//            chatView.modalPresentationStyle=UIModalPresentationOverCurrentContext;
-//        }
-//        [self presentViewController:chatView animated:NO completion:nil];
-//        return;
     }
     
     [UmLogEngine logEvent:EventStartChat attribute:@{@"ViewType":@"Click"}];

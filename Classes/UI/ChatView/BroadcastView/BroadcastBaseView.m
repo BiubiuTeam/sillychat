@@ -9,14 +9,14 @@
 #import "BroadcastBaseView.h"
 #import "SCStateService.h"
 
-#define BBV_HOR_INSET _size_S(8)
+#define BBV_HOR_INSET _size_S(5)
 #define BBV_VER_INSET _size_S(18)
 
 #define BBV_HOR_MARGIN _size_S(20)
 #define BBV_VER_MARGIN _size_S(15)
 
 #define BBV_STATE_RADIUS _size_S(20)
-#define BBV_PRO_WIDTH _size_S(40)
+#define BBV_PRO_WIDTH _size_S(44)
 #define BBV_PRO_HEIGHT _size_S(18)
 
 #define BBV_STU_COLOR RGBACOLOR(0x7e, 0xd3, 0x21, 1)
@@ -57,6 +57,8 @@
         [self addBottomBorderLayer];
 #endif
         [self centerTopSubviews];
+        
+        _viewType = BBViewType_Normal;
     }
     return self;
 }
@@ -74,7 +76,7 @@
     
     _leftButton.centerY = _rightButton.centerY = _titleLabel.centerY = _profileLabel.centerY = centerY;
     _titleLabel.left = self.width/2 + BBV_HOR_INSET/2;
-    _profileLabel.right = self.width/2 - BBV_HOR_INSET/2;
+    _profileLabel.right = _viewType == BBViewType_Normal?self.width/2 - BBV_HOR_INSET/2:self.width/2;
     
     CGRect siFrame = _stateIconLayer.frame;
     siFrame.origin.y = centerY - siFrame.size.height/2;
@@ -171,7 +173,7 @@
     if (nil == _leftButton) {
         _leftButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
         [_leftButton addTarget:self action:@selector(didClickLeftButton) forControlEvents:UIControlEventTouchUpInside];
-        _leftButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
+        _leftButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_MIDDLE];
         [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_leftButton setTitleColor:[UIColor colorWithWhite:0.7 alpha:1] forState:UIControlStateHighlighted];
         [_leftButton setTitle:@"返回" forState:UIControlStateNormal];
@@ -185,7 +187,7 @@
     if (nil == _rightButton) {
         _rightButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 46, 30)];
         [_rightButton addTarget:self action:@selector(didClickRightButton) forControlEvents:UIControlEventTouchUpInside];
-        _rightButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_LARGE];
+        _rightButton.titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE_MIDDLE];
         
         [_rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_rightButton setTitleColor:[UIColor colorWithWhite:0.7 alpha:1] forState:UIControlStateHighlighted];
@@ -220,7 +222,7 @@
     
     int hour = abs(left/(60*60))%24;
     int min = abs(left/60)%60;
-    NSString* desc = [NSString stringWithFormat:@"%02zd小时%02zd分后会话销毁",hour,min];
+    NSString* desc = [NSString stringWithFormat:@"%02zd小时%02zd分后销毁",hour,min];
     [_textLabel setText:desc];
     
     CGRect frame = _progressLayer.frame;
@@ -233,19 +235,33 @@
     if(broadcast){
         //用户的状态、地理位置、身份
         [self updateProcess:[broadcast.pubTime doubleValue]];
-        NSUInteger useConf = [[broadcast userConfig] unsignedIntegerValue];
-        useConf = useConf>>1;
-        BOOL student = useConf%2 == 0;
-        _profileLabel.text = student?@"学生":@"上班族";
-        _profileLabel.backgroundColor = student?BBV_STU_COLOR:BBV_EMP_COLOR;
         
-        NSString* city = [broadcast city];
-        if ([city length]) {
-            _titleLabel.text = city;
+        if (_viewType == BBViewType_Normal) {
+            NSUInteger useConf = [[broadcast userConfig] unsignedIntegerValue];
+            useConf = useConf>>1;
+            BOOL student = useConf%2 == 0;
+            _profileLabel.hidden = NO;
+            _profileLabel.size = CGSizeMake(BBV_PRO_WIDTH, BBV_PRO_HEIGHT);
+            _profileLabel.text = student?@"学生":@"上班族";
+            _profileLabel.backgroundColor = student?BBV_STU_COLOR:BBV_EMP_COLOR;
+            
+            NSString* city = [broadcast city];
+            if ([city length]) {
+                _titleLabel.text = city;
+                [_titleLabel sizeToFit];
+                [self centerTopSubviews];
+            }
+            _rightButton.hidden = NO;
+        }else{
+            _profileLabel.hidden = YES;
+            _profileLabel.size = CGSizeZero;
+            _titleLabel.text = @"我发布的";
             [_titleLabel sizeToFit];
             [self centerTopSubviews];
+            
+            _rightButton.hidden = YES;
         }
-        
+
         NSNumber* msgTag = [broadcast msgTag];
         NSDictionary* dict = [[SCStateService shareInstance] getStateInfoOfId:[msgTag unsignedIntegerValue]];
         NSString* imgName = [dict objectForKey:@"image"];
