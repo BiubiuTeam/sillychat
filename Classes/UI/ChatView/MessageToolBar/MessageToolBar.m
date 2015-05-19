@@ -178,7 +178,7 @@
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
             [self.delegate didSendText:textView.text];
             
-            self.inputTextView.text = @"";
+            [self.inputTextView setText:@""];
             [self willShowInputTextViewToHeight:[self getTextViewContentH:self.inputTextView]];;
         }
         return NO;

@@ -483,6 +483,8 @@
             case UIGestureRecognizerStateCancelled:
             case UIGestureRecognizerStateEnded:
             {
+                [[PlazaPhotoBrowser shareInstance] hideBrowserWithAnimate:NO];
+                
                 id object = [self.dataSource objectAtIndex:_longPressIndexPath.row];
                 if ([object isKindOfClass:[MessageModel class]]) {
                     EMChatViewCell *cell = (EMChatViewCell *)[self.tableView cellForRowAtIndexPath:_longPressIndexPath];
@@ -490,7 +492,6 @@
                     
                     //阅后即焚
                     if(cell.messageModel.type == eMessageBodyType_Image){
-                        [[PlazaPhotoBrowser shareInstance] hideBrowserWithAnimate:NO];
                         if (_showLargeIndexPath == nil && _longPressIndexPath && _longPressIndexPath.row > 0) {
                             MessageModel *model = [self.dataSource objectAtIndex:_longPressIndexPath.row];
                             NSMutableArray *messages = [NSMutableArray arrayWithObjects:model, nil];
@@ -763,7 +764,8 @@
 
 - (void)didSendText:(NSString *)text
 {
-    [self sendTextMessage:text];
+    if(text.length)
+        [self sendTextMessage:text];
 }
 
 - (void)didCameraButtonClick

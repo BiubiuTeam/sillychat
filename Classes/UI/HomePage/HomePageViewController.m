@@ -193,11 +193,12 @@
     [_roundButton startAnimation];
     [_roundButton setTitle:@"搜索中" forState:UIControlStateNormal];
     
-    [self searchSillyMessageOpt];
+    [self performSelector:@selector(searchSillyMessageOpt) withObject:nil afterDelay:1];
 }
 
 - (void)searchSillyMessageOpt
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchSillyMessageOpt) object:nil];
     //return [self openPlazaViewControllerWithData:nil];
     static NSInteger reqCount = 0;
     if (reqCount++ > 5) {

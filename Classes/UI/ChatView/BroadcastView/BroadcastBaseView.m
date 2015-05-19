@@ -159,7 +159,7 @@
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.font = [DPFont systemFontOfSize:FONT_SIZE_SMALL];
         _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.text = @"对方在某处";
+        _titleLabel.text = @"香港特别行政区";
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [_titleLabel sizeToFit];
     }
@@ -236,12 +236,12 @@
         NSUInteger useConf = [[broadcast userConfig] unsignedIntegerValue];
         useConf = useConf>>1;
         BOOL student = useConf%2 == 0;
-        _profileLabel.text = student?@"学生":@"在职";
+        _profileLabel.text = student?@"学生":@"上班族";
         _profileLabel.backgroundColor = student?BBV_STU_COLOR:BBV_EMP_COLOR;
         
         NSString* city = [broadcast city];
         if ([city length]) {
-            _titleLabel.text = [NSString stringWithFormat:@"对方在%@",city];
+            _titleLabel.text = city;
             [_titleLabel sizeToFit];
             [self centerTopSubviews];
         }
