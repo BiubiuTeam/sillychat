@@ -225,9 +225,13 @@
     
     int hour = abs(left/(60*60))%24;
     int min = abs(left/60)%60;
-    NSString* desc = [NSString stringWithFormat:@"%02zd小时%02zd分后销毁",hour,min];
-    [_textLabel setText:desc];
-    
+    if(_viewType == BBViewType_Normal){
+        NSString* desc = [NSString stringWithFormat:@"%02zd小时%02zd分后会话销毁",hour,min];
+        [_textLabel setText:desc];
+    }else{
+        NSString* desc = [NSString stringWithFormat:@"%02zd小时%02zd分后销毁",hour,min];
+        [_textLabel setText:desc];
+    }
     CGRect frame = _progressLayer.frame;
     frame.size.width = ((hour+1) * _timerLayer.frame.size.width)/24;
     _progressLayer.frame = frame;

@@ -230,7 +230,7 @@
 {
     if (_leftButton == nil) {
         _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, self.width/2, self.height)];
-        _leftButton.backgroundColor = RGBACOLOR(0xff, 0xde, 0x32, 1);
+        _leftButton.backgroundColor = RGBACOLOR(0xff, 0xd0, 0x00, 1);
         
         [_leftButton addTarget:self action:@selector(selectMale) forControlEvents:UIControlEventTouchUpInside];
         
@@ -260,7 +260,7 @@
 {
     if (_studentButton == nil) {
         _studentButton = [[ProfileButton alloc] initWithFrame:CGRectMake(0, 0, self.width/2, self.height)];
-        _studentButton.backgroundColor = RGBACOLOR(0xff, 0xde, 0x32, 1);
+        _studentButton.backgroundColor = RGBACOLOR(0xff, 0xd0, 0x00, 1);
         
         [_studentButton addTarget:self action:@selector(toBeAStudent) forControlEvents:UIControlEventTouchUpInside];
         
@@ -303,12 +303,13 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    _msgLabel.centerX = _runningDot.centerX = _roundButton.centerX = self.width/2;
-    
-    _roundButton.bottom = self.height - 96;
-    _runningDot.top = _roundButton.bottom + 6;
-    
+    _msgLabel.centerX = self.width/2;
     _msgLabel.bottom = SCREEN_HEIGHT - _msgLabel.height/2;
+    if(_roundButton){
+        _runningDot.centerX = _roundButton.centerX = self.width/2;
+        _roundButton.bottom = self.height - 96;
+        _runningDot.top = _roundButton.bottom + 6;
+    }
 }
 
 - (void)removeRoundbuttonWithAnimate:(BOOL)animation
