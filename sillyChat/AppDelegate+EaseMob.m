@@ -345,22 +345,23 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 #if !TARGET_IPHONE_SIMULATOR
         [self playSoundAndVibration];
 #endif
-        NSDictionary* ext = message.ext;
-        if ([ext count]) {
-            NSString* from = [ext objectForKey:@"from"];
-            NSString* titleid = [ext objectForKey:@"broadcast"];
-            [[RelationShipService shareInstance] addUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
-        }
-        [RelationShipService shareInstance].hasUnhandleMessage = YES;
-        //触发主页面的动画
-        if([_plazaViewController frontViewController] == _plazaViewController)
-        {
-            [_plazaViewController.chatRoomButton setSelected:YES];
-            [_plazaViewController.chatRoomButton startAnimation];
-        }
-        //是否需要做频率限制
-        [[RelationShipService shareInstance] performSelector:@selector(updateRelationShips) withObject:nil afterDelay:0.5];
     }
+    
+    NSDictionary* ext = message.ext;
+    if ([ext count]) {
+        NSString* from = [ext objectForKey:@"from"];
+        NSString* titleid = [ext objectForKey:@"broadcast"];
+        [[RelationShipService shareInstance] addUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
+    }
+    [RelationShipService shareInstance].hasUnhandleMessage = YES;
+    //触发主页面的动画
+    if([_plazaViewController frontViewController] == _plazaViewController)
+    {
+        [_plazaViewController.chatRoomButton setSelected:YES];
+        [_plazaViewController.chatRoomButton startAnimation];
+    }
+    //是否需要做频率限制
+    [[RelationShipService shareInstance] performSelector:@selector(updateRelationShips) withObject:nil afterDelay:0.5];
 }
 
 //处理被举报消息

@@ -118,7 +118,7 @@
         _sillyLabel.backgroundColor = [UIColor clearColor];
         _sillyLabel.font = [UIFont boldSystemFontOfSize:2*FONT_SIZE_MIDDLE];
         _sillyLabel.textColor = [UIColor whiteColor];
-        _sillyLabel.text = @"无聊";
+        _sillyLabel.text = @"此刻";
         [_sillyLabel sizeToFit];
     }
     return _sillyLabel;

@@ -26,7 +26,9 @@
 #define BBV_PROGRESS_MARGIN (17)
 
 @interface BroadcastBaseView ()
-
+{
+    CGFloat centerWidth;
+}
 @property (nonatomic, strong) UIButton* rightButton;
 @property (nonatomic, strong) UIButton* leftButton;
 @property (nonatomic, strong) UILabel* titleLabel;
@@ -73,15 +75,16 @@
 - (void)centerTopSubviews
 {
     CGFloat centerY = STATUSBAR_HEIGHT + BBV_VER_MARGIN + BBV_STATE_RADIUS/2;
-    
     _leftButton.centerY = _rightButton.centerY = _titleLabel.centerY = _profileLabel.centerY = centerY;
-    _titleLabel.left = self.width/2 + BBV_HOR_INSET/2;
-    _profileLabel.right = _viewType == BBViewType_Normal?self.width/2 - BBV_HOR_INSET/2:self.width/2;
+    
+    centerWidth = _titleLabel.width + _profileLabel.width + _stateIconLayer.frame.size.width + BBV_HOR_INSET*2;
     
     CGRect siFrame = _stateIconLayer.frame;
     siFrame.origin.y = centerY - siFrame.size.height/2;
-    siFrame.origin.x = _profileLabel.left - BBV_HOR_INSET - BBV_STATE_RADIUS;
+    siFrame.origin.x = (self.width - centerWidth)/2;
     _stateIconLayer.frame = siFrame;
+    _profileLabel.left = CGRectGetMaxX(siFrame)+BBV_HOR_INSET;
+    _titleLabel.left = CGRectGetMaxX(_profileLabel.frame)+BBV_HOR_INSET;
     
     _leftButton.left = BBV_HOR_MARGIN;
     _rightButton.right = self.width - BBV_HOR_MARGIN;
