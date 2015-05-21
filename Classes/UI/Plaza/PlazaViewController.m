@@ -118,8 +118,24 @@
         }else{
             [self forceToUpdatePlazaSillyMessage];
         }
+        [self setupUnreadMessageCount];
     }
     return self;
+}
+
+// 统计未读消息数
+-(void)setupUnreadMessageCount
+{
+    if (NO == [[RelationShipService shareInstance] hasUnhandleMessage]){
+        NSArray *conversations = [[[EaseMob sharedInstance] chatManager] conversations];
+        NSInteger unreadCount = 0;
+        for (EMConversation *conversation in conversations) {
+            unreadCount += conversation.unreadMessagesCount;
+        }
+        if(unreadCount > 0) {
+            [[RelationShipService shareInstance] setHasUnhandleMessage:YES];
+        }
+    }
 }
 
 - (UIView *)mainView

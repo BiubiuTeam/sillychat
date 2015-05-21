@@ -32,10 +32,8 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
             withLaunchInfo = [self didReiveceRemoteNotificatison:userInfo];
         }
     }else{
-        //检查是否有未读推送，有则设置unhandle
-        //获取本地推送数组
-        NSArray *localArr = [application scheduledLocalNotifications];
-        if([localArr count]){
+        BOOL hasUnhandle = application.applicationIconBadgeNumber > 0;
+        if(hasUnhandle){
             [[RelationShipService shareInstance] setHasUnhandleMessage:YES];
         }
     }
