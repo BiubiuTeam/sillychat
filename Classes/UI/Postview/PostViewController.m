@@ -228,7 +228,7 @@ static BOOL everShowCameraAuthorized = NO;
         _textView.textAlignment = NSTextAlignmentCenter;
         _textView.font = TEXTVIEW_FONT;
         _textView.textColor = [UIColor whiteColor];
-        
+        _textView.returnKeyType = UIReturnKeyDone;
         _textView.centerX = SCREEN_WIDTH/2;
         _textView.centerY = SCREEN_HEIGHT/2;
         
@@ -519,6 +519,7 @@ static BOOL everShowCameraAuthorized = NO;
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
     if ([text isEqualToString:@"\n"]) {
+        [textView resignAllFirstResponder];
         return NO;
     }
     if(_viewType == PostViewType_Chat)
@@ -666,20 +667,11 @@ static BOOL everShowCameraAuthorized = NO;
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-//    if ([self isCameraAuthorized]) {
-        [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
-        if (_selectedImage == nil) {
-            [self switchLiveSessionState];
-        }
-        self.imagePicker = nil;
-//    }else{
-//        _dismissOpt = YES;
-//        [self.imagePicker dismissViewControllerAnimated:YES completion:^{
-//            if (_selectedImage == nil) {
-//                [self closePostView];
-//            }
-//        }];
-//    }
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+    if (_selectedImage == nil) {
+        [self switchLiveSessionState];
+    }
+    self.imagePicker = nil;
 }
 
 @end

@@ -90,7 +90,11 @@
     for (NSDictionary* dict in Places) {
         if ([[dict objectForKey:@"isSelected"] boolValue]) {
             if ([[dict objectForKey:@"fid"] integerValue] == 1) {
-                [mutStr appendString:[[DPLbsServerEngine shareInstance] city]];
+                NSString* city = [[DPLbsServerEngine shareInstance] city];
+                if (!city.length) {
+                    city = @"海外";
+                }
+                [mutStr appendString:city];
             }else{
                 [mutStr appendString:[dict objectForKey:@"title"]];
             }

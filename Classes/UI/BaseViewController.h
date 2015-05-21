@@ -15,5 +15,4 @@
 }
 @property (nonatomic, weak) BaseViewController* weakSelf;
 
-- (BOOL) isCameraAuthorized;
 @end

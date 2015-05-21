@@ -67,27 +67,5 @@
     }
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
-// iOS7及以上可以设置应用对摄像头的访问权限，检测方法
-- (BOOL) isCameraAuthorized
-{
-    if ([AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo].count) {
-        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if (authStatus == AVAuthorizationStatusDenied) {
-            return NO;
-        }
-        if(authStatus == AVAuthorizationStatusNotDetermined){
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                if(granted){
-                    DPTrace(@"Granted access to AVMediaTypeVideo");
-                } else {
-                    DPTrace(@"Not granted access to AVMediaTypeVideo");
-                }
-            }];
-        }
-    }else{
-        return NO;
-    }
-    return YES;
-}
 
 @end
