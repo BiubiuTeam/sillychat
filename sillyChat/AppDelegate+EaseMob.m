@@ -31,7 +31,15 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
         {
             withLaunchInfo = [self didReiveceRemoteNotificatison:userInfo];
         }
+    }else{
+        //检查是否有未读推送，有则设置unhandle
+        //获取本地推送数组
+        NSArray *localArr = [application scheduledLocalNotifications];
+        if([localArr count]){
+            [[RelationShipService shareInstance] setHasUnhandleMessage:YES];
+        }
     }
+    
     _connectionState = eEMConnectionConnected;
     
     [self registerRemoteNotification];
@@ -132,6 +140,8 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 {
     //SDK方法调用
     [[EaseMob sharedInstance] application:application didReceiveRemoteNotification:userInfo];
+    
+    [[RelationShipService shareInstance] setHasUnhandleMessage:YES];
 }
 
 //系统方法
@@ -321,6 +331,20 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
 {
     [[EaseMob sharedInstance] applicationProtectedDataDidBecomeAvailable:notif.object];
 }
+
+- (void)application:(UIApplication *) application
+handleActionWithIdentifier: (NSString *) identifier
+forRemoteNotification: (NSDictionary *) notification
+  completionHandler: (void (^)()) completionHandler {
+    
+    if ([identifier isEqualToString: @"ACCEPT_IDENTIFIER"]) {
+
+    }
+    
+    // Must be called when finished
+    completionHandler();
+}
+
 
 //这里主要是管理本地推送、消息提醒、未读数管理
 -(void)didReceiveMessage:(EMMessage *)message

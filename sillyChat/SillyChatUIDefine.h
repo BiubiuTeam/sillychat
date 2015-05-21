@@ -17,8 +17,8 @@
 #define LOAD_ICON_USE_POOL_CACHE(x) [UIImage imageNamed:[NSString stringWithFormat:@"reference/%@",x]]
 
 #if !PROGRAM_STYPE
-#define APPLICATIONCOLOR RGBACOLOR(0xff,0xd6,0x00,1)
-#define APPLIGHTCOLOR RGBACOLOR(0xe9, 0xc6, 0x00, 1)
+#define APPLICATIONCOLOR RGBACOLOR(0xff,0xde,0x32,1)
+#define APPLIGHTCOLOR RGBACOLOR(0xe9, 0xce, 0x32, 1)
 #else
 #define APPLICATIONCOLOR RGBACOLOR(0x39, 0x38, 0x32, 1)
 #define APPLIGHTCOLOR RGBACOLOR(0x23, 0x28, 0x32, 1)

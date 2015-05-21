@@ -99,7 +99,7 @@
 			</dict>
 			<dict>
 				<key>title</key>
-				<string>在自拍</string>
+				<string>自拍</string>
 				<key>fid</key>
 				<integer>10</integer>
 				<key>isSelected</key>
