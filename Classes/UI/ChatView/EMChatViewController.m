@@ -866,7 +866,7 @@
 {
     [self keyBoardHidden];
 #if TARGET_IPHONE_SIMULATOR
-    DPTrace(@@"模拟器不支持选择小视频");
+    DPTrace(@"模拟器不支持选择小视频");
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie];

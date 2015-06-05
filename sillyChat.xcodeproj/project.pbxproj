@@ -52,7 +52,6 @@
 		552FF1A71ABAC10500643CD9 /* SillyResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1A61ABAC10500643CD9 /* SillyResponseModel.m */; };
 		552FF1AE1ABAE3C500643CD9 /* BiuDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 552FF1AD1ABAE3C500643CD9 /* BiuDevice.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		552FF1B01ABAE4C700643CD9 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 552FF1AF1ABAE4C700643CD9 /* LocalAuthentication.framework */; };
-		552FFDDA1ABB2F4000EF3D00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 552FFDDC1ABB2F4000EF3D00 /* InfoPlist.strings */; };
 		55301B841AD622CA005C8680 /* PlazaPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55301B831AD622CA005C8680 /* PlazaPhotoBrowser.m */; };
 		553047E01AB6810A00DFFDC4 /* CameraSessionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 553047DA1AB6810A00DFFDC4 /* CameraSessionView.m */; };
 		553047E11AB6810A00DFFDC4 /* CaptureSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 553047DD1AB6810A00DFFDC4 /* CaptureSessionManager.m */; };
@@ -245,7 +244,6 @@
 		552D80D01ADD4CDD00E96868 /* SillyVoiceEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SillyVoiceEngine.h; sourceTree = "<group>"; };
 		552D80D11ADD4CDD00E96868 /* SillyVoiceEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SillyVoiceEngine.m; sourceTree = "<group>"; };
 		552E37951AC23BFE002702F8 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = SOURCE_ROOT; };
-		552E37A91AC240D2002702F8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		552E37AA1AC240D2002702F8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		552E37AB1AC240D2002702F8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		552E4B411ACA36FD00766CDD /* DPAsyncImageConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPAsyncImageConnection.h; sourceTree = "<group>"; };
@@ -1165,7 +1163,6 @@
 			children = (
 				5534634C1AB3CD870015BF37 /* Info.plist */,
 				5534634D1AB3CD870015BF37 /* main.m */,
-				552FFDDC1ABB2F4000EF3D00 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2127,7 +2124,6 @@
 				553463571AB3CD870015BF37 /* Main.storyboard in Resources */,
 				55E562F71AB552F800AF0D13 /* reference in Resources */,
 				5530EFDA1AB8590200C08F5F /* Emoji-酷@2x.png in Resources */,
-				552FFDDA1ABB2F4000EF3D00 /* InfoPlist.strings in Resources */,
 				5530EFE01AB8590200C08F5F /* Emoji-Duang~@2x.png in Resources */,
 				5530EFC51AB8545C00C08F5F /* 酷@2x.png in Resources */,
 				5530EFD41AB8590200C08F5F /* Duang~@2x.png in Resources */,
@@ -2359,14 +2355,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		552FFDDC1ABB2F4000EF3D00 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				552E37A91AC240D2002702F8 /* zh-Hans */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		553463551AB3CD870015BF37 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2501,7 +2489,7 @@
 					"-l\"Pods-SDWebImage\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "ac1a2b29-158d-41f4-a67b-25c6767bc486";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -2512,8 +2500,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shenzhen Yunkairichu Technology Co.,Ltd";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shenzhen Yunkairichu Technology Co.,Ltd";
+				CODE_SIGN_IDENTITY = "iPhone Developer: liu xiaobo (A38S3896Q3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: liu xiaobo (A38S3896Q3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/sillyChat/sillyChat-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2542,7 +2530,7 @@
 					"-l\"Pods-SDWebImage\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ce4bb9a8-105b-4546-9f12-341e9826df02";
+				PROVISIONING_PROFILE = "ac1a2b29-158d-41f4-a67b-25c6767bc486";
 			};
 			name = Release;
 		};

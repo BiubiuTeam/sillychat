@@ -43,7 +43,7 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
         case kCLAuthorizationStatusNotDetermined:{
             //首次请求地理位置
             DPTrace("kCLAuthorizationStatusNotDetermined");
-//            [self requestAuthorization];
+            [self requestAuthorization];
         }break;
         case kCLAuthorizationStatusAuthorized:
             //case kCLAuthorizationStatusAuthorizedAlways:
@@ -109,7 +109,7 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
 - (instancetype)init
 {
     if (self = [super init]) {
-//        _bblocationMgr = [[BBLocationManager alloc] init];
+        _bblocationMgr = [[BBLocationManager alloc] init];
         
         _isUpdatingLocation = NO;
         self.userLocation = [DPLbsServerEngine getCacheUserLocation];
@@ -146,6 +146,7 @@ NSString* const DPLocationGetReverseGeoCodeResult = @"_DPLocationGetReverseGeoCo
 
 - (void)forceToUpdateLocationWithCacheTime:(NSInteger)timestamp
 {
+//    [_bblocationMgr requestAuthorization];
 #if TARGET_IPHONE_SIMULATOR
     [[NSNotificationCenter defaultCenter] postNotificationName:DPLocationDidEndUpdate object:@(NO)];
     [[NSNotificationCenter defaultCenter] postNotificationName:DPLocationGetReverseGeoCodeResult object:@(NO)];

@@ -59,10 +59,10 @@
 {
     [super viewWillAppear:animated];
     
-    BOOL showUp = [self needsShowUpInfoSettingView];
-    if (showUp == NO && [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-        [self showLocationDisableMessage];
-    }
+//    BOOL showUp = [self needsShowUpInfoSettingView];
+//    if (showUp == NO && [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
+//        [self showLocationDisableMessage];
+//    }
 }
 
 - (BOOL)needsShowUpInfoSettingView
@@ -207,17 +207,18 @@
         return;
     }
     _searchOptHolding = YES;
-    [[DPLbsServerEngine shareInstance] forceToUpdateLocationWithCacheTime:5*60];
+//    [[DPLbsServerEngine shareInstance] forceToUpdateLocationWithCacheTime:5*60];
+    [self searchSillyMessageRequest];
 }
 
 - (void)searchSillyMessageRequest
 {
     _searchOptHolding = NO;
-    if ([self needsToHoldOnRequest]) {
-        _searchOptHolding = YES;
-        [[DPLbsServerEngine shareInstance] forceToUpdateLocationWithCacheTime:0];
-        return;
-    }
+//    if ([self needsToHoldOnRequest]) {
+//        _searchOptHolding = YES;
+//        [[DPLbsServerEngine shareInstance] forceToUpdateLocationWithCacheTime:0];
+//        return;
+//    }
     
     __weak HomePageViewController* weakSelf = self;
     [[SillyService shareInstance] fetchNearbySillyBroacast:0 msgTag:0 comletion:^(id json, JSONModelError *err) {
@@ -266,7 +267,6 @@
  */
 - (BOOL)needsToHoldOnRequest
 {
-//  return [[DPLbsServerEngine shareInstance] userLocation] == nil;
     return [[DPLbsServerEngine shareInstance] city] == nil;
 }
 
@@ -280,25 +280,26 @@
 - (void)didLocationFailedUpdate:(NSNotification*)notification
 {
     [_roundButton stopAnimation];
-    DPTrace(@"定位失败，请检查你当前的网络");
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败，请检查你当前的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alert show];
+//    if(_searchOptHolding){
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败，请检查你的当前的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alert show];
+//    }
 }
 
 - (void)didGeoReverseResultUpdate:(NSNotification*)notification
 {
     DPTrace("GEO检索完成: %@",[[DPLbsServerEngine shareInstance] city]);
-    if([notification.object boolValue] || [[[DPLbsServerEngine shareInstance] city] length]){
-        if (_searchOptHolding) {
-            [self searchSillyMessageRequest];
-        }
-    }
+//    if([notification.object boolValue] || [[[DPLbsServerEngine shareInstance] city] length]){
+//        if (_searchOptHolding) {
+//            [self searchSillyMessageRequest];
+//        }
+//    }
 }
 
 - (void)showLocationDisableMessage
 {
-    NSString* navtipstr = @"打开定位开始\n请在iPhone \"设置-隐私-定位服务\"中打开\n定位服务，并允许此刻使用";
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"此刻，你应该" message:navtipstr delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    NSString* navtipstr = @"请在iPhone \"设置-隐私-定位服务\"中打开定位服务，并允许此刻使用";
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"此刻，请先允许定位权限" message:navtipstr delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alert show];
 }
 @end

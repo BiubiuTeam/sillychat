@@ -276,8 +276,8 @@
     }
     CLLocationCoordinate2D locationCorrrdinate = [[DPLbsServerEngine shareInstance] userLocation].location.coordinate;
     if (CLLocationCoordinate2DIsValid(locationCorrrdinate)) {
-        [body setObject:@(abs(locationCorrrdinate.latitude*1000000)) forKey:@"latitude"];
-        [body setObject:@(abs(locationCorrrdinate.longitude*1000000)) forKey:@"longitude"];
+        [body setObject:@(fabs(locationCorrrdinate.latitude*1000000)) forKey:@"latitude"];
+        [body setObject:@(fabs(locationCorrrdinate.longitude*1000000)) forKey:@"longitude"];
     }
     if([[[DPLbsServerEngine shareInstance] city] length]){
         [body setObject:[[DPLbsServerEngine shareInstance] city] forKey:@"city"];
