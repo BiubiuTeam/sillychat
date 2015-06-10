@@ -225,7 +225,11 @@
 {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"KenburnsImageViewStateSet" object:@YES];
-    
+    [self judgeIfHasUnreadInfo];
+}
+
+- (void)judgeIfHasUnreadInfo
+{
     if ([[RelationShipService shareInstance] hasUnhandleMessage]) {
         [_chatRoomButton setSelected:YES];
         [_chatRoomButton startAnimation];

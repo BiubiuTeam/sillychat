@@ -54,7 +54,7 @@
             tagView = [[TagImageView alloc] initWithFrame:CGRectZero viewType:type];
             [(TagImageView*)tagView setImageContent:broacast.titleCont];
             
-            [tagView setViewContent:[broacast.extension objectForKey:@"Text"]];
+            [tagView setViewContent:[broacast.extension objectForKey:@"text"]];
         }break;
         case BroacastType_Voice:{
             tagView = [[TagVoiceView alloc] initWithFrame:CGRectZero viewType:type];

@@ -119,7 +119,7 @@
         _topIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [_tableView scrollToRowAtIndexPath:_topIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
         
-        [[RelationShipService shareInstance] reloadRelationShipsWithSequence];
+        [[RelationShipService shareInstance] reloadRelationShips:@0];
     }
 }
 
@@ -406,7 +406,7 @@ static NSUInteger NumberOfRow = 5;
             _bubbleView = [[ChatRoomImageBubbleView alloc] initWithFrame:CGRectZero];
             [_bubbleView setImagePath:[relation.broadcastModel titleCont]];
             NSDictionary* dict = [relation.broadcastModel extension];
-            [_bubbleView setTextContent:[dict objectForKey:@"Text"]];
+            [_bubbleView setTextContent:[dict objectForKey:@"text"]];
         }break;
         default:
             break;

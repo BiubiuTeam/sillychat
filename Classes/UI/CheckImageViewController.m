@@ -7,6 +7,7 @@
 //
 
 #import "CheckImageViewController.h"
+#import "AppDelegate.h"
 
 @interface CheckImageViewController ()
 @property (nonatomic, strong) UIView* bottomView;
@@ -42,6 +43,15 @@
     [super viewWillAppear:animated];
     
     [self showUpWithAnimation];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    //特殊处理会话列表页面，因为从这里回去不会相应viewwillappear
+    AppDelegate* delegate = (AppDelegate* )[UIApplication sharedApplication].delegate;
+    [delegate optWhenTopViewControllerPopup];
 }
 
 - (void)showUpWithAnimation

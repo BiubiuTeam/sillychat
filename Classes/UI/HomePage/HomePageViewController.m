@@ -59,7 +59,7 @@
 {
     [super viewWillAppear:animated];
     
-//    BOOL showUp = [self needsShowUpInfoSettingView];
+    [self needsShowUpInfoSettingView];
 //    if (showUp == NO && [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
 //        [self showLocationDisableMessage];
 //    }

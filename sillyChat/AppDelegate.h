@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 - (void)changeToPlazaViewControllerWithDatasource:(NSArray*)datasource;
+- (void)optWhenTopViewControllerPopup;
 
 @end
 

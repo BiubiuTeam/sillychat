@@ -98,4 +98,11 @@
     self.homePageViewController = nil;
 }
 
+- (void)optWhenTopViewControllerPopup
+{
+    if (_plazaViewController) {
+        [_plazaViewController judgeIfHasUnreadInfo];
+    }
+}
+
 @end

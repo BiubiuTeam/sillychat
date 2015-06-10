@@ -18,7 +18,7 @@
 
 #import "SRRefreshView.h"
 #import "ChatSendHelper.h"
-
+#import "AppDelegate.h"
 #import "EMChatTimeCell.h"
 #import "EMChatViewCell.h"
 #import "MessageReadManager.h"
@@ -157,6 +157,9 @@
     NSString* titleid = [NSString stringWithFormat:@"%@",_broadcastModel.sortId];
     [[RelationShipService shareInstance] removeUnreadCountOfChat:[NSString stringWithFormat:@"%@%@",from,titleid]];
     //特殊处理会话列表页面，因为从这里回去不会相应viewwillappear
+    
+    AppDelegate* delegate = (AppDelegate* )[UIApplication sharedApplication].delegate;
+    [delegate optWhenTopViewControllerPopup];
 }
 
 - (void)removeChatterSet

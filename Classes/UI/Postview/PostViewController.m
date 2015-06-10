@@ -459,7 +459,7 @@ static BOOL everShowCameraAuthorized = NO;
     if (_delegate && [_delegate respondsToSelector:@selector(postOptWithContent:contentType:postType:extension:completion:)]) {
         __weak PostViewController* weakSelf = self;
         NSString* msg = [_textView.text length]?_textView.text:@"";
-        [_delegate postOptWithContent:_selectedImage contentType:PostContentType_IMG postType:_viewType extension:@{@"Text":msg} completion:^(BOOL succeed, NSError *error) {
+        [_delegate postOptWithContent:_selectedImage contentType:PostContentType_IMG postType:_viewType extension:@{@"text":msg} completion:^(BOOL succeed, NSError *error) {
             if (succeed) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf dismissPostView];

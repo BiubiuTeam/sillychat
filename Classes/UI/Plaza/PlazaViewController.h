@@ -34,6 +34,8 @@
 - (instancetype)initWithTagsArray:(NSArray*)array;
 - (void)forceToUpdatePlazaSillyMessage;
 
+- (void)judgeIfHasUnreadInfo;
+
 @end
 
 

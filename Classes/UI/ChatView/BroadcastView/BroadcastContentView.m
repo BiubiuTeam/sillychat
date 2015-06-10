@@ -69,7 +69,7 @@
     }else if ([model.titleType integerValue] == BroacastType_Image){
         NSDictionary* dic = model.extension;
         [self setImageURL:[NSURL URLWithString:model.titleCont]];
-        self.msgLabel.text = [dic objectForKey:@"Text"];
+        self.msgLabel.text = [dic objectForKey:@"text"];
         [self setLargeState:NO];
     }
 }

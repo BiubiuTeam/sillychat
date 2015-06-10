@@ -43,11 +43,11 @@ static const CGFloat kDefaultPlaySoundInterval = 5.0;
     [self registerRemoteNotification];
     //注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
     NSString *apnsCertName = nil;
-#if DEBUG
-    apnsCertName = @"sillychat_dev";
-#else
+//#if DEBUG
+//    apnsCertName = @"sillychat_dev";
+//#else
     apnsCertName = @"sillychat_pro";
-#endif
+//#endif
     [[EaseMob sharedInstance] registerSDKWithAppKey:@"nuxsoft#sillychat" apnsCertName:apnsCertName];
     
     // 登录成功后，自动去取好友列表
