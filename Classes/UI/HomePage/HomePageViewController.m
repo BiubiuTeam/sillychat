@@ -10,6 +10,7 @@
 #import "EMAnimationButton.h"
 #import "DPLbsServerEngine.h"
 #import "SillyService.h"
+#import "UserTermsView.h"
 
 #import "AppDelegate.h"
 #import "EMAccountService.h"
@@ -32,7 +33,7 @@
 @property (nonatomic, strong) NSMutableArray* dotImgViews;
 
 @property (nonatomic, strong) EMAnimationButton* roundButton;
-
+@property (nonatomic, strong) UserTermsView* userTermsView;
 @end
 
 @implementation HomePageViewController
@@ -60,9 +61,17 @@
     [super viewWillAppear:animated];
     
     [self needsShowUpInfoSettingView];
-//    if (showUp == NO && [[DPLbsServerEngine shareInstance] isEnabledAndAuthorize] == NO) {
-//        [self showLocationDisableMessage];
-//    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if([UserTermsView hasEverShowUpTerms] == false){
+        _userTermsView = [[UserTermsView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        [self.view addSubview:_userTermsView];
+        [self.view bringSubviewToFront:_userTermsView];
+    }
 }
 
 - (BOOL)needsShowUpInfoSettingView
